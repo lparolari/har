@@ -8,4 +8,5 @@
 *.zip
 *.csv
 *.csv.gz
-dataset
+*.h5
+datasets
