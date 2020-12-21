@@ -1,5 +1,11 @@
 # python virtual env
 .venv
 
+# notebook checkpoints
+.ipynb_checkpoints
+
 # dataset files
-data
+*.zip
+*.csv
+*.csv.gz
+dataset
