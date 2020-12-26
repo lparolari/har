@@ -9,3 +9,4 @@
 *.csv
 *.csv.gz
 *.h5
+*.hdf5
