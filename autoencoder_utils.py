@@ -88,8 +88,14 @@ def plot_reconstructed_signal(sample, code, reconstruction):
 
 def show_loss(history):
     h = history.history
-    plt.plot(h["loss"], label="loss")
-    plt.plot(h["val_loss"], label="val_loss")
+    if ("loss" in h):
+        plt.plot(h["loss"], label="loss")
+    if ("val_loss" in h):
+        plt.plot(h["val_loss"], label="val_loss")
+    if ("accuracy" in h):
+        plt.plot(h["accuracy"], label="accuracy")
+    if ("val_accuracy" in h):
+        plt.plot(h["val_accuracy"], label="val_accuracy")
     plt.legend()
     plt.show()
 
