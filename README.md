@@ -6,7 +6,7 @@ Start jupyter notebook with docker
 
 ```
 docker pull jupyter/tensorflow-notebook
-docker run -p 8888:8888 -v "`pwd`:/home/jovyan/work" jupyter/tensorflow-notebook
+docker run -p 8888:8888 -v "`pwd`:/home/jovyan/work" jupyter/tensorflow-notebook start-notebook.sh --NotebookApp.notebook_dir="/home/jovyan/work"
 ```
 
 The conncet the jupyter server with the notebook.
