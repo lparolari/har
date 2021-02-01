@@ -1,0 +1,44 @@
+% !TEX root = template.tex
+
+\section{Introduction}
+\label{sec:introduction}
+
+\begin{remark}
+\textbf{Paper contribution:} First and foremost decide on what precisely is the contribution of your paper over the state of the art. If you think you have several contributions, {\it focus on the most important one}. It may be that you can add one or two contributions as side topics, but in general you should focus on the most important one so as {\it to keep your paper focused}. As a side note: If you think you have several contributions for a single paper, you should probably invest in researching state of the art and related work more thoroughly. When you know your contribution, think of a good title.
+\end{remark}
+
+\begin{remark} 
+\textbf{Title:} Find a short and precise title for you paper exactly matching the content. It's worth investing time into this matter, as {\it the title will be that part of the paper by which it will be referenced} (in case it gets published).
+\end{remark}
+
+\begin{remark}
+\textbf{How to organize your writeup with Latex:} I find it useful, especially for a paper with multiple authors, to split your manuscript into multiple source Latex files. This is very easily accomplished by having single {\it root} file, e.g., \texttt{main.tex}, where you define the article class, all the \mbox{user-defined} commands, the paper formatting options (e.g., one vs two columns, the page margins, the text size and the fonts, etc.). For this project, the root is called \texttt{template.tex}. From the root you then call, in sequential order, a number of other latex source files through the command \texttt{\textbackslash input\{filename.tex\}}. It is often convenient to have one of such files for each section of your paper. This facilitates editing multiple sections in parallel and keeping your project synchronized with some versioning and revision control system such as \texttt{svn} or \texttt{github} (highly recommended).
+\end{remark}
+
+\begin{remark}
+\textbf{Compiling trick:} For each source Latex file that you call from the main, I recommend you copy the following command in the very first line\\
+\texttt{\% !TEX root = template.tex}\\
+where \texttt{template.tex} is the name of the root Latex file. This command tells the Latex compiler that your main root file is \texttt{template.tex}, and it makes it possible to compile the paper from any of the sub-files. Example: imagine you are editing \texttt{introduction.tex} and have that open in a window of your preferred Latex editor. With this command, you can compile from the local \texttt{introduction.tex} window, without having to open and switch every time to the root file window and compile from it. This will save you hours.  
+\end{remark}
+
+\red{Maximum length for the whole report is 9 pages. Abstract, introduction and related work should take max two pages.}\\
+
+\noindent \textbf{Recommended structure for the intro:} you may use the following structure. 
+\begin{itemize}
+\item \textbf{General (short) intro:} One paragraph to introduce your work, describing the scenario {\it at large}, its relevance, to prepare the reader to what follows and convince her/him that the paper focuses on an important setup/problem. Please keep this part short (I usually do five to eight lines), as this part is rather standard, \textbf{but} at the same time it has to be there. 
+\item \textbf{Put the problem into perspective:} A second paragraph where you immediately delve into the specific problem that you are tackling, starting to detail your contribution. Here, you describe the importance of such problem, providing examples (citing papers from the literature, possibly recent ones) of previous solutions attempts, and of why these failed {\it to provide a complete answer}. This second paragraph should not be too long, as otherwise the reader will get bored and will abandon your paper... It should be concisely written, something like 5 to 10 lines.
+\item \textbf{Present the paper contribution:} A third paragraph were you state what you do in the paper, this should also be concisely written. A good rule of thumb is to make it max 10/15 lines. Here, you should state up front:
+\begin{enumerate}
+\item \textbf{problem}: the problem at stake, 
+\item \textbf{relevance}: the relevance and timeliness of what you propose, 
+\item \textbf{approach}: the technique/approach you use, possibly underlying its novelty, efficiency, 
+\item \textbf{value}: underline the value/novelty of your proposal referencing (recent) papers from the literature,
+\item \textbf{applicability}: tell the reader how she/he can take advantage of your work, e.g., how your work/results can be reused/exploited to achieve further scientific, technical or practical (integrated into products?) goals.
+\end{enumerate}
+\item \textbf{Summary of contributions:} After this, you may want to provide an itemized list to summarize the paper contributions. Rule of thumb: from three to six items, from three to four lines each.
+\item \textbf{Closing (paper structure):} You finish up by detailing the paper structure, this should be three to four lines. It is customary to do so, although I admit it may be of little use. It usually goes like: {\it ``This report (paper) is structured as follows. In Section II we describe the state of the art, the system and data models are respectively presented in Sections~III and~IV. The proposed signal processing technique is detailed in Section~V and its performance evaluation is carried out in Section~VI. Concluding remarks are provided in Section~VII.''}
+\end{itemize}
+
+\begin{remark} 
+Lately, I tend to write introduction plus abstract within a single page. This forces me to focus on the important messages that I want to deliver about the paper, leaving out all the ``blah blah''. \textbf{Remember:} 1) {\it less is more}, 2) writing a compact ({\it snappy}) piece of technical text is much more difficult than writing lengthy stuff with no space constraints.
+\end{remark}
