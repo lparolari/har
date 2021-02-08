@@ -20,3 +20,6 @@ models
 
 # tensorflow logs
 logs
+
+# vscode settings
+.vscode
