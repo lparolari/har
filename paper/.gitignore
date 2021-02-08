@@ -283,5 +283,9 @@ TSWLatexianTemp*
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
 
+# latex build script for docker
 latexdockercmd.sh
+
+# output files
 *.pdf
+!template.pdf
