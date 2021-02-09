@@ -1,18 +1,25 @@
 # python virtual env
 .venv
 
+# python cache
+__pycache__/keras_utils.cpython-38.pyc
+
 # notebook checkpoints
 .ipynb_checkpoints
 
-# dataset files
+# dataset folder and files
+datasets
 *.zip
 *.csv
 *.csv.gz
 *.h5
 *.hdf5
 
-__pycache__/keras_utils.cpython-38.pyc
+# models folder
+models
 
-datasets/our
+# tensorflow logs
+logs
 
-.vscode/settings.json
+# vscode settings
+.vscode
