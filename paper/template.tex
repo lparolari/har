@@ -96,9 +96,9 @@
 
 \title{``We Rock the Hizzle and Stuff'' \\ hints on how to write a nice research essay}
 
-\author{Michele Rossi$^\dag$, Author two$^\ddag$
-\thanks{$^\dag$Department of Information Engineering, University of Padova, email: \{rossi\}@dei.unipd.it}
-\thanks{$^\ddag$Author two affiliation, email: \{name.surname\}@dei.unipd.it}
+\author{Bryan Lucchetta$^\dag$, Luca Parolari$^\ddag$
+\thanks{$^\dag$Department of Mathematics, University of Padova, email: \{bryan.lucchetta\}@studenti.unipd.it}
+\thanks{$^\dag$Department of Mathematics, University of Padova, email: \{luca.parolari\}@studenti.unipd.it}
 \thanks{Special thanks / acknowledgement go here.}
 }
 
@@ -114,23 +114,10 @@
 
 \begin{abstract}
 Future vehicular communication networks call for new solutions to support their capacity demands, by leveraging the potential of the \mbox{millimeter-wave} (\mbox{mm-wave}) spectrum. Mobility, in particular, poses severe challenges in their design, and as such shall be accounted for. A key question in \mbox{mm-wave} vehicular networks is how to optimize the \mbox{trade-off} between directive Data Transmission (DT) and directional Beam Training (BT), which enables it. In this paper, learning tools are investigated to optimize this \mbox{trade-off}. In the proposed scenario, a Base Station (BS) uses BT to establish a \mbox{mm-wave} directive link towards a Mobile User (MU) moving along a road. To control the BT/DT \mbox{trade-off}, a Partially Observable (PO) Markov Decision Process (MDP) is formulated, where the system state corresponds to the position of the MU within the road link. The goal is to maximize the number of bits delivered by the BS to the MU over the communication session, under a power constraint. The resulting optimal policies reveal that adaptive BT/DT procedures significantly outperform \mbox{common-sense} heuristic schemes, and that specific mobility features, such as user position estimates, can be effectively used to enhance the overall system performance and optimize the available system resources.\\
-
-\MR{This is an example abstract. It is $204$ words long, I would say an abstract should not be longer than $250$ words and some Transactions journals of the IEEE are currently putting a strict limit of $200$ words. Here, you should briefly state:
-\begin{enumerate}
-\item the technical scenario/field of research and its timeliness/relevance in general (one sentence),
-\item what you do in the report/paper and why it is important, how it advances the state of the art in its field (a few sentences),
-\item summarize the main and best results of your study/proposal/method (one or two sentences),
-\item (optional) how others could benefit from your results for further research, or within commercial products (one sentence).
-\end{enumerate}
-The abstract is one of the most important parts of the paper/report. You have roughly one minute to catch the reader's attention. A poor abstract may already move you towards the rejection side in the reviewer's decision process. In the abstract, 1) establish the context, 2) motivate the problem, 3) briefly describe the solution, and 4) present the main results of your work. Ideally, use one (short) sentence for each of the previously mentioned items to keep your abstract short. Overall, this should be a short summary of the whole content of your paper, including your results.}\\
-
-\MR{See the abstract as a personal challenge for each of your papers. Finally, the abstract should contain the main message about your work, so that the reader will now what she/he can find even without reading it (as it is the case most of the times). The abstract is a mini-paper on its own and, as such, it is a major endeavor to write.}\\
-
-\red{I suggest to write the Abstract as the very last thing. You may sketch it at the beginning, but then always finalize it at the end.}
 \end{abstract}
 
 \IEEEkeywords
-Self Organizing Maps, Unsupervised Learning, Optimization, Neural Networks, Recurrent Neural Networks. \MR{A list of keywords defining the tools and the scenario. I would not go beyond {\it six} keywords.}
+Human Activity Recognition, Convolutional Neaural Networks, Autoencoders
 \endIEEEkeywords
 
 
@@ -143,29 +130,6 @@ Self Organizing Maps, Unsupervised Learning, Optimization, Neural Networks, Recu
 \input{results}
 
 \input{conclusions}
-
-\section{Exam rules}
-
-What you need to do to pass the exam:
-\begin{itemize}
-\item Optional: team up with another student. Max. group size is \textbf{two students} per group;
-\item Identify a project to work on, devise your own neural network architecture and test it on the provided dataset;
-\item \textbf{Prepare a written project report} including: i) diagrams, ii) configuration pars, iii) results, iv) your discussion;
-\item \textbf{Prior to presenting your work}: upload i) your written report and ii) the code;
-\item \textbf{Present your work} using slides (max. duration is 20 minutes): take turns in presenting your work, your individual contribution to the project should clearly emerge. Optional: a final and quick demo with running code is appreciated and will be considered in the calculation of the final grade (see below).
-\end{itemize}
-
-Your final grade will be obtained taking into account the following criteria:
-\begin{itemize}
-\item \textbf{Project} (60 points): originality (10 pt.) - data preprocessing techniques (10 pt.) - learning architectures (20 pt.) - comparison against other/existing approaches (10 pt.) - live demo of the code (10 pt.)
-\item \textbf{Written report} (40 points): clarity of exposition (10 pt.) - completeness (10 pt.) - analysis of results (number and type of metrics used) (20 pt.)
-\item \textbf{Oral exposition} (20 points): duration (your talk must take max. 20 minutes, using slides) (10 pt.) - clarity of exposition (10 pt.)
-\end{itemize}
-
-The final grade will be computed as
-\begin{equation}
-\textrm{grade} = \frac{\textrm{tot\_points} \times 30}{110}
-\end{equation}
 
 \bibliography{biblio}
 \bibliographystyle{ieeetr}
