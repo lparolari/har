@@ -1,5 +1,5 @@
 # The latex source filename
-MAINFILE?=main
+MAINFILE?=template
 
 # The build strategy
 BUILD_STRATEGY?=pdf3
