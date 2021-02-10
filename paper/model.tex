@@ -36,6 +36,7 @@ Parlare del nostro dataset usato Heterogenity, cioe come sono strutturati i nost
 
 
 \subsection{Dataset \& Meausurement Setup}
+\label{subsec:dataset-measurement-setup}
 Parlare di come abbiamo splittato il dataset, quindi escludendo gli utenti a e b per fare in modo di testare le performance cambiando compltamente utente.
 
 Introduzione e spiegazione del dataset eterogeneo, preso da: riportare link. e riportare come abbiamo tirato fuori le time window con overlapping window!
@@ -46,17 +47,66 @@ Accenare dell'acquisizione di un nostro dataset alla stessa maniera, a 100 HZ in
 
 In questo caso si va nel dettaglio (con formule e forse se neccessario anche grafici) della parte di preprocessing (parte trattegiata nel mio schema come preprocessing):
 
-\begin{itemize}
-	\item interpolazione lineare e down-sampling
-	\item Orientation indipendent transformation
-	\item Data centering
-\end{itemize}
+\newcommand*{\x}{\boldsymbol{x}}
+\newcommand*{\y}{\boldsymbol{y}}
+\newcommand*{\z}{\boldsymbol{z}}
+\newcommand*{\xm}{\bar{\x}}
 
-\begin{itemize}
-	\item interpolazione lineare / downsampling
-	\item rotational invariant citare tutti i paper e come funziona
-	\item centering
-\end{itemize}
+As described in Sec. \ref{subsec:dataset-measurement-setup}, our
+dataset is composed by signals collected with different sampling rates
+from many mobile phones and they are usually out of sync due to the
+sampling rate instability. For this reason we apply to all signals a
+simple preprocessing pipeline composed by two steps: linear
+interpolation and downsampling. With linear interpolation we project
+signals with different sampling frequencies, i.e 50, 100, 200 Hz, to a
+200 Hz signal. Linear/nearest interpolation are usually preferred
+w.r.t. cubic spline or smooth cubic spline as investigated in
+\cite{stisen2015smart}, because they usually mitigate the introduction
+of noise or artifacts. In linear interpolation the value at time $t$
+is the piecewise-linear interpolation, i.e. the linear interpolation
+between the input samples adjacent to $t$ in the sequence of input
+sample timestamps. Let $(x_0, y_0)$ and $(x_1, y_1)$ be two known
+points, the linear interpolant is the straight line between this
+points. For a value $x$ in the interval $(x_0, x_1)$ the value $y$
+along the straight line is given from the equation of slopes
+\begin{equation}
+  \label{eq:linear-interpolation}
+  \frac{y - y_0}{x - x_0} = \frac{y_1 - y_0}{x_1 - x_0}.
+\end{equation}
+It's straightforward now to see that if we need to apply linear
+interpolation to a dataset of points we can calcultate the $x$-s given
+by sampling fraquency we want to obtain and then apply the formula
+above. 
+
+At this point we are ready to downsample. Downsampling allows to
+standardize data at fixed sampling frequency in order to extract then
+time windows and feature vectors for learning models and, above all,
+it reduces noise and artifacts introduced by upsampling. Downsampling
+simply disregards points by resampling the signal at a lower frequency
+(50 Hz in our case). \footnote{FIXME: Please note that the downsample
+  frequency should be a sub-multiple of linear interpolation frequency
+  otherwise we could}
+
+OIT BRYAN
+
+The last signal processing we perform on the input signal is data
+centering. As proved in \cite{ignatov2018real} this could slightly
+improve performance within a CNN based learning model because
+centering the time series make the task easier for the CNN. We can
+define a function $c$ to center a vector
+\begin{equation}
+  \label{eq:centering-func}
+  c(\x) = \x - \xm.
+\end{equation}
+Centering is applied for each time-window only on accelerometer data, thus
+\begin{equation}
+  \label{eq:centering-accelerometer-data}
+  \boldsymbol{a}_{d}^{c} = c(\boldsymbol{a}_{d})
+\end{equation}
+where $d = \{ \x, \y, \z \}$. Please note that we simply apply
+centering and not normalization which is common in CNN applications
+normalization removes relevant information like magnitude which is
+critical for activities differentiation.
 
 \subsection{Feature vector}
 \begin{itemize}
