@@ -288,4 +288,4 @@ latexdockercmd.sh
 
 # output files
 *.pdf
-!template.pdf
+!reference.pdf
