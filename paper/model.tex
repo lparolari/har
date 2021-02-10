@@ -109,10 +109,78 @@ normalization removes relevant information like magnitude which is
 critical for activities differentiation.
 
 \subsection{Feature vector}
+\label{subsec:feature-vector}
+
+TIME WINDOWS
+
+When dealing with time-based signals (or time-series in general) we
+must keep in mind that correlation between samples occurs and we have
+to handle this useful information. However, in the domain of LAR, even
+if samples can be correlated in time, the correlation do not persist
+over a long period. In literature many time window intervals were
+experimented CITE, CITE and they discovered that the best time window
+interval is from $1$s to $2.5$s. For this reason we segment the input
+signal in many time windows, each of $2.5$s. A time window of $2.5$s
+sampled at $50$Hz leads to $125$ samples per window, which could be
+expensive in term of raw data. To tackle this problem we augment
+data with the overlapping window technique setting the overlapping
+percentage to $50$\%.
+
+FEATURES
+
+Features are the basic elements that every machine learning algorithm
+need in order to learn something. Everything fed into a machine
+learning algorithm can be considered a feature, but here we use three different type of features targetting different type of information.
+
 \begin{itemize}
-	\item window strategy
-	\item basic feature extraction
-	\item autoencoder feature extraction
+\item \textbf{Raw features}. These enables the model to
+  learn directly from data and hopefully from the it's shape in order
+  to generalize and classify activities. Raw features are repsented by
+  a $6 \text{x} 125$ matrix where rows are accelerometer and gyroscope
+  $x$, $y$ and $z$ dimensions while columns are samples over time.
+\item \textbf{Manual feautres}. Manual features take into account the
+  statistical mode of the signal and are used in many applications
+  CITE UCI e \cite{ignatov2018real} with great results. We exploit
+  manual features like mean, variance, sum of the absolute values and
+  the histogram of each input data channel computed on local
+  time-windows. As defined in \cite{ignatov2018real}, given $\x$ a
+  vector we produce a new feature vector
+  \begin{align}
+    fv = m(\boldsymbol{a}_{\x}, \boldsymbol{a}_{\y}, \boldsymbol{a}_{\z}).
+  \end{align}
+  For readability purposes we  
+  \begin{align}
+    m(\x, \y, \z) &= \begin{bmatrix}
+      \bar{\x}, \\
+      \bar{\y}, \\
+      \bar{\z}, \\
+      \text{std}(\x), \\
+      \text{std}(\y), \\
+      \text{std}(\z), \\
+      \text{sav}(\x), \\
+      \text{sav}(\y), \\
+      \text{sav}(\z), \\
+      \text{rss}(\x, \y, \z), \\
+      \text{hist}(\x), \\
+      \text{hist}(\y), \\
+      \text{hist}(\z), \\
+    \end{bmatrix}
+  \end{align}
+  where
+  \begin{align}
+    \text{std}(\x) &= \sqrt{ \sum_{i=1}^{n = \text{len}(\x)} \frac{(|\x_c|)(i)^2}{n} } \\
+    \text{sav}(\x) &= \sum_{i=1}^{n = \text{len}(\x)} \frac{(|\x_c|)(i)}{n} \\
+    \text{rss}(\x, \y, \z) &= \sum_{i=1}^{n =\text{len}(\x)} \sqrt{x(i)^2 + y(i)^2 + z(i)^2} / n \\
+    \text{hist}(\x) &= \text{computes histograms with $10$ bins} \\
+    \x_c &= \{ c(\x)(i) \quad \forall i \in 1..\text{len}(\x) \} \\
+    c(\x)(i) &= \x(i) - \xm
+  \end{align}
+  for a total of 40 features.
+\item \textbf{Autoencoder features}. Autoencoder features are
+  automatically extracted from the signal. The autoencoder as
+  described in Sec. TODO is capable to compress data and learn a good
+  representation of features keeping only interesting data. The code
+  size we use is made up of 36 features features.
 \end{itemize}
 
 \section{Learning Framework}
@@ -129,4 +197,3 @@ Desctivere qui invece la parte tratteggiata come learning framework
 Descivere prima l'autoencoder, come è stato costruito e come viene allenato. TODO luca
 
 Passare alla decrizione della mia archittetura, come sono stai selezionati gli iper-parametri, ecc ecc.
-
