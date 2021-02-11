@@ -67,37 +67,39 @@ In questo caso si va nel dettaglio (con formule e forse se neccessario anche gra
 As described in Sec. \ref{subsec:dataset-measurement-setup}, our
 dataset is composed by signals collected with different sampling rates
 from many mobile phones and they are usually out of sync due to the
-SRI. For this reason we apply to all signals a
-simple preprocessing pipeline composed by two steps: linear
-interpolation and downsampling. With linear interpolation we project
-signals with different sampling frequencies, i.e 50, 100, 200 Hz, to a
-200 Hz signal TODO: noi non abbiamo piu fatto cosi perche si comporta peggio con i filtri. Linear/nearest interpolation are usually preferred
-w.r.t. cubic spline or smooth cubic spline as investigated in
-\cite{stisen2015smart}, because they usually mitigate the introduction
-of noise or artifacts. In linear interpolation the value at time $t$
-is the piecewise-linear interpolation, i.e. the linear interpolation
-between the input samples adjacent to $t$ in the sequence of input
-sample timestamps. Let $(x_0, y_0)$ and $(x_1, y_1)$ be two known
-points, the linear interpolant is the straight line between this
-points. For a value $x$ in the interval $(x_0, x_1)$ the value $y$
-along the straight line is given from the equation of slopes
+SRI. For this reason we apply to all signals a simple preprocessing
+pipeline composed by two steps: linear interpolation and
+downsampling. With linear interpolation we project signals with
+different sampling frequencies, i.e 50, 100, 200 Hz, to a 50 Hz signal
+which measn that we are also applying the downsampling.
+Linear/nearest interpolation are usually preferred w.r.t. cubic spline
+or smooth cubic spline as investigated in \cite{stisen2015smart},
+because they usually mitigate the introduction of noise or
+artifacts. In linear interpolation the value at time $t$ is the
+piecewise-linear interpolation, i.e. the linear interpolation between
+the input samples adjacent to $t$ in the sequence of input sample
+timestamps. Let $(x_0, y_0)$ and $(x_1, y_1)$ be two known points, the
+linear interpolant is the straight line between this points. For a
+value $x$ in the interval $(x_0, x_1)$ the value $y$ along the
+straight line is given from the equation of slopes
 \begin{equation}
   \label{eq:linear-interpolation}
   \frac{y - y_0}{x - x_0} = \frac{y_1 - y_0}{x_1 - x_0}.
 \end{equation}
 It's straightforward now to see that if we need to apply linear
-interpolation to a dataset of points we can calculate the \mbox{$x$-s} given
-by sampling frequency we want to obtain and then apply the formula
-above.
+interpolation to a dataset of points we can calculate the \mbox{$x$-s}
+given by sampling frequency we want to obtain and then apply the
+formula above.
 
-At this point we are ready to downsample. Downsampling allows to
-standardize data at fixed sampling frequency in order to extract then
-time windows and feature vectors for learning models and, above all,
-it reduces noise and artifacts introduced by upsampling. Downsampling
-simply disregards points by resampling the signal at a lower frequency
-(50 Hz in our case). \footnote{FIXME: Please note that the downsample
-  frequency should be a sub-multiple of linear interpolation frequency
-  otherwise we could}
+In our case the downsampling is applied in combination with linear
+interpolation, but it is not always the case (see
+Sec. EXPERIMENTS). It allows to standardize data at fixed sampling
+frequency in order to extract time windows and feature vectors for
+learning models and, above all, it reduces noise and artifacts
+introduced by upsampling. Downsampling simply disregards points by
+resampling the signal at a certain frequency (50 Hz in our
+case). Please note that the downsample frequency should be a
+sub-multiple of linear interpolation frequency.
 
 \textbf{Orientation Indipendent Transform}\\
 To project the signals acquired during an activity in a new space wich is indipendent of the rotation of the smartphone, 3 orthogonal versors need to be found. We decided to adopt the technique proposed in \cite{gadaleta2018idnet}, although many other works proposed a similar solution as in \cite{kunze2009way, henpraserttae2011accurate}. In summary we have to find these 3 orthogonal versor namely vertical versor $\boldsymbol{\hat{v}}$, horizontal versor $\boldsymbol{\hat{h}}$ and lateral versor $\boldsymbol{\hat{l}}$. As the name suggest the vertical versor is aligned with user torso pointing up, the horizontal versor is aligned with the direction of motion, pointing foraward, and the later versor tracks lateral movements and it is othogonal to the other two.
@@ -108,7 +110,7 @@ This is the first axis of our new space, and we can project the datas onto this 
 
 \begin{equation}
 	\label{v-axis eq}
-	 \boldsymbol{a_{v}} = \boldsymbol{A} \cdot \boldsymbol{\hat{v}} ,\;\; \boldsymbol{g_{v}} = \boldsymbol{G} \cdot \boldsymbol{\hat{v}} 
+	 \boldsymbol{a_{v}} = \boldsymbol{A} \cdot \boldsymbol{\hat{v}} ,\;\; \boldsymbol{g_{v}} = \boldsymbol{G} \cdot \boldsymbol{\hat{v}}
 \end{equation}
 
 Now we have to find an horizontal plane, parallel to the floor, where the activity motion mostly occurs. To do so we have to remove the  $\boldsymbol{a_{v}}$ component from the original data. We represent the accelerometer data lying on this new plane as $\boldsymbol{M}$ representing the so called motion plane. To find $\boldsymbol{M}$ we have to: \mbox{$\boldsymbol{M} = \boldsymbol{A} - \boldsymbol{\hat{v}} \boldsymbol{a_{v}}^{T} $}
@@ -151,47 +153,58 @@ Please note that we simply apply centering and not normalization which is common
 \subsection{Feature vector}
 \label{subsec:feature-vector}
 
-TIME WINDOWS
+\textbf{Time windows.} When dealing with time-based signals (or
+time-series in general) we must keep in mind that correlation between
+samples occurs and we have to handle this useful information. However,
+in the domain of LAR, even if samples can be correlated in time, the
+correlation do not persist over a long period. In literature many time
+window intervals were experimented CITE, CITE and they discovered that
+the best time window interval is from $1$s to $2.5$s. For this reason
+we adopt a sliding window approach with fixed window length of $2.5$s
+with $50$\% overlap between two successive windows.
 
-When dealing with time-based signals (or time-series in general) we
-must keep in mind that correlation between samples occurs and we have
-to handle this useful information. However, in the domain of LAR, even
-if samples can be correlated in time, the correlation do not persist
-over a long period. In literature many time window intervals were
-experimented CITE, CITE and they discovered that the best time window
-interval is from $1$s to $2.5$s. For this reason we segment the input
-signal in many time windows, each of $2.5$s. A time window of $2.5$s
-sampled at $50$Hz leads to $125$ samples per window, which could be
-expensive in term of raw data TODO non l'ho capita. To tackle this problem we augment
-data with the overlapping window technique setting the overlapping
-percentage to $50$\%.
-
-FEATURES
-
-Features are the basic elements that every machine learning algorithm
-need in order to learn something. Everything fed into a machine
-learning algorithm can be considered a feature, but here we use three different type of features targetting different type of information.
+\textbf{Features}. Features are the basic elements that every machine
+learning algorithm need in order to learn something. Everything fed
+into a machine learning algorithm can be considered a feature, but
+here we use three different type of features targetting different type
+of information.
 
 \begin{itemize}
-\item \textbf{Raw features}. These enables the model to
+\item \textit{Raw features}. These enables the model to
   learn directly from data and hopefully from it's shape in order
   to generalize and classify activities. Raw features are represented by
   a $6 \text{x} 125$ matrix where rows are accelerometer and gyroscope
   $x$, $y$ and $z$ dimensions while columns are samples over time.
-\item \textbf{Manual features}. Manual features take into account the
-  statistical mode of the signal and are used in many applications
-  CITE UCI e \cite{ignatov2018real} with great results. We exploit
+\item \textit{Manual features}. Manual features take into account the
+  statistical mode of the signal and are used in \cite{anguita2013public}
+  and \cite{ignatov2018real} with great results.\footnote{FIXME: altri da citare?} We exploit
   manual features like mean, standard deviation, sum of the absolute values and
   the histogram of each input data channel computed on local
-  time-windows applied only for accelerometer signal $\boldsymbol{a}$. As defined in \cite{ignatov2018real}, we produce a manual feature vector $\boldsymbol{f_{m}} = (\bar{a_x}, \bar{a_y}, \bar{a_z}, \sigma_{\boldsymbol{a_{x}}}, \sigma_{\boldsymbol{a_{y}}}, \sigma_{\boldsymbol{a_{z}}}, \tilde{a_x}, \tilde{a_y}, \tilde{a_z}, \psi_{\boldsymbol{a_{x}}\boldsymbol{a_{y}}\boldsymbol{a_{z}}}, $ $ \boldsymbol{h}_{\boldsymbol{a_{x}}}^T, \boldsymbol{h}_{\boldsymbol{a_{y}}}^T, \boldsymbol{h}_{\boldsymbol{a_{z}}}^T)^T$
-  where for a generic column vector $\x = (x_1, x_2,..., x_n)^T$ with \mbox{$\x^c = (x_1^c, x_2^c,..., x_n^c)^T$:}
+  time-windows applied only for accelerometer signal
+  $\boldsymbol{a}$. As defined in \cite{ignatov2018real}, we produce a
+  new basic feature vector $\boldsymbol{f_{b}} = (\bar{a_x},
+  \bar{a_y}, \bar{a_z}, \sigma_{\boldsymbol{a_{x}}},
+  \sigma_{\boldsymbol{a_{y}}}, \sigma_{\boldsymbol{a_{z}}},
+  \tilde{a_x}, \tilde{a_y}, \tilde{a_z},
+  \psi_{\boldsymbol{a_{x}}\boldsymbol{a_{y}}\boldsymbol{a_{z}}}, $ $
+  \boldsymbol{h}_{\boldsymbol{a_{x}}}^T,
+  \boldsymbol{h}_{\boldsymbol{a_{y}}}^T,
+  \boldsymbol{h}_{\boldsymbol{a_{z}}}^T)^T$ where for a generic column
+  vector $\x = (x_1, x_2,..., x_n)^T$ with \mbox{$\x^c = (x_1^c,
+    x_2^c,..., x_n^c)^T$:}
   \begin{align}
     \sigma_{\x} &= \sqrt{  \frac{\sum_{i=1}^{n}(|x^c_i|)^2}{n} } \\
     \tilde{x} &= \frac{\sum_{i=1}^{n}(|x^c_i|)}{n} \\
     \psi_{\x\y\z} &= \frac{\sum_{i=1}^{n} \sqrt{x_i^2 + y_i^2 + z_i^2}} {n}
   \end{align}
-  and $\boldsymbol{h}_\x$ is column vector\footnote{for reference see the python function at \\ https://numpy.org/doc/stable/reference/generated/numpy.histogram.html} that sort the values of $\x$ into 10 equally spaced bins along the x-axis between the minimum and maximum values of $\x$. This lead to a manual features vector composed of 40 manual extracted features.
-\item \textbf{Auto-encoder features}. Auto-encoder features are
+  and $\boldsymbol{h}_\x$ is column vector that sort the values of
+  $\x$ into $10$ equally spaced bins along the x-axis between the
+  minimum and maximum values of $\x$.\footnote{for reference see the
+    python function at
+    https://numpy.org/doc/stable/reference/generated/numpy.histogram.html}
+  This lead to a manual features vector composed of $40$ manual
+  extracted features.
+\item \textit{Auto-encoder features}. Auto-encoder features are
   automatically extracted from the signal. The auto-encoder as
   described in Sec. TODO is capable to compress data and learn a good
   representation of features keeping only interesting data. The code
@@ -207,8 +220,8 @@ learning algorithm can be considered a feature, but here we use three different 
 	\caption{Learning Framework}
 \end{figure*}
 
-Desctivere qui invece la parte tratteggiata come learning framework
+ \footnote{TODO: Desctivere qui invece la parte tratteggiata come learning framework}
+ \footnote{TODO: Descrivere prima l'autoencoder, come è stato costruito e come viene allenato. TODO luca}
+ \footnote{TODO: Passare alla decrizione della mia archittetura, come sono stai selezionati gli iper-parametri, ecc ecc.}
 
-Descivere prima l'autoencoder, come è stato costruito e come viene allenato. TODO luca
 
-Passare alla decrizione della mia archittetura, come sono stai selezionati gli iper-parametri, ecc ecc.
