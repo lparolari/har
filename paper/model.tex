@@ -108,8 +108,8 @@ This is the first axis of our new space, and we can project the datas onto this 
 
 \begin{equation}
 	\label{v-axis eq}
-	 \boldsymbol{a_{v}} = \boldsymbol{A} \cdot \boldsymbol{\hat{v}} ,\;\; \boldsymbol{g_{v}} = \boldsymbol{G} \cdot \boldsymbol{\hat{v}} 
-\end{equation}
+	 \boldsymbol{a_{v}} = \boldsymbol{A} \cdot \boldsymbol{\hat{v}} ,\;\; \boldsymbol{g_{v}} = \boldsymbol{G} \cdot \boldsymbol{\hat{v}} \,.
+\end{equation} 
 
 Now we have to find an horizontal plane, parallel to the floor, where the activity motion mostly occurs. To do so we have to remove the  $\boldsymbol{a_{v}}$ component from the original data. We represent the accelerometer data lying on this new plane as $\boldsymbol{M}$ representing the so called motion plane. To find $\boldsymbol{M}$ we have to: \mbox{$\boldsymbol{M} = \boldsymbol{A} - \boldsymbol{\hat{v}} \boldsymbol{a_{v}}^{T} $}
 
@@ -117,19 +117,19 @@ In this new plane, we could see that the direction with the largest variance of 
 
 \begin{equation}
 	\label{h-axis eq}
-	\boldsymbol{a_{h}} = \boldsymbol{A} \cdot \boldsymbol{\hat{h}} , \;\; \boldsymbol{g_{h}} = \boldsymbol{G} \cdot \boldsymbol{\hat{h}}
+	\boldsymbol{a_{h}} = \boldsymbol{A} \cdot \boldsymbol{\hat{h}} , \;\; \boldsymbol{g_{h}} = \boldsymbol{G} \cdot \boldsymbol{\hat{h}} \,.
 \end{equation}
 
 To find the last axis its sufficient to apply a cross product between the two last axis found, so $ \boldsymbol{\hat{l}} = \boldsymbol{\hat{v}} \times \boldsymbol{\hat{h}} $ and the obtain our last projection of the original data into this new space by:
 
 \begin{equation}
 	\label{l-axis eq}
-	\boldsymbol{a_{l}} = \boldsymbol{A} \cdot \boldsymbol{\hat{l}} , \;\; \boldsymbol{g_{l}} = \boldsymbol{G} \cdot \boldsymbol{\hat{l}}
+	\boldsymbol{a_{l}} = \boldsymbol{A} \cdot \boldsymbol{\hat{l}} , \;\; \boldsymbol{g_{l}} = \boldsymbol{G} \cdot \boldsymbol{\hat{l}} \,.
 \end{equation}
 
 
 
-Combining (\ref{v-axis eq}) (\ref{h-axis eq}) and (\ref{l-axis eq}) lead us to the final accelerometer and gyroscope trasformed vectors lying in this new orientation indipendent space that are $[\boldsymbol{a_{v}}, \boldsymbol{a_{h}}, \boldsymbol{a_{l}}]^T $ and $ [\boldsymbol{g_{v}}, \boldsymbol{g_{h}}, \boldsymbol{g_{l}}]^T $ \\
+Combining Eq. (\ref{v-axis eq}), Eq. (\ref{h-axis eq}) and Eq. (\ref{l-axis eq}) lead us to the final accelerometer and gyroscope trasformed vectors lying in this new orientation indipendent space that are $[\boldsymbol{a_{v}}, \boldsymbol{a_{h}}, \boldsymbol{a_{l}}]^T $ and $ [\boldsymbol{g_{v}}, \boldsymbol{g_{h}}, \boldsymbol{g_{l}}]^T $ \\
 
 \textbf{Centering}\\
 
@@ -144,7 +144,7 @@ centering the time series make the task easier for the CNN. We denote with $\x^{
 Centering is applied for each time-window only on accelerometer data, thus the new centered acceleration matrix:
 \begin{equation}
   \label{eq:centering-accelerometer-data}
-  \boldsymbol{A}^{c} = [\boldsymbol{a_{x}}^{c}, \boldsymbol{a_{y}}^{c}, \boldsymbol{a_{z}}^{c}]^T
+  \boldsymbol{A}^{c} = [\boldsymbol{a_{x}}^{c}, \boldsymbol{a_{y}}^{c}, \boldsymbol{a_{z}}^{c}]^T \,.
 \end{equation}
 Please note that we simply apply centering and not normalization which is common in CNN applications because normalization removes relevant information like magnitude which is critical for activities differentiation.
 
@@ -186,9 +186,9 @@ learning algorithm can be considered a feature, but here we use three different 
   time-windows applied only for accelerometer signal $\boldsymbol{a}$. As defined in \cite{ignatov2018real}, we produce a manual feature vector $\boldsymbol{f_{m}} = (\bar{a_x}, \bar{a_y}, \bar{a_z}, \sigma_{\boldsymbol{a_{x}}}, \sigma_{\boldsymbol{a_{y}}}, \sigma_{\boldsymbol{a_{z}}}, \tilde{a_x}, \tilde{a_y}, \tilde{a_z}, \psi_{\boldsymbol{a_{x}}\boldsymbol{a_{y}}\boldsymbol{a_{z}}}, $ $ \boldsymbol{h}_{\boldsymbol{a_{x}}}^T, \boldsymbol{h}_{\boldsymbol{a_{y}}}^T, \boldsymbol{h}_{\boldsymbol{a_{z}}}^T)^T$
   where for a generic column vector $\x = (x_1, x_2,..., x_n)^T$ with \mbox{$\x^c = (x_1^c, x_2^c,..., x_n^c)^T$:}
   \begin{align}
-    \sigma_{\x} &= \sqrt{  \frac{\sum_{i=1}^{n}(|x^c_i|)^2}{n} } \\
-    \tilde{x} &= \frac{\sum_{i=1}^{n}(|x^c_i|)}{n} \\
-    \psi_{\x\y\z} &= \frac{\sum_{i=1}^{n} \sqrt{x_i^2 + y_i^2 + z_i^2}} {n}
+    \sigma_{\x} &= \sqrt{  \frac{\sum_{i=1}^{n}(|x^c_i|)^2}{n} }\,, \\
+    \tilde{x} &= \frac{\sum_{i=1}^{n}(|x^c_i|)}{n}\,, \\
+    \psi_{\x\y\z} &= \frac{\sum_{i=1}^{n} \sqrt{x_i^2 + y_i^2 + z_i^2}} {n}\,,
   \end{align}
   and $\boldsymbol{h}_\x$ is column vector\footnote{for reference see the python function at \\ https://numpy.org/doc/stable/reference/generated/numpy.histogram.html} that sort the values of $\x$ into 10 equally spaced bins along the x-axis between the minimum and maximum values of $\x$. This lead to a manual features vector composed of 40 manual extracted features.
 \item \textbf{Auto-encoder features}. Auto-encoder features are
@@ -205,10 +205,28 @@ learning algorithm can be considered a feature, but here we use three different 
 	\centering
 	\includegraphics[width=1\textwidth]{images/full_architecture.jpg}
 	\caption{Learning Framework}
+	\label{fig:proposed-architecture}
 \end{figure*}
 
-Desctivere qui invece la parte tratteggiata come learning framework
+In this section we will present our proposed architecture for HAR 'in the wild' problem. We will see how the autoencoder and the CNN was trained, the parameters, and the optimizations used over a given parameter.
 
-Descivere prima l'autoencoder, come è stato costruito e come viene allenato. TODO luca
+\subsection{Autoencoder}
 
-Passare alla decrizione della mia archittetura, come sono stai selezionati gli iper-parametri, ecc ecc.
+Descivere prima l'autoencoder, come è stato costruito e come viene allenato, i suoi parametri e la struttura del codice. TODO luca
+
+\subsection{Convolutional neural network}
+Parlare dell'archittettura proposta suddividendola in layer e alla fine dell'ottimizzazione adottata.
+
+The final CNN architecture proposed in this work is shown in Fig. \ref{fig:proposed-architecture}. We decided to start with the architecture proposed in work \cite{chen2020deep} and we tried to improve it, augmenting the CNN with the encoder extracted features. CNN architecture are very powerfull when dealing with images, but they were proven to be a good features extractors also for motion data. A CNN is composed of essentially two parts: the first-one is in charge of extract features performing a dimensionality reduction over the input data, though a series of convolution and max pooling layers, and the second part of the CNN is responsible to give the final classification with usually a single fully-connected layer. Original data, collected from smartphone sensors are pre-processed according to what previously described in Sec. \ref{sec:processing_architecture}. Our input matrix presented to our CNN is the matrix \mbox{$ \boldsymbol{X} = [ \boldsymbol{a_{v}}^{c}, \boldsymbol{a_{h}}^{c}, \boldsymbol{a_{l}}^{c}, \boldsymbol{g_{v}}^{c}, \boldsymbol{g_{h}}^{c}, \boldsymbol{g_{l}}^{c}]$} wich is formed by acclerometer and gyroscopes signals, linearly interpolated at 50 samples/second  per channel with a fixed time-window of $2.5s$ with orientation independent transformation and data centering. Note that this matrix has a dimension $n \times 6$, due to the fact that TensorFlow Convolutional Layers work with input dimension of $(batch\_size, samples, channel)$.
+
+In detail we have the following stacked layers:
+\begin{itemize}
+	\item CL1: The first convolutional is performing a Convolution 1D over the input signal. It composed of 196 filters of size ($1 \times 16$). Since, a convolution is defined over all the input channels, in this layer we are capturing relation among accellerometer and gyroscope data. The stride is set to 1, and the padding is configured as 'same' to have the same output dimension as te original one. After the convolution operation, we apply a $ReLU(x)=\max(0,x)$ activation function to learn non-linear correlation between signals and extract richer features. Furthermore, even if we are dealing with a small architecture, $ReLU$ activation function could prevent vanishing gradient problems, is less prone to overfitting since it induces the sparsity in the hidden units and it is extremely fast to compute, making it perfect when dealing with low computational resources.
+	\item MP1: After the a convolutional layer, usually it is apply a max-pooling or average-pooling layer to reduce and summarize the obtained representation. We decided to use max-pool layer of size $(1 \times 4)$, reducing by 4 times the original input shape. We call this new features representation with $ \Phi_{\text{c}} $
+	\item FC1: After the convolutional phase to extract rich features from the original data, we flatten the output produced by the last layer max-pooling layer. This lead to 6272 neurons. After this operation we decided to concatenate the encoder features $ \Phi_{\text{e}} $ with the Convolutional extracted features $\Phi_{\text{c}}$, leads us to our complete features vector $\Phi = [\Phi_{\text{c}}, \Phi_{\text{e}}]$ that is presented to the final fully-connected layer to perform the classification. 
+	\item FC2:
+\end{itemize}
+
+
+
+

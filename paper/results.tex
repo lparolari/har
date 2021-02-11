@@ -3,16 +3,43 @@
 \section{Results}
 \label{sec:results}
 
-\begin{center}
-	\begin{tabular}{ p{2cm}p{2cm}p{2cm} } 
-		\hline
-		cell1 & cell2 & cell3 \\ 
-		\hline
-		cell4 & cell5 & cell6 \\ 
-		cell7 & cell8 & cell9 \\ 
-		\hline
-	\end{tabular}
-\end{center}
+\begin{table*}[t]
+	\begin{center}
+		\begin{tabular}{ p{7cm}p{2cm}p{2cm}p{2cm}p{2cm} } 
+			\hline
+			Method & Accuracy & Precision & Recall & F1-Score \\ 
+			\hline
+			CNN + No centering & 77,0 & 78,0 & 75,8 & 76,8 \\ 
+			CNN + No centering + Manual F. & 75,6 & 76,8 & 73,9 & 75,3 \\
+			CNN + Centering + Manual F. & 86,2 & 86,9 & 70,2 & 77,6 \\ 
+			\textbf{CNN + Centering + Encoder F.} & \textbf{89,2} & \textbf{88,9} &  \textbf{86,1} & \textbf{86,1} \\ 
+			\hline
+		\end{tabular}
+	\caption{\label{tab:model-performance} UCI classification results with different featueres CNN augumentation and data preprocessing, using 196 conv. filters and 64 dense neurons}
+	\end{center}
+\end{table*}
+
+\begin{table}
+	\begin{center}
+		\begin{tabular}{ p{1.8cm}p{1.7cm}p{1.7cm}p{1.7cm} } 
+			\hline
+			CNN Filters & Dense Neurons & Accuracy & F1-Score \\ 
+			\hline
+			196 & 1024 & 84,6 & 75,3 \\
+			196 & 512 & 86,1 & 75,7 \\ 
+			\textbf{196} & \textbf{64} & \textbf{86,2} & \textbf{77,6} \\ 
+			96 & 1024 & 82,8 & 69,9 \\
+			96 & 512 & 84,4 & 73,7 \\ 
+			96 & 64 & 89,0 & 73,0 \\  
+			48 & 1024 & 80,0 & 79,4 \\
+			48 & 512 & ? & ? \\ 
+			48 & 64 & 84,0 & 72,3 \\
+			\hline
+		\end{tabular}
+	\caption{\label{tab:model-selection} UCI classification results with data centering and manual features augmented CNN}
+	\end{center}
+\end{table}
+
 
 Io direi che in questa parte partiamo con il dataset eterogeneo, facendo vedere come si comporta anche con le posizione sit e stand, e dopodichè passando ai risultati ottenuti con il rotational indipendent far vedere quello che abbiamo ottenuto nel dataset nostro, dove le attivita' sit e stand sono state compressate in no\_activity!
 
