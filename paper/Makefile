@@ -51,7 +51,9 @@ dxjoke-tectonic-docker:
 
 blang-latex-docker: latexdockercmd.sh
 	./latexdockercmd.sh latexmk -cd -f -interaction=batchmode -pdf ${MAINFILE}.tex
-#./latexdockercmd.sh pdflatex ${MAINFILE}.tex
+
+blang-latex-docker-debug:
+	./latexdockercmd.sh pdflatex ${MAINFILE}.tex
 
 latexdockercmd.sh:
 	wget https://raw.githubusercontent.com/blang/latex-docker/master/latexdockercmd.sh

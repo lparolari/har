@@ -221,13 +221,133 @@ of information.
 	\label{fig:proposed-architecture}
 \end{figure*}
 
-In this section we will present our proposed architecture for HAR 'in the wild' problem. We will see how the autoencoder and the CNN was trained, the parameters, and the optimizations used over a given parameter.
+In this section we will present our proposed architecture for HAR ``in
+the wild'' problem. We will see how the autoencoder and the CNN are
+trained, their parameters, and the optimization strategies adopted.
 
 \subsection{Autoencoder}
+\label{subsec:autoencoder}
 
-Descivere prima l'autoencoder, come è stato costruito e come viene allenato, i suoi parametri e la struttura del codice. TODO luca
+In this section we describe the autoencoder model based on
+\cite{vincent2010stacked}, \cite{gu2018locomotion} and
+\cite{gao2019human}. An autoencoder is a type of artificial neural
+network used to learn efficient data codings in an unsupervised
+manner. The aim of an autoencoder is to learn a representation
+(encoding) for a set of data by training the network to ignore signal
+noise. Given $X = [ \boldsymbol{a}_v, \boldsymbol{a}_o,
+  \boldsymbol{a}_l, \boldsymbol{g}_v, \boldsymbol{g}_o,
+  \boldsymbol{g}_l ]^T$ as a $6\text{x}125$ matrix and $\x$ as the
+column vector $750\text{x}1$ obtained by reshaping $\boldsymbol{X}$ we
+can define the autoencoder in two blocks. The first block is the
+encoder which is a function of the input:
+\begin{equation}
+  f_\theta(\x) = s(\boldsymbol{W}\x + \boldsymbol{b})
+\end{equation}
+where $\theta = \{ \boldsymbol{W}, \boldsymbol{b} \}$ with
+$\boldsymbol{W}$ is the weight matrix and $\boldsymbol{b}$ is the bias
+vector while $\boldsymbol{s}$ is the sigmoid activation function. We
+can obtain $\y = f_\theta(\x)$ as the output of this
+layer. The second block is the decoder where the input is
+reconstructed back starting from the code obtained by the encoder
+\begin{equation}
+  g_{\theta'}(\y) = s(\boldsymbol{W'}\y + \boldsymbol{b'})
+\end{equation}
+where $\theta' = \{ \boldsymbol{W'}, \boldsymbol{b'} \}$ are the
+parameters obtained from previous step. Thus, the reconstructed input
+is $\z = g_{\theta'}(\y)$. What we want to minimize is the distance
+between $\x$ and $\z$ w.r.t. a distance measure with a loss function
+like MSE.
+
+The main goal of the autoencoder for this application is to extract
+useful representations of input signal in few features and this is
+done by looking at the autoencoder's code, i.e., the output of the
+encoder block:
+\begin{equation}
+  \Phi_{\text{e}} = \y.
+\end{equation}
+
+The autoencoder follows the strucutre reported in
+Fig. \ref{fig:encoder-structure}. The encoder has one hidden layer
+with 150 neurons and ReLU activation function, an input layer of
+$6\text{x}125$ neurons reshaped the in $750\text{x}1$ and an output
+layer, i.e, the code of $36\text{x}1$ neurons with sigmoid activation
+function. The decoder replicates the same strucutre of the encoder but
+reversed.
+\begin{figure}[h]
+  \includegraphics[width=0.5\textwidth]{images/encoder.jpg}
+  \caption{(Auto)-encoder structure}
+  \label{fig:encoder-structure}
+\end{figure}
+In order to search for best feature extractor model we apply grid
+search to the full autoencoder to tune hyperparameters reported in
+Tab. \ref{tab:ae-hyperparams}. Best values are reported in bold.
+\begin{table}
+  \centering
+  \begin{tabular}{lp{4cm}}
+    \hline
+    Hyperparameter & Values \\
+    \hline
+    code size & \{2, 3, 4, 5, 6, 12, 18, 24, 30, \textbf{36}, 42, 48, 54, 60, 72\} \\
+    batch size & \{32, \textbf{128}\} \\
+    loss & \{\textbf{mse}, mae\} \\
+    epochs & \{\textbf{150}, 200\} \\
+    \hline
+  \end{tabular}
+  \caption{Grid-search for best hyperparameters on autoencoder}
+  \label{tab:ae-hyperparams}
+\end{table}
+
+The best autoencoder used to be the one with a relatively small code
+size: from 24 to 36 features which is also a good thing as we do not
+want the autoencoder to learn the identity, but only to keep useful
+information. The Tab. \ref{tab:ae-loss} shows how this autoencoder
+perofrms on different scenarios.
+\begin{table}
+  \centering
+  \begin{tabular}{lr}
+    \hline
+    Scenario & Loss (MSE) \\
+    \hline
+    heterogenity + oit + bryan & 0.747241 \\
+    heterogenity + oit + bryan allpos & 0.821241 \\
+    heterogenity & 0.871255 \\
+    heterogenity + bryan & 10.421337 \\
+    \hline
+  \end{tabular}
+  \caption{Autoencoder loss on different scenarios}
+  \label{tab:ae-loss}
+\end{table}
+
+Even if the primary goal for this autoencoder is to automatically
+extract features from signal for the main CNN model we implement also
+two simple classifiers in order to directly use autoencoder's feature
+and check the effectiveness of features. The two proposed model are
+base on two different techniques: the first is a clustering algorithm
+based on K-Nearest Neighbors (KNN) while the second is a Feed Forward
+Neural Network (FFNN). The Tab. \ref{tab:ae-classifiers-accuracy}
+shows KNN and FFNN accuracy for the selected model with $36$
+features.\footnote{The autoencoder with $24$ features performs even
+  better with this two classifiers, but, again, the goal is to provide
+  robust feature with CNN so we selected the model with lowest MSE.}
+\begin{table}
+  \centering
+  \begin{tabular}{p{3cm}rr}
+    \hline
+    Scenario & KNN accuracy & FFNN accuracy \\
+    \hline
+    heterogenity + oit + bryan & 0.822052  & 0.722861 \\
+    heterogenity + oit + bryan allpos &  0.789562 & 0.680167 \\
+    heterogenity & 0.762793 & 0.818093 \\
+    heterogenity + bryan & 0.278416 & 0.103448 \\
+    \hline
+  \end{tabular}
+  \caption{NKK and FFNN accuracy ordeder by loss}
+  \label{tab:ae-classifiers-accuracy}
+\end{table}
 
 \subsection{Convolutional neural network}
+\label{subsec:cnn}
+
 Parlare dell'archittettura proposta suddividendola in layer e alla fine dell'ottimizzazione adottata.
 
 The final CNN architecture proposed in this work is shown in Fig. \ref{fig:proposed-architecture}. We decided to start with the architecture proposed in work \cite{chen2020deep} and we tried to improve it, augmenting the CNN with the encoder extracted features. CNN architecture are very powerfull when dealing with images, but they were proven to be a good features extractors also for motion data. A CNN is composed of essentially two parts: the first-one is in charge of extract features performing a dimensionality reduction over the input data, though a series of convolution and max pooling layers, and the second part of the CNN is responsible to give the final classification with usually a single fully-connected layer. Original data, collected from smartphone sensors are pre-processed according to what previously described in Sec. \ref{sec:processing_architecture}. Our input matrix presented to our CNN is the matrix \mbox{$ \boldsymbol{X} = [ \boldsymbol{a_{v}}^{c}, \boldsymbol{a_{h}}^{c}, \boldsymbol{a_{l}}^{c}, \boldsymbol{g_{v}}^{c}, \boldsymbol{g_{h}}^{c}, \boldsymbol{g_{l}}^{c}]$} wich is formed by acclerometer and gyroscopes signals, linearly interpolated at 50 samples/second  per channel with a fixed time-window of $2.5s$ with orientation independent transformation and data centering. Note that this matrix has a dimension $n \times 6$, due to the fact that TensorFlow Convolutional Layers work with input dimension of $(batch\_size, samples, channel)$.
@@ -241,5 +361,3 @@ In detail we have the following stacked layers:
 \end{itemize}
 
 As for optimization techniques we decided to use dropout and $l_2$-regularization. The later techniques are commonly used in these types of architectures, yield a much more performance in the test set and so in generalation capabilities, preventing overfitting. We apply a dropout rate of 0.05 to the last fully-connected layer and we also apply a the $l_2$-regularization to all the fully connected layers. We have try with different hyper-parameters values for these two applied techniques, without any substantial changes in classification performance on the test set. Finally the parameters of the network are optimized using Adam CITE, a modification of stochastic gradient descent that also incorporates Momentum.
-
-
