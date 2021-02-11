@@ -181,16 +181,16 @@ learning algorithm can be considered a feature, but here we use three different 
 \item \textbf{Manual features}. Manual features take into account the
   statistical mode of the signal and are used in many applications
   CITE UCI e \cite{ignatov2018real} with great results. We exploit
-  manual features like mean, variance, sum of the absolute values and
+  manual features like mean, standard deviation, sum of the absolute values and
   the histogram of each input data channel computed on local
-  time-windows applied only for accelerometer signal $\boldsymbol{a}$. As defined in \cite{ignatov2018real}, we produce a new basic feature vector $\boldsymbol{f_{b}} = (\bar{a_x}, \bar{a_y}, \bar{a_z}, \sigma_{\boldsymbol{a_{x}}}, \sigma_{\boldsymbol{a_{y}}}, \sigma_{\boldsymbol{a_{z}}}, \tilde{a_x}, \tilde{a_y}, \tilde{a_z}, \psi_{\boldsymbol{a_{x}}\boldsymbol{a_{y}}\boldsymbol{a_{z}}}, $ $ \boldsymbol{h}_{\boldsymbol{a_{x}}}^T, \boldsymbol{h}_{\boldsymbol{a_{y}}}^T, \boldsymbol{h}_{\boldsymbol{a_{z}}}^T)^T$
+  time-windows applied only for accelerometer signal $\boldsymbol{a}$. As defined in \cite{ignatov2018real}, we produce a manual feature vector $\boldsymbol{f_{m}} = (\bar{a_x}, \bar{a_y}, \bar{a_z}, \sigma_{\boldsymbol{a_{x}}}, \sigma_{\boldsymbol{a_{y}}}, \sigma_{\boldsymbol{a_{z}}}, \tilde{a_x}, \tilde{a_y}, \tilde{a_z}, \psi_{\boldsymbol{a_{x}}\boldsymbol{a_{y}}\boldsymbol{a_{z}}}, $ $ \boldsymbol{h}_{\boldsymbol{a_{x}}}^T, \boldsymbol{h}_{\boldsymbol{a_{y}}}^T, \boldsymbol{h}_{\boldsymbol{a_{z}}}^T)^T$
   where for a generic column vector $\x = (x_1, x_2,..., x_n)^T$ with \mbox{$\x^c = (x_1^c, x_2^c,..., x_n^c)^T$:}
   \begin{align}
     \sigma_{\x} &= \sqrt{  \frac{\sum_{i=1}^{n}(|x^c_i|)^2}{n} } \\
     \tilde{x} &= \frac{\sum_{i=1}^{n}(|x^c_i|)}{n} \\
     \psi_{\x\y\z} &= \frac{\sum_{i=1}^{n} \sqrt{x_i^2 + y_i^2 + z_i^2}} {n}
   \end{align}
-  and $\boldsymbol{h}_\x$ is python function that sort the values of $\x$ into 10 equally spaced bins along the x-axis between the minimum and maximum values of $\x$. This lead to a basic features vector composed of 40 manual extracted features.
+  and $\boldsymbol{h}_\x$ is column vector\footnote{for reference see the python function at \\ https://numpy.org/doc/stable/reference/generated/numpy.histogram.html} that sort the values of $\x$ into 10 equally spaced bins along the x-axis between the minimum and maximum values of $\x$. This lead to a manual features vector composed of 40 manual extracted features.
 \item \textbf{Auto-encoder features}. Auto-encoder features are
   automatically extracted from the signal. The auto-encoder as
   described in Sec. TODO is capable to compress data and learn a good
