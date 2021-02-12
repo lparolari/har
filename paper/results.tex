@@ -9,10 +9,10 @@
 			\hline
 			Method & Accuracy & Precision & Recall & F1-Score \\ 
 			\hline
-			CNN + No centering & 77,0 & 78,0 & 75,8 & 76,8 \\ 
-			CNN + No centering + Manual F. & 75,6 & 76,8 & 73,9 & 75,3 \\
-			CNN + Centering + Manual F. & 86,2 & 86,9 & 70,2 & 77,6 \\ 
-			\textbf{CNN + Centering + Encoder F.} & \textbf{89,2} & \textbf{88,9} &  \textbf{86,1} & \textbf{86,1} \\ 
+			CNN + No centering & 77.0 & 78.0 & 75.8 & 76.8 \\ 
+			CNN + No centering + Manual F. & 75.6 & 76.8 & 73.9 & 75.3 \\
+			CNN + Centering + Manual F. & 86.2 & 86.9 & 70.2 & 77.6 \\ 
+			\textbf{CNN + Centering + Encoder F.} & \textbf{89.2} & \textbf{88.9} &  \textbf{86.1} & \textbf{86.1} \\ 
 			\hline
 		\end{tabular}
 	\caption{\label{tab:model-performance} UCI classification results with different featueres CNN augumentation and data preprocessing, using 196 conv. filters and 64 dense neurons}
@@ -25,15 +25,15 @@
 			\hline
 			CNN Filters & Dense Neurons & Accuracy & F1-Score \\ 
 			\hline
-			196 & 1024 & 84,6 & 75,3 \\
-			196 & 512 & 86,1 & 75,7 \\ 
-			\textbf{196} & \textbf{64} & \textbf{86,2} & \textbf{77,6} \\ 
-			96 & 1024 & 82,8 & 69,9 \\
-			96 & 512 & 84,4 & 73,7 \\ 
-			96 & 64 & 89,0 & 73,0 \\  
-			48 & 1024 & 80,0 & 79,4 \\
+			196 & 1024 & 84.6 & 75.3 \\
+			196 & 512 & 86.1 & 75.7 \\ 
+			\textbf{196} & \textbf{64} & \textbf{86.2} & \textbf{77.6} \\ 
+			96 & 1024 & 82.8 & 69.9 \\
+			96 & 512 & 84.4 & 73.7 \\ 
+			96 & 64 & 89.0 & 73.0 \\  
+			48 & 1024 & 80.0 & 79.4 \\
 			48 & 512 & ? & ? \\ 
-			48 & 64 & 84,0 & 72,3 \\
+			48 & 64 & 84.0 & 72.3 \\
 			\hline
 		\end{tabular}
 	\caption{\label{tab:model-selection} UCI classification results with data centering and manual features augmented CNN}
