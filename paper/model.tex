@@ -44,21 +44,39 @@ After the preprocessing pipeline we adopt a novel Learning framework. It is comp
 \section{Signals and Features}
 \label{sec:model}
 
-Parlare del nostro dataset usato Heterogenity, cioe come sono strutturati i nostri dati partenza.
-
-
-
 \subsection{Dataset \& Meausurement Setup}
 \label{subsec:dataset-measurement-setup}
-Parlare di come abbiamo splittato il dataset, quindi escludendo gli utenti a e b per fare in modo di testare le performance cambiando compltamente utente.
 
-Introduzione e spiegazione del dataset eterogeneo, preso da: riportare link. e riportare come abbiamo tirato fuori le time window con overlapping window!
+Many datasets are available for this type of applications in
+literature \cite{stisen2015smart}, \cite{anguita2013public},
+\cite{blunck2013heterogeneity}, CITE AMAZON DATASET. However, there
+are non-trivial problems in real-word applications: one above all, the
+environment in not controlled. So we should be capable to deal with
+technical details such as smartphone orientation or sensor accuracy as
+reported in Sec. \ref{sec:processing_architecture} and also with
+physiological details such us the variety in users. \footnote{FIXME:
+  Dovremmo spostare questo paragrafo nei related works?}
 
-Accenare dell'acquisizione di un nostro dataset alla stessa maniera, a 100 HZ in varie posizioni per testare poi anche tutto il dataset!
+For our application we decided to use the dataset described in
+\cite{blunck2013heterogeneity}, where data are collected directly from
+smartphone sensors. The dataset is composed by nine users (from 25 to
+30 years). All users followed a scripted set of activities while
+carrying eight smartphones and four smart watches. All eight
+smartphones were kept in a tight pouch and carried by the users around
+their waist, whereas two smart watches were worn on each arm. Each
+participant conducted five minutes of each activity for each device.
+The dataset is splitted in two sets: train and test set. We splitted
+the two such that user \textit{a} and \textit{b}, respectively the
+best and the worst user, are in the test set.
+
+We also collect a novel dataset in order to perform a cross-dataset
+validation. The goal is to see whether the models can generalize well
+on new new users and also on new smartphone positions. This dataset
+(\textit{Bryan dataset}) is collected with a sampling rate of 100 Hz
+with seven smartphone positions: top, bottom, left, right, hand,
+pocket-up, pocket-down.
 
 \subsection{Signal preprocessing}
-
-In questo caso si va nel dettaglio (con formule e forse se neccessario anche grafici) della parte di preprocessing (parte trattegiata nel mio schema come preprocessing):
 
 \textbf{Notation}: With $\boldsymbol{x} \in {\rm I\!R}^{n}$ we define a column vector as $\boldsymbol{x}=(x_{1}, x_{2}, ..., x_{n})^{T}$ where with superscript $^T$ we mean the transpose operator. With $\boldsymbol{||x||}$ we mean the L2-norm operator $||\x|| = (\sum_{i=1}^{n} x_{i}^{2})^{1/2}$ and with $\bar{x} = (\sum_{i=1}^{n} x_{i}) / n$ the mean of a vector. With $\boldsymbol{x} \cdot \boldsymbol{y} =\boldsymbol{x}^{T}\boldsymbol{y} $ we mean the inner product of two vectors. With $\boldsymbol{\vec{x}}$ we mean a 3D vector $\boldsymbol{\vec{x}} = (x_{1}, x_{2}, x_{3})^{T}$ and with $\boldsymbol{\hat{x}}$ the corresponding 3D versor $\boldsymbol{\hat{x}}=\boldsymbol{\vec{x}}/ ||\boldsymbol{\vec{x}}||$. For any two 3D vector $\boldsymbol{\vec{x}}$ and $\boldsymbol{\vec{y}}$ we indicate their cross-product as $\boldsymbol{\vec{x}} \times \boldsymbol{\vec{y}}$. We represent with $\boldsymbol{a_{x}}, \boldsymbol{a_{y}}, \boldsymbol{a_{z}}$ the x, y and z components of the accellerometer signal, as well as the gyroscope signal is represented with $\boldsymbol{g_{x}}, \boldsymbol{g_{y}}, \boldsymbol{g_{z}}$. We define also matrices with uppercase and bold letters. For example to define a $3 \times n$ matrix composed of 3 vectors \mbox{$\boldsymbol{x}, \boldsymbol{y}, \boldsymbol{z} \in {\rm I\!R}^{n}$} we use the notation \mbox{$\boldsymbol{M} = [\boldsymbol{x}, \boldsymbol{y}, \boldsymbol{z}]^{T}$}\\
 
