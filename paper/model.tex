@@ -44,44 +44,61 @@ After the preprocessing pipeline we adopt a novel Learning framework. It is comp
 \section{Signals and Features}
 \label{sec:model}
 
-Parlare del nostro dataset usato Heterogenity, cioe come sono strutturati i nostri dati partenza.
-
-
-
 \subsection{Dataset \& Meausurement Setup}
 \label{subsec:dataset-measurement-setup}
-Parlare di come abbiamo splittato il dataset, quindi escludendo gli utenti a e b per fare in modo di testare le performance cambiando compltamente utente.
 
-Introduzione e spiegazione del dataset eterogeneo, preso da: riportare link. e riportare come abbiamo tirato fuori le time window con overlapping window!
+Many datasets are available for this type of applications in
+literature \cite{stisen2015smart}, \cite{anguita2013public},
+\cite{blunck2013heterogeneity}, CITE AMAZON DATASET. However, there
+are non-trivial problems in real-word applications: one above all, the
+environment in not controlled. So we should be capable to deal with
+technical details such as smartphone orientation or sensor accuracy as
+reported in Sec. \ref{sec:processing_architecture} and also with
+physiological details such us the variety in users. \footnote{FIXME:
+  Dovremmo spostare questo paragrafo nei related works?}
 
-Accenare dell'acquisizione di un nostro dataset alla stessa maniera, a 100 HZ in varie posizioni per testare poi anche tutto il dataset!
+For our application we decided to use the dataset described in
+\cite{blunck2013heterogeneity}, where data are collected directly from
+smartphone sensors. The dataset is composed by nine users (from 25 to
+30 years). All users followed a scripted set of activities while
+carrying eight smartphones and four smart watches. All eight
+smartphones were kept in a tight pouch and carried by the users around
+their waist, whereas two smart watches were worn on each arm. Each
+participant conducted five minutes of each activity for each device.
+The dataset is splitted in two sets: train and test set. We splitted
+the two such that user \textit{a} and \textit{b}, respectively the
+best and the worst user, are in the test set.
+
+We also collect a novel dataset in order to perform a cross-dataset
+validation. The goal is to see whether the models can generalize well
+on new new users and also on new smartphone positions. This dataset
+(\textit{Bryan dataset}) is collected with a sampling rate of 100 Hz
+with seven smartphone positions: top, bottom, left, right, hand,
+pocket-up, pocket-down.
 
 \subsection{Signal preprocessing}
 
-In questo caso si va nel dettaglio (con formule e forse se neccessario anche grafici) della parte di preprocessing (parte trattegiata nel mio schema come preprocessing):
-
 \textbf{Notation}: With $\boldsymbol{x} \in {\rm I\!R}^{n}$ we define a column vector as $\boldsymbol{x}=(x_{1}, x_{2}, ..., x_{n})^{T}$ where with superscript $^T$ we mean the transpose operator. With $\boldsymbol{||x||}$ we mean the L2-norm operator $||\x|| = (\sum_{i=1}^{n} x_{i}^{2})^{1/2}$ and with $\bar{x} = (\sum_{i=1}^{n} x_{i}) / n$ the mean of a vector. With $\boldsymbol{x} \cdot \boldsymbol{y} =\boldsymbol{x}^{T}\boldsymbol{y} $ we mean the inner product of two vectors. With $\boldsymbol{\vec{x}}$ we mean a 3D vector $\boldsymbol{\vec{x}} = (x_{1}, x_{2}, x_{3})^{T}$ and with $\boldsymbol{\hat{x}}$ the corresponding 3D versor $\boldsymbol{\hat{x}}=\boldsymbol{\vec{x}}/ ||\boldsymbol{\vec{x}}||$. For any two 3D vector $\boldsymbol{\vec{x}}$ and $\boldsymbol{\vec{y}}$ we indicate their cross-product as $\boldsymbol{\vec{x}} \times \boldsymbol{\vec{y}}$. We represent with $\boldsymbol{a_{x}}, \boldsymbol{a_{y}}, \boldsymbol{a_{z}}$ the x, y and z components of the accellerometer signal, as well as the gyroscope signal is represented with $\boldsymbol{g_{x}}, \boldsymbol{g_{y}}, \boldsymbol{g_{z}}$. We define also matrices with uppercase and bold letters. For example to define a $3 \times n$ matrix composed of 3 vectors \mbox{$\boldsymbol{x}, \boldsymbol{y}, \boldsymbol{z} \in {\rm I\!R}^{n}$} we use the notation \mbox{$\boldsymbol{M} = [\boldsymbol{x}, \boldsymbol{y}, \boldsymbol{z}]^{T}$}\\
 
-\textbf{Linear Interpolation \& Down-sampling}\\
-
-As described in Sec. \ref{subsec:dataset-measurement-setup}, our
-dataset is composed by signals collected with different sampling rates
-from many mobile phones and they are usually out of sync due to the
-SRI. For this reason we apply to all signals a simple preprocessing
-pipeline composed by two steps: linear interpolation and
-downsampling. With linear interpolation we project signals with
-different sampling frequencies, i.e 50, 100, 200 Hz, to a 50 Hz signal
-which measn that we are also applying the downsampling.
-Linear/nearest interpolation are usually preferred w.r.t. cubic spline
-or smooth cubic spline as investigated in \cite{stisen2015smart},
-because they usually mitigate the introduction of noise or
-artifacts. In linear interpolation the value at time $t$ is the
-piecewise-linear interpolation, i.e. the linear interpolation between
-the input samples adjacent to $t$ in the sequence of input sample
-timestamps. Let $(x_0, y_0)$ and $(x_1, y_1)$ be two known points, the
-linear interpolant is the straight line between this points. For a
-value $x$ in the interval $(x_0, x_1)$ the value $y$ along the
-straight line is given from the equation of slopes
+\vspace{1em}
+\textbf{Linear Interpolation \& Down-sampling.} As described in
+Sec. \ref{subsec:dataset-measurement-setup}, our dataset is composed
+by signals collected with different sampling rates from many mobile
+phones and they are usually out of sync due to the SRI. For this
+reason we apply to all signals a simple preprocessing pipeline
+composed by two steps: linear interpolation and downsampling. With
+linear interpolation we project signals with different sampling
+frequencies, i.e 50, 100, 200 Hz, to a 50 Hz signal which measn that
+we are also applying the downsampling.  Linear/nearest interpolation
+are usually preferred w.r.t. cubic spline or smooth cubic spline as
+investigated in \cite{stisen2015smart}, because they usually mitigate
+the introduction of noise or artifacts. In linear interpolation the
+value at time $t$ is the piecewise-linear interpolation, i.e. the
+linear interpolation between the input samples adjacent to $t$ in the
+sequence of input sample timestamps. Let $(x_0, y_0)$ and $(x_1, y_1)$
+be two known points, the linear interpolant is the straight line
+between this points. For a value $x$ in the interval $(x_0, x_1)$ the
+value $y$ along the straight line is given from the equation of slopes
 \begin{equation}
   \label{eq:linear-interpolation}
   \frac{y - y_0}{x - x_0} = \frac{y_1 - y_0}{x_1 - x_0}.
@@ -101,7 +118,8 @@ resampling the signal at a certain frequency (50 Hz in our
 case). Please note that the downsample frequency should be a
 sub-multiple of linear interpolation frequency.
 
-\textbf{Orientation Indipendent Transform}\\
+\vspace{1em}
+\textbf{Orientation Indipendent Transformation.}
 To project the signals acquired during an activity in a new space wich is indipendent of the rotation of the smartphone, 3 orthogonal versors need to be found. We decided to adopt the technique proposed in \cite{gadaleta2018idnet}, although many other works proposed a similar solution as in \cite{kunze2009way, henpraserttae2011accurate}. In summary we have to find these 3 orthogonal versor namely vertical versor $\boldsymbol{\hat{v}}$, horizontal versor $\boldsymbol{\hat{h}}$ and lateral versor $\boldsymbol{\hat{l}}$. As the name suggest the vertical versor is aligned with user torso pointing up, the horizontal versor is aligned with the direction of motion, pointing foraward, and the later versor tracks lateral movements and it is othogonal to the other two.
 
 Starting with the vertical versor we need to find where the gravity vector $\boldsymbol{\vec{p}}$ ly in the original space. Although the gravity vector is a constant vector in stationary conditions, during a user activity it continuosly changes in the original cordinate system of the smartphone, therefore we are only able to consider the mean direction of the gravity within the current user activity. So, to estimate it we must considered only the acceleremoter signal: \mbox{$ \boldsymbol{\vec{p}} = (\bar{a_{x}}, \bar{a_{y}}, \bar{a_{z}})^{T}$}  and we now could find the vertical versor with \mbox{$ \boldsymbol{\hat{v}} = \boldsymbol{\vec{p}} / ||\boldsymbol{\vec{p}}|| $}
@@ -131,10 +149,10 @@ To find the last axis its sufficient to apply a cross product between the two la
 
 
 
-Combining Eq. (\ref{v-axis eq}), Eq. (\ref{h-axis eq}) and Eq. (\ref{l-axis eq}) lead us to the final accelerometer and gyroscope trasformed vectors lying in this new orientation indipendent space that are $[\boldsymbol{a_{v}}, \boldsymbol{a_{h}}, \boldsymbol{a_{l}}]^T $ and $ [\boldsymbol{g_{v}}, \boldsymbol{g_{h}}, \boldsymbol{g_{l}}]^T $ \\
+Combining Eq. (\ref{v-axis eq}), Eq. (\ref{h-axis eq}) and Eq. (\ref{l-axis eq}) lead us to the final accelerometer and gyroscope trasformed vectors lying in this new orientation indipendent space that are $[\boldsymbol{a_{v}}, \boldsymbol{a_{h}}, \boldsymbol{a_{l}}]^T $ and $ [\boldsymbol{g_{v}}, \boldsymbol{g_{h}}, \boldsymbol{g_{l}}]^T $
 
-\textbf{Centering}\\
-
+\vspace{1em}
+\textbf{Centering.}
 The last signal processing we perform on the input signal is data
 centering. As proved in \cite{ignatov2018real} this could slightly
 improve performance within a CNN based learning model because
