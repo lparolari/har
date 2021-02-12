@@ -25,15 +25,15 @@
 			\hline
 			CNN Filters & Dense Neurons & Accuracy & F1-Score \\ 
 			\hline
-			196 & 1024 & 84,6 & 75,3 \\
-			196 & 512 & 86,1 & 75,7 \\ 
-			\textbf{196} & \textbf{64} & \textbf{88,9} & \textbf{81,6} \\ 
-			96 & 1024 & 82,8 & 69,9 \\
-			96 & 512 & 84,4 & 73,7 \\ 
-			96 & 64 & 89,0 & 73,0 \\  
-			48 & 1024 & 80,0 & 79,4 \\
+			196 & 1024 & 84.6 & 75.3 \\
+			196 & 512 & 86.1 & 75.7 \\ 
+			\textbf{196} & \textbf{64} & \textbf{88.9} & \textbf{81.6} \\ 
+			96 & 1024 & 82.8 & 69.9 \\
+			96 & 512 & 84.4 & 73.7 \\ 
+			96 & 64 & 89.0 & 73.0 \\  
+			48 & 1024 & 80.0 & 79.4 \\
 			48 & 512 & 83.7 & 74.9 \\ 
-			48 & 64 & 84,0 & 72,3 \\
+			48 & 64 & 84.0 & 72.3 \\
 			\hline
 		\end{tabular}
 	\caption{\label{tab:model-selection} UCI classification results with data centering and manual features augmented CNN}
@@ -58,6 +58,24 @@ Passare alla mia archittetura e spiegare come sono stati scelti i paramentri, po
 Calcolare anche la F1 score e prbabilmente abbiamo migliorato di molto il modello proposto in \cite{blunck2013heterogeneity}
 
 \subsection{Advance settings}
+
+\begin{table}[t]
+	\begin{center}
+		\begin{tabular}{ p{1.8cm}p{1.2cm}p{1.2cm}p{0.9cm}p{1.4cm}} 
+			\hline
+			Positions & Accuracy & Precision & Recall & F1-Score \\ 
+			\hline
+			Pouch \\(L,R,T,B) & 85.3 & 92.0 & 73.8 & 81.9 \\ 
+			\hline
+			Hand, \\ Pocket U\&D & 70.5 & 79.5 & 63.0 & 70.2 \\
+			\hline
+			All & 78.0 & 84.0 & 69.0 & 75.7 \\
+			\hline
+		\end{tabular}
+		\caption{\label{tab:model-performance} Our collected dataset classification comparisons using only certain smartphone positions as test set}
+	\end{center}
+\end{table}
+
 Passare al nostro dataset e far vedere l'importanza del rotational invariant!!! Che migliora sensibilmente le performance ovviamente dato che la rete è allenata in posizione fisse.
 
 RIPORTARE TUTTE LE METRICHE, anche confusion matrix e argomentarle
