@@ -15,7 +15,7 @@
 			\textbf{CNN + Centering + Encoder F.} & \textbf{89.2} & \textbf{88.9} &  \textbf{86.1} & \textbf{86.1} \\ 
 			\hline
 		\end{tabular}
-	\caption{\label{tab:model-performance} UCI classification results with different featueres CNN augumentation and data preprocessing, using 196 conv. filters and 64 dense neurons}
+	\caption{\label{tab:model-performance} UCI classification results with different featueres CNN augumentation and data preprocessing. The test are made with our CNN with OIT, Data centering, 196 (1x16) filters, max-pool (1x4), 64 fully conected, l2-regularization of 5e-5 and Adam learning rate of 2e-5.}
 	\end{center}
 \end{table*}
 
@@ -72,7 +72,7 @@ Calcolare anche la F1 score e prbabilmente abbiamo migliorato di molto il modell
 			All & 78.0 & 84.0 & 69.0 & 75.7 \\
 			\hline
 		\end{tabular}
-		\caption{\label{tab:model-performance} Our collected dataset classification comparisons using only certain smartphone positions as test set}
+		\caption{\label{tab:model-performance} Our collected dataset classification comparisons between only certain selected smartphone positions using our proposed architecture augmented with encoder features. We apply OIT, Data centering, 196 (1x16) filters, max-pool (1x4), 64 fully conected, l2-regularization of 5e-5 and Adam learning rate of 2e-5. }
 	\end{center}
 \end{table}
 
