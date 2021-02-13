@@ -6,6 +6,8 @@
 \newcommand*{\z}{\boldsymbol{z}}
 \newcommand*{\xm}{\bar{\x}}
 
+\newpage
+
 \section{Processing Pipeline}
 \label{sec:processing_architecture}
 
@@ -57,7 +59,7 @@ reported in Sec. \ref{sec:processing_architecture} and also with
 physiological details such us the variety in users. \footnote{FIXME:
   Dovremmo spostare questo paragrafo nei related works?}
 
-For our application we decided to use the dataset described in
+For our application we decided to use the \textit{Heterogenity Dataset (HD)} described in
 \cite{blunck2013heterogeneity}, where data are collected directly from
 smartphone sensors. The dataset is composed by nine users (from 25 to
 30 years). All users followed a scripted set of activities while
@@ -69,12 +71,7 @@ The dataset is splitted in two sets: train and test set. We splitted
 the two such that user \textit{a} and \textit{b}, respectively the
 best and the worst user, are in the test set.
 
-We also collect a novel dataset in order to perform a cross-dataset
-validation. The goal is to see whether the models can generalize well
-on new new users and also on new smartphone positions. This dataset
-(\textit{Bryan dataset}) is collected with a sampling rate of 100 Hz
-with seven smartphone positions: top, bottom, left, right, hand,
-pocket-up, pocket-down.
+We also collect a novel dataset called \textit{Oriented dataset (OD)} in order to perform a cross-dataset validation. The goal is to see whether the models can generalize well on new unseen users and also to test how OIT pre-processing could increase the performance. This dataset is collected with a sampling rate of 100 Hz with seven smartphone positions: top, bottom, left, right are collected in the same way as in work \cite{blunck2013heterogeneity}, but instead of a fixed orientation we rotated the smartphone inside the pouch to each possible orientation to each side. Then we also perform the same activities with the smartphone in hand, pocket-up, pocket-down positions to see to what extent the model is capable of generalize activity recognition in new unseen positions. 
 
 \subsection{Signal preprocessing}
 

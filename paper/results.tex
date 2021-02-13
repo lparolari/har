@@ -24,7 +24,14 @@ In this section we will present how we selected the appropriate hyper parameters
 
 In this section we evaluate performance between previous work and different model architectures and the influences of some of the pre-processing techniques applied. Similar to what was done in \cite{ignatov2018real} we caried out from the HD dataset some representative users to test the model and then use the remaining ones to train the model. In this case we selected user a and b since we found that these two users are very representative of all the remaining user, in fact models tend to be less precise with user a and more accurate with user b and this mainly depends with the style that user usually performs the type of activity considered. In this way we are able to compare results with other works that usually tend to evaluate performances on unseen user. 
 
-In this training and test set settings, we evaluate the best hyperparameters for the proposed architecture model excluding OIT preprocessing block, since this dataset was collected with a fixed orientation. The rest of pre-processing techinque are enabled, if not specified. We fist test how number of convolutional filters and number of dense neurons in the FC2 layer will influence classification performances. The results obtained are presented in Tab. \ref{tab:model-selection}. Wee decided to choose 196 convolutional filters and 64 dense neurons thanks to its balance between accuracy and F1-Score performance, obtaining 88.9\% accuracy score and  81.6\%. To compare our result with that obtained in the original work \cite{blunck2013heterogeneity}, we decided to perform their \textit{Leave-one-user-out cross validation} evaluation, consisting of test the model with data from one user, and train with data from all the others in a cross validation fashion and then averaging the metrics obtained. In this evaluation setting we obtained an average F1-score of 85.8\%, beating their best model result of nearly 10\% more of F1-Score metrics. This prove also that using users a and b to do our evaluation is a good compromise of the real \textit{Leave-one-user-out cross validation} evaluation performances, since we obtain nearly the same results (90.2\% instead of 88.9\% in accuracy and 85.8\% instead of 81.6\%). TODO scrivere nelle conslusione che in questo settings abbiamo notato un bel po di varianza tra utenti.
+In this training and test set settings, we evaluate the best hyperparameters for the proposed architecture model excluding OIT preprocessing block, since this dataset was collected with a fixed orientation. The rest of pre-processing techinque are enabled, if not specified.\\ 
+
+\textbf{Autoencoder}\\
+TODO Parlare dei risultati ottenuti da luca con un semplice autoencoder sia K-NN classifier che con FFNN alla fine. Un concetto alla volta!
+
+\textbf{CNN Network}
+
+We fist test how number of convolutional filters and number of dense neurons in the FC2 layer will influence classification performances. The results obtained are presented in Tab. \ref{tab:model-selection}. Wee decided to choose 196 convolutional filters and 64 dense neurons thanks to its balance between accuracy and F1-Score performance, obtaining 88.9\% accuracy score and  81.6\%. To compare our result with that obtained in the original work \cite{blunck2013heterogeneity}, we decided to perform their \textit{Leave-one-user-out cross validation} evaluation, consisting of test the model with data from one user, and train with data from all the others in a cross validation fashion and then averaging the metrics obtained. In this evaluation setting we obtained an average F1-score of 85.8\%, beating their best model result of nearly 10\% more of F1-Score metrics. This prove also that using users a and b to do our evaluation is a good compromise of the real \textit{Leave-one-user-out cross validation} evaluation performances, since we obtain nearly the same results (90.2\% instead of 88.9\% in accuracy and 85.8\% instead of 81.6\%). TODO scrivere nelle conslusione che in questo settings abbiamo notato un bel po di varianza tra utenti.
 
 \begin{table}[h]
 	\begin{center}
@@ -58,13 +65,10 @@ To better appreciate how our pre-processing block affects model overall performa
 \end{figure}
 
 
-Parlare dei risultati ottenuti da luca con un semplice autoencoder sia K-NN classifier che con FFNN alla fine. Un concetto alla volta!
+\subsection{Oriented Dataset (OD)}
 
-Passare alla mia archittetura e spiegare come sono stati scelti i paramentri, poi far vedere che togliende le basic feature il modello decrementa la sua accuracy, e aggiungendo invece quelle de''autoencode il modello migliora. 
 
-Calcolare anche la F1 score e prbabilmente abbiamo migliorato di molto il modello proposto in \cite{blunck2013heterogeneity}
 
-\subsection{Our Dataset}
 
 \begin{table}[t]
 	\begin{center}
@@ -79,10 +83,8 @@ Calcolare anche la F1 score e prbabilmente abbiamo migliorato di molto il modell
 			All & 78.0 & 84.0 & 69.0 & 75.7 \\
 			\hline
 		\end{tabular}
-		\caption{\label{tab:model-performance} Our collected dataset classification comparisons between only certain selected smartphone positions using our proposed architecture augmented with encoder features. We apply OIT, Data centering, 196 (1x16) filters, max-pool (1x4), 64 fully conected, l2-regularization of 5e-5 and Adam learning rate of 2e-5. }
+		\caption{\label{tab:model-performance} Classification comparisons onto Oriented Dataset between only certain selected smartphone positions using our proposed architecture augmented with encoder features. We apply OIT, Data centering, 196 (1x16) filters, max-pool (1x4), 64 fully conected, l2-regularization of $5e^{-5}$ and Adam with learning rate of $2e^{-5}$. }
 	\end{center}
 \end{table}
 
-Passare al nostro dataset e far vedere l'importanza del rotational invariant!!! Che migliora sensibilmente le performance ovviamente dato che la rete è allenata in posizione fisse.
 
-RIPORTARE TUTTE LE METRICHE, anche confusion matrix e argomentarle
