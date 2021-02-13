@@ -71,7 +71,7 @@ The dataset is splitted in two sets: train and test set. We splitted
 the two such that user \textit{a} and \textit{b}, respectively the
 best and the worst user, are in the test set.
 
-We also collect a novel dataset called \textit{Oriented dataset (OD)} in order to perform a cross-dataset validation. The goal is to see whether the models can generalize well on new unseen users and also to test how OIT pre-processing could increase the performance. This dataset is collected with a sampling rate of 100 Hz with seven smartphone positions: top, bottom, left, right are collected in the same way as in work \cite{blunck2013heterogeneity}, but instead of a fixed orientation we rotated the smartphone inside the pouch to each possible orientation to each side. Then we also perform the same activities with the smartphone in hand, pocket-up, pocket-down positions to see to what extent the model is capable of generalize activity recognition in new unseen positions. 
+We also collect a novel dataset called \textit{Oriented dataset (OD)} in order to perform a cross-dataset validation. The goal is to see whether the models can generalize well on new unseen users and also to test how OIT pre-processing could increase the performance. This dataset is collected with a sampling rate of 100 Hz with seven smartphone positions: top, bottom, left, right are collected in the same way as in work \cite{blunck2013heterogeneity}, but instead of a fixed orientation we rotated the smartphone inside the pouch to each possible orientation to each side. Then we also perform the same activities with the smartphone in hand, pocket-up, pocket-down positions to see to what extent the model is capable of generalize activity recognition in new unseen positions.
 
 \subsection{Signal preprocessing}
 
@@ -315,51 +315,39 @@ validation dataset are reported in bold.
 The best model used to be the one with a relatively small code
 size: from 24 to 36 features which is also a good thing as we do not
 want the autoencoder to learn the identity, but only to keep useful
-information. The Tab. \ref{tab:ae-loss} shows how the selected
-autoencoder peroforms on different scenarios.
-\begin{table}
-  \centering
-  \begin{tabular}{lr}
-    \hline
-    Scenario & Loss (MSE) \\
-    \hline
-    heterogenity + oit + bryan & 0.747241 \\
-    heterogenity + oit + bryan allpos & 0.821241 \\
-    heterogenity & 0.871255 \\
-    heterogenity + bryan & 10.421337 \\
-    \hline
-  \end{tabular}
-  \caption{Autoencoder loss on different scenarios}
-  \label{tab:ae-loss}
-\end{table}
+information.
 
 Even if the primary goal for this autoencoder is to automatically
-extract features from signal for the main CNN model we implement also
+extract features from signal for the main CNN model, we implement also
 two simple classifiers in order to directly use autoencoder's feature
-and check the effectiveness of features. The two proposed model are
-base on two different techniques: the first is a clustering algorithm
-based on K-Nearest Neighbors (KNN) while the second is a Feed Forward
-Neural Network (FFNN). The Tab. \ref{tab:ae-classifiers-accuracy}
-shows KNN and FFNN accuracy for the selected model with $36$
-features.\footnote{The autoencoder with $24$ features performs better
-  in some cases with this two classifiers, but, again, the goal is
-  to provide robust feature with CNN so we selected the model with
-  lowest MSE.}
+and check their effectiveness. We adopt two different classifier.  The
+first is a K-Nearest Neighbors (KNN)\footnote{FIXME: citare quel paper
+  di rossi dove parlava della clusterizzazione sulle feat. autoencoder
+  che non trovo piu} clustering algorithm, and we perform clustering
+on encoder's code. The idea here is that autoencoder should extract
+relevant features which may be similar class by class. We perform a
+grid search for metric and number of neighbors, values are reported in
+Tab.~\ref{tab:knn-grid-search}. We select the euclidean distance
+measure and $5$ as number of neighbors.
 \begin{table}
   \centering
-  \begin{tabular}{p{3cm}rr}
+  \begin{tabular}{p{2cm}p{4.5cm}}
     \hline
-    Scenario & KNN accuracy & FFNN accuracy \\
+    Hyperparameters & Values \\
     \hline
-    heterogenity + oit + bryan & 82.2  & 72.3 \\
-    heterogenity + oit + bryan allpos &  78.9 & 68.0 \\
-    heterogenity & 76.2 & 81.8 \\
-    heterogenity + bryan & 27.8 & 10.3 \\
+    Distance measure & \{\textbf{euclidean}, manhattan, chebyshev, minkowski, standardize euclidean, mahalanobis\} \\
+    Number of neighbors & \{3, 4, \textbf{5}, 6, 7, 8\} \\
     \hline
   \end{tabular}
-  \caption{NKK and FFNN accuracy ordeder by loss}
-  \label{tab:ae-classifiers-accuracy}
+  \caption{Grid-search for KNN classifier}
+  \label{tab:knn-grid-search}
 \end{table}
+The second classifier instead is based on a Feed Forward Neural
+Network with two dense layers of $100$ neurons with $0.1$ dropout on
+each and ReLU activaction function, while the last is a dense layer of
+$5$ neurons with softmax activaction function. The network is trained
+with Adam optimizer and categorical crossentropy loss function. We do
+not further investigate this model as this is out of our scope.
 
 \subsection{Convolutional neural network}
 \label{subsec:cnn}
