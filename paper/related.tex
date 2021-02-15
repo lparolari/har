@@ -3,24 +3,39 @@
 \section{Related Work}
 \label{sec:related-work}
 
-HAR is a very broad discipline full of pitfalls and problems
-\cite{blunck2013heterogeneity}, \cite{chen2020deep},
-\cite{stisen2015smart} and many techniques were proposed in literature
-expoiting many types of features \cite{stisen2015smart},
-\cite{ignatov2018real}, \cite{vincent2010stacked},
-\cite{anguita2013public} and machine-learning models
-\cite{ignatov2018real}, \cite{rao1964use}, \cite{gao2019human},
-\cite{gadaleta2018idnet}.
+HAR is a very wide discipline full of pitfalls and problems. For
+example, K. Chen et al. in \cite{chen2020deep} studied HAR in the
+broad sense with an eye on it's challenges starting from feature
+extraction up to class imbalance, computational cost and many
+more. Instead, A. Stisen et al. in \cite{stisen2015smart} studied the
+technical details and problems due to heterogeneity among users,
+sensors and environemnt. This heterogeneity, as they say, leads to
+very low performances when models trained in controlled environment
+are brought in real scenario.
 
-In this paper we present a model based on \cite{ignatov2018real} where
-they used Convolutional Neural Networks for local feature extraction
-together with simple statistical features that preserve information
-about the global form of time series. On the countrary, based on what
-said in \cite{stisen2015smart} we show that statistical features are
-not enough in real settings and many state-of-the-art models which
-gets very high performances do not perform well when they are applied
-on data gathered from non-controlled environemnt. For this reason, we
-perform automatic feature extraction with an autoencoder based on
-\cite{gao2019human}. We also adopt the Orientation Indipendent
-Transformation described in \cite{gadaleta2018idnet}, in order to
-become agnostic in terms of sensor biases and orientations.
+One of this state-of-the-art model is presented in
+\cite{ignatov2018real} where A. Ignativ uses a Convolutional Neural
+Network for local feature extraction together with simple statistical
+features for preserving information about the global form of time
+series. They also investigate the impact of time series length on the
+recognition accuracy. The accuracy of the proposed approach is
+evaluated on two commonly used WISDM and UCI datasets that contain
+labeled accelerometer data from 36 and 30 users respectively, and in
+cross-dataset experiment. The results show that the proposed model
+demonstrates state-of-the-art performance while requiring low
+computational cost and no manual feature engineering.
+
+In this paper we start from this model and we show how the controlled
+environemnt influences the classification. In particular, no
+heterogeneity among devices (and sensors) leads to biased data and
+not-natural settings.  For this reason we adopt the dataset provided
+in \cite{stisen2015smart} which emphasizes devices heterogeneity.
+Furthermore, as the main goal is HAR ``in the wild'', we introduce the
+Orientation Indipendent Transformation presented by M. Gadaleta and
+M. Rossi in \cite{gadaleta2018idnet} as a solution for the problem of
+data gathered by sensors in any position. We further investigate the
+effectiveness of statistical/manual features which are usually not
+enough in real settings, due to the heterogeneous scenario. For this
+reason we introduce a technique described by F. Gu in
+\cite{gu2018locomotion} which employs an autoencoder to atuomatically
+extract robust features.
