@@ -142,14 +142,9 @@ To better appreciate how our pre-processing block affects model overall performa
 
 \subsection{Oriented Dataset (OD)}
 
-The Tab. \ref{tab:model-performance} shows how the model behaves on
-the new unseen data from \textit{OD} where LAR signals are collected
-in different orientations. The first thing to nitice is that results
-really benefit from OIT: with phone in pouch we were able to obtain
-$85.3$\% accuracy. The model performs decently even on data from hand
-and pocket where signals have lot of noise, though we have a slight
-worsening. Furthermore, we got $78.0$\% accuracy on full \textit{OD},
-i.e., more or less the mean between pouch and hand/pocket results.
+With these new collected dataset we want to test our model peformances in a real use case scenario, where smartphone could be placed in different positions and orientations. In this case we trained the model with the entire HD as training set, and then use the OD as validation set. The Tab. \ref{tab:model-oit-performance} shows the results obtained in that configuration. We obtained great performances, in activities done holding the smarthphone in a pouch, like the ones observed in training set, even if smartphone were hold in new orientations. This mean that OIT is extremely useful pre-processing technique.
+Holding smartphone in new unseen position, like in hand or in pocket trousers, reveal some drop in model performances of nearly 15\% less. However we are pretty satisfied considering the new problem setting.   
+We also try to see the amount of contribution of OIT pre-processing technique, by testing the model in pouch position without applying OIT. In this case, we obtain a drop of nearly 45\% in all the metrics considered, with respect to the results obtain in pouch position with OIT reported in Tab. \ref{tab:model-oit-performance}.
 
 \begin{table}[ht]
   \begin{center}
@@ -165,7 +160,7 @@ i.e., more or less the mean between pouch and hand/pocket results.
     \caption{Classification comparisons onto \textit{OD} between
       smartphone positions (pouch left/right/top/back, hand and
       pocket-up/down and all positions).}
-    \label{tab:model-performance}
+    \label{tab:model-oit-performance}
   \end{center}
 \end{table}
 
