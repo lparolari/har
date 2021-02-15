@@ -142,24 +142,31 @@ To better appreciate how our pre-processing block affects model overall performa
 
 \subsection{Oriented Dataset (OD)}
 
+The Tab. \ref{tab:model-performance} shows how the model behaves on
+the new unseen data from \textit{OD} where LAR signals are collected
+in different orientations. The first thing to nitice is that results
+really benefit from OIT: with phone in pouch we were able to obtain
+$85.3$\% accuracy. The model performs decently even on data from hand
+and pocket where signals have lot of noise, though we have a slight
+worsening. Furthermore, we got $78.0$\% accuracy on full \textit{OD},
+i.e., more or less the mean between pouch and hand/pocket results.
 
-
-
-\begin{table}[t]
-	\begin{center}
-		\begin{tabular}{ p{1.8cm}p{1.2cm}p{1.2cm}p{0.9cm}p{1.4cm}}
-			\hline
-			Positions & Accuracy & Precision & Recall & F1-Score \\
-			\hline
-			Pouch \\(L,R,T,B) & 85.3 & 92.0 & 73.8 & 81.9 \\
-			\hline
-			Hand, \\ Pocket U\&D & 70.5 & 79.5 & 63.0 & 70.2 \\
-			\hline
-			All & 78.0 & 84.0 & 69.0 & 75.7 \\
-			\hline
-		\end{tabular}
-		\caption{\label{tab:model-performance} Classification comparisons onto Oriented Dataset between only certain selected smartphone positions using our proposed architecture augmented with encoder features. We apply OIT, Data centering, 196 (1x16) filters, max-pool (1x4), 64 fully conected, l2-regularization of $5e^{-5}$ and Adam with learning rate of $2e^{-5}$. }
-	\end{center}
+\begin{table}[ht]
+  \begin{center}
+    \begin{tabular}{p{1.8cm}rrrr}
+      \hline
+      Positions & Accuracy & Precision & Recall & F1-score \\
+      \hline
+      Pouch & 85.3 & 92.0 & 73.8 & 81.9 \\
+      Hand+Pocket & 70.5 & 79.5 & 63.0 & 70.2 \\
+      All & 78.0 & 84.0 & 69.0 & 75.7 \\
+      \hline
+    \end{tabular}
+    \caption{Classification comparisons onto \textit{OD} between
+      smartphone positions (pouch left/right/top/back, hand and
+      pocket-up/down and all positions).}
+    \label{tab:model-performance}
+  \end{center}
 \end{table}
 
 
