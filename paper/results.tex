@@ -18,26 +18,43 @@
 
 \section{Results}
 \label{sec:results}
-In this section we will present how we selected the appropriate hyper parameters for the final proposed architecture presented in Sec. \ref{sec:learning_framework}. Then we will see how some of the preprocessing blocks and encoder and manual extracted features influence performance onto the Heterogenity Dataset. An in the last part we will test the proposed archittecture with OIT in our collected dataset.
+
+In this section we will present how we selected the appropriate hyper
+parameters for the final proposed architecture presented in
+Sec. \ref{sec:learning_framework}. Then we will see how some of the
+preprocessing blocks and encoder or manual extracted features affect
+performance onto the Heterogenity Dataset. We will also shwo results
+for the proposed archittecture with OIT applied on Oriented Dataset.
 
 \subsection{Heterogenity Dataset (HD)}
 
-In this section we evaluate performance between previous work and different model architectures and the influences of some of the pre-processing techniques applied. Similar to what was done in \cite{ignatov2018real} we caried out from the HD dataset some representative users to test the model and then use the remaining ones to train the model. In this case we selected user a and b since we found that these two users are very representative of all the remaining user, in fact models tend to be less precise with user a and more accurate with user b and this mainly depends with the style that user usually performs the type of activity considered. In this way we are able to compare results with other works that usually tend to evaluate performances on unseen user.
+In this section we evaluate performance between previous work and
+different model architectures and the influences of some of the
+pre-processing techniques applied. Similar to what was done in
+\cite{ignatov2018real} we carried out from the HD dataset some
+representative users to test the model and then use the remaining ones
+to train the model. In this case we selected users \textit{a} and
+\textit{b} since we found that they are very representative among all
+others. In fact models tend to be less precise with user \textit{a}
+and more accurate with user \textit{b}. This mainly depends on the
+user's style in walking, doing stairs and so on. In this way we are
+able to compare results with other works that usually tend to evaluate
+performances on unseen user.
 
-In this training and test set settings, we evaluate the best hyperparameters for the proposed architecture model excluding OIT preprocessing block, since this dataset was collected with a fixed orientation. The rest of pre-processing techinque are enabled, if not specified.\\
+In this training and test set settings, we evaluate the best
+hyperparameters for the proposed architecture model excluding OIT
+preprocessing block, since this dataset was collected with a fixed
+orientation. The rest of pre-processing techinque are enabled, if not
+specified.\footnote{FIXME: dovremmo scrivere i risultati per modello piu che per dataset}\\
 
-\textbf{Autoencoder.}
- \footnote{TODO: Parlare dei risultati ottenuti da luca con un semplice
-autoencoder sia K-NN classifier che con FFNN alla fine. Un concetto
-alla volta!}
- \footnote{TODO: PARLARE DEL FATTO CHE PROBABILMENTE L'ENCODER HA UN LIMITE SUO perche la grid search su KNN non ha prodotto risultati maggiori di 83\%!}
-As the Tab.~\ref{tab:ae-loss} confirms, the Orientation Indipendent
-Transformation (OIT) is a necessary operation when dealing with
-LAR signals. For example, without OIT we can see that the autoencoder
-trained and tested on same data goes from $0.747241$ to $10.421337$:
-more than $10$x worse. Furthermore, data from hand or pocket-up/down
-do not inflate the loss too much. This is a good thing because it's a
-symptom of robust features.  
+\textbf{Autoencoder.}  As the Tab.~\ref{tab:ae-loss} confirms, the
+Orientation Indipendent Transformation (OIT) is a necessary operation
+when dealing with LAR signals. For example, without OIT we can see
+that the autoencoder trained and tested on same data goes from
+$0.747241$ to $10.421337$ MSE: more than $10$x worse. Furthermore,
+data from hand or pocket-up/down do not inflate the loss too
+much. This is a good thing because it indicates that autoencoder is
+producing robust features.
 \begin{table}[H]
   \centering
   \begin{tabular}{lr}
@@ -64,14 +81,14 @@ noticed that KNN usually misclassifies \textit{bike} activity with
 $68$\% precision.
 
 The Tab. \ref{tab:ae-classifiers-accuracy} shows KNN and FFNN accuracy
-for the selected autoencoder with $36$ features and on the two
+for the selected autoencoder with $36$ features and the two
 classifier described in Sec. \ref{subsec:autoencoder}. Again,
 we can see how the OIT is really helpful in our task: without it we
 couldn't event reach coin-flip accuracy. Moreover we can say that the
 two models are higly correlated in performaces with a difference of
 $\approx 10$\% accuracy from KNN to FFNN. The FFNN performs better
 than KNN only on \textit{HD} without OIT, but this could be due to
-overfitting. 
+overfitting.
 
 \begin{table}[H]
   \centering
