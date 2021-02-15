@@ -9,7 +9,7 @@
 \newpage
 
 \section{Processing Pipeline}
-\label{sec:processing_architecture}
+\label{sec:processing-pipeline}
 
 \begin{figure*}[h]
 	\centering
@@ -44,7 +44,7 @@ Our last block consists of a data centering operation, applied for centering sig
 After the preprocessing pipeline we adopt a novel Learning framework. It is composed of CNN augmented with features coming from an autoencoder. As discussed in \cite{ignatov2018real} CNNs learns filters that are applied to small sub-regions of the data, and therefore they are able to capture local data pattern and their variations. Additionally, due to a small number of connections and high parallelism the amount of computations and running time of CNNs is significantly lower compared to other deep learning algorithm. This yield these model perfect for real-time HAR apps, where these models could also run in a restrict environment as one like smartphones where computation resources are limited. The only drawback of CCNs is that they fall behind in capturing global properties of the signal, and as proposed in \cite{ignatov2018real} they resolve this problem by augmenting CNNs with some basic statistical features that comprise this aspects of the data. But as opposed to what done in this latter work, where they used manual extracted features, we decided to opt for a autoencoder features extractors which can provide more robust feature. For this reason we train an auto-encoder separately on the training data and then use the encoder part to augment the CNN features used for the last classification Feed Forward Neural Network.
 
 \section{Signals and Features}
-\label{sec:model}
+\label{sec:signals-and-features}
 
 \subsection{Dataset \& Meausurement Setup}
 \label{subsec:dataset-measurement-setup}
@@ -225,7 +225,7 @@ of information.
 \end{itemize}
 
 \section{Learning Framework}
-\label{sec:learning_framework}
+\label{sec:learning-framework}
 
 \begin{figure*}[h]
 	\centering

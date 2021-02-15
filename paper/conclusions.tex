@@ -1,7 +1,7 @@
 % !TEX root = template.tex
 
 \section{Concluding Remarks}
-\label{sec:conclusions}
+\label{sec:concluding-remarks}
 
 In this paper we proposed our solution to perform HAR 'in the wild', that could be implemented in real case scenario. Dealing with major type of heterogeneity and real use case scenario were smartphone could be positioned and oriented in any way, can be a difficult task. Using a good pre-processing pipeline, implementing linear interpolation, orientation independent transformation and Data Centering we were able to mitigate HAR impairments due to latter problems. To perform HAR, various techniques were proposed in literature: one of them very promising is the use of CNN to exploit automatic feature extraction and then compute the final classification. Augmenting CNN with more robust features like the one coming from the encoder part of an autoencoder, we were able to outperform previous results in the original work, which uses the Heterogeneity Dataset. Moreover we demonstrate that orientation independent transform is essential, allowing us to use models trained with dataset made in controlled environments, in real use case scenario with promising results. 
 
