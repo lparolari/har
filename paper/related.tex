@@ -3,11 +3,7 @@
 \section{Related Work}
 \label{sec:related-work}
 
-HAR is a very wide discipline full of pitfalls and problems. For
-example, K. Chen et al. in \cite{chen2020deep} studied HAR in the
-broad sense with an eye on it's challenges starting from feature
-extraction up to class imbalance, computational cost and many
-more. Instead, A. Stisen et al. in \cite{stisen2015smart} studied the
+HAR is a very wide discipline full of pitfalls and problems. A. Stisen et al. in \cite{stisen2015smart} studied the
 technical details and problems due to heterogeneity among users,
 sensors and environemnt. This heterogeneity, as they say, leads to
 very low performances when models trained in controlled environment
@@ -15,7 +11,7 @@ are brought in real scenario.
 
 One of this state-of-the-art model is presented in
 \cite{ignatov2018real} where A. Ignativ uses a Convolutional Neural
-Network for local feature extraction together with simple statistical
+Network (CNN) for local feature extraction together with simple statistical
 features for preserving information about the global form of time
 series. They also investigate the impact of time series length on the
 recognition accuracy. The accuracy of the proposed approach is
@@ -23,7 +19,7 @@ evaluated on two commonly used WISDM and UCI datasets that contain
 labeled accelerometer data from 36 and 30 users respectively, and in
 cross-dataset experiment. The results show that the proposed model
 demonstrates state-of-the-art performance while requiring low
-computational cost and no manual feature engineering.
+computational cost and no manual feature engineering as for the example in work TODO where the authors used 150 manual extracted features.
 
 In this paper we start from this model and we show how the controlled
 environemnt influences the classification. In particular, no
@@ -33,7 +29,7 @@ in \cite{stisen2015smart} which emphasizes devices heterogeneity.
 Furthermore, as the main goal is HAR ``in the wild'', we introduce the
 Orientation Indipendent Transformation presented by M. Gadaleta and
 M. Rossi in \cite{gadaleta2018idnet} as a solution for the problem of
-data gathered by sensors in any position. We further investigate the
+data gathered by sensors in any position and orientation. We further investigate the
 effectiveness of statistical/manual features which are usually not
 enough in real settings, due to the heterogeneous scenario. For this
 reason we introduce a technique described by F. Gu in
