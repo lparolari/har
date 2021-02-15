@@ -18,7 +18,7 @@
 
 HAR could become a really difficult task, especially when dealing with smartphone sensors and real use case scenarios. As reported in \cite{blunck2013heterogeneity}, three major types of heterogeneties yield impairments in HAR:
 \begin{itemize}
-	\item \textbf{Sensor Biases (SB)}: To keep the overall cost of a smartphone low, cheap accelerometer and gyroscope sensors are used, yielding a poor-calibrated, inaccurate and range/granularity limited acquired signals. In these situation we could observe low precision, resolution, range and also biases. 
+	\item \textbf{Sensor Biases (SB)}: To keep the overall cost of a smartphone low, cheap accelerometer and gyroscope sensors are used, yielding a poor-calibrated, inaccurate and range/granularity limited acquired signals. In these situation we could observe low precision, resolution, range and also biases.
 	\item \textbf{Sampling Rate Heterogeneity (SRH)}: Often popular smartphones vary in terms of default and supported sampling frequencies for accelerometer and gyroscope sensor. In the dataset proposed in \cite{stisen2015smart} for example, the sampling frequency varies from 50Hz to 200Hz.
 	\item \textbf{Sampling Rate Instability (SRI)}: This phenomenon is specific to a single device and regards the regularity of time span between successive measurements. Different factors could accentuate this problem, including heavy multitasking or high I/O load in the mobile device. In particular, Multitasking operations extremely affects the sensor sampling rate because smartphone usually prioritizes among various running tasks. For example, in our collected dataset with a 100 Hz sampling rate (which means a time-span between consecutive samples of $10ms$), we observe time-span ranging mainly between $3ms$ and $15ms$ with an average of $7ms$, even if the smartphone tested was in \textit{airplane mode} to reduce at minimum this effect. The Fig. \ref{time-span} shows the amount of different time-span present in our dataset.
 \end{itemize}
@@ -156,12 +156,13 @@ Centering is applied for each time-window only on accelerometer data, thus the n
 \textbf{Time windows.} When dealing with time-based signals (or
 time-series in general) we must keep in mind that correlation between
 samples occurs and we have to handle this useful information. However,
-in the domain of LAR  TODO spiegare acronimo e serve?, even if samples can be correlated in time, the
+in the domain of HAR, even if samples can be correlated in time, the
 correlation do not persist over a long period. In literature many time
-window intervals were experimented CITE, CITE and they discovered that
-the best time window interval is from $1$s to $2.5$s. For this reason
-we adopt a sliding window approach with fixed window length of $2.5$s
-with $50$\% overlap between two successive windows.
+window intervals were experimented \cite{ignatov2018real} and they
+discovered that the best time window interval is from $1$s to
+$2.5$s. For this reason we adopt a sliding window approach with fixed
+window length of $2.5$s with $50$\% overlap between two successive
+windows.
 
 \textbf{Features}. Features are the basic elements that every machine
 learning algorithm need in order to learn something. Everything fed
@@ -170,22 +171,22 @@ here we use three different types of feature targeting different types
 of information.
 
 \begin{itemize}
-\item \textit{Raw features}. These enables the model to
-  learn directly from data and hopefully from it's shape in order
-  to generalize and classify activities. Raw features are represented by
-  a $6 \text{x} 125$ matrix where rows are accelerometer and gyroscope
-  $x$, $y$ and $z$ dimensions while columns are samples over time.
+\item \textit{Raw features}. These enables the model to learn directly
+  from data and hopefully from it's shape in order to generalize and
+  classify activities. Raw features are represented by a $6 \text{x}
+  125$ matrix where rows are accelerometer and gyroscope $x$, $y$ and
+  $z$ dimensions while columns are samples over time.
 \item \textit{Manual features}. Manual features take into account the
-  statistical mode of the signal and are used in \cite{anguita2013public}
-  and \cite{ignatov2018real} with great results.\footnote{FIXME: altri da citare?} We exploit
-  manual features like mean, standard deviation, sum of the absolute values and
-  the histogram of each input data channel computed on local
-  time-windows applied only for accelerometer signal
-  $\boldsymbol{a}$. As defined in \cite{ignatov2018real}, we produce a
-  new basic feature vector $\boldsymbol{f_{b}} = (\bar{a_x},
-  \bar{a_y}, \bar{a_z}, \sigma_{\boldsymbol{a_{x}}},
-  \sigma_{\boldsymbol{a_{y}}}, \sigma_{\boldsymbol{a_{z}}},
-  \tilde{a_x}, \tilde{a_y}, \tilde{a_z},
+  statistical mode of the signal and are used in
+  \cite{anguita2013public} and \cite{ignatov2018real} with great
+  results. We exploit manual features like mean, standard deviation,
+  sum of the absolute values and the histogram of each input data
+  channel computed on local time-windows applied only for
+  accelerometer signal $\boldsymbol{a}$. As defined in
+  \cite{ignatov2018real}, we produce a new basic feature vector
+  $\boldsymbol{f_{b}} = (\bar{a_x}, \bar{a_y}, \bar{a_z},
+  \sigma_{\boldsymbol{a_{x}}}, \sigma_{\boldsymbol{a_{y}}},
+  \sigma_{\boldsymbol{a_{z}}}, \tilde{a_x}, \tilde{a_y}, \tilde{a_z},
   \psi_{\boldsymbol{a_{x}}\boldsymbol{a_{y}}\boldsymbol{a_{z}}}, $ $
   \boldsymbol{h}_{\boldsymbol{a_{x}}}^T,
   \boldsymbol{h}_{\boldsymbol{a_{y}}}^T,
@@ -193,20 +194,21 @@ of information.
   vector $\x = (x_1, x_2,..., x_n)^T$ with \mbox{$\x^c = (x_1^c,
     x_2^c,..., x_n^c)^T$:}
   \begin{align}
-    \sigma_{\x} &= \sqrt{  \frac{\sum_{i=1}^{n}(|x^c_i|)^2}{n} }\,, \\
-    \tilde{x} &= \frac{\sum_{i=1}^{n}(|x^c_i|)}{n}\,, \\
-    \psi_{\x\y\z} &= \frac{\sum_{i=1}^{n} \sqrt{x_i^2 + y_i^2 + z_i^2}} {n}\,,
+    \sigma_{\x} &= \sqrt{ \frac{\sum_{i=1}^{n}(|x^c_i|)^2}{n} }\,,
+    \\ \tilde{x} &= \frac{\sum_{i=1}^{n}(|x^c_i|)}{n}\,,
+    \\ \psi_{\x\y\z} &= \frac{\sum_{i=1}^{n} \sqrt{x_i^2 + y_i^2 +
+        z_i^2}} {n}\,,
   \end{align}
   and $\boldsymbol{h}_\x$ is column vector that sort the values of
   $\x$ into $10$ equally spaced bins along the x-axis between the
-  minimum and maximum values of $\x$.\footnote{For reference, see \texttt{np.histogram} documentation.}
-  This lead to a manual features vector composed of $40$ manual
-  extracted features.
+  minimum and maximum values of $\x$.\footnote{For reference, see
+    \texttt{np.histogram} documentation.}  This lead to a manual
+  features vector composed of $40$ manual extracted features.
 \item \textit{Autoencoder features}. Autoencoder features are
-  automatically extracted from the signal. The autoencoder as
-  described in Sec. TODO is capable to compress data and learn a good
-  representation of features keeping only interesting data. The code
-  size we use is made up of 36 features.
+  automatically extracted from the signal. The autoencoder, as
+  described in Sec. \ref{subsec:autoencoder}, is capable to compress
+  data and learn a good representation of features keeping only
+  interesting data. The code size we use is made up of 36 features.
 \end{itemize}
 
 \section{Learning Framework}
@@ -307,14 +309,12 @@ Even if the primary goal for this autoencoder is to automatically
 extract features from signal for the main CNN model, we implement also
 two simple classifiers in order to directly use autoencoder's feature
 and check their effectiveness. We adopt two different classifier.  The
-first is a K-Nearest Neighbors (KNN)\footnote{FIXME: citare quel paper
-  di rossi dove parlava della clusterizzazione sulle feat. autoencoder
-  che non trovo piu} clustering algorithm, and we perform clustering
-on encoder's code. The idea here is that autoencoder should extract
-relevant features which may be similar class by class. We perform a
-grid search for metric and number of neighbors, values are reported in
-Tab.~\ref{tab:knn-grid-search}. We select the euclidean distance
-measure and $5$ as number of neighbors.
+first is a K-Nearest Neighbors (KNN) clustering algorithm, and we
+perform clustering on encoder's code. The idea here is that
+autoencoder should extract relevant features which may be similar
+class by class. We perform a grid search for metric and number of
+neighbors, values are reported in Tab.~\ref{tab:knn-grid-search}. We
+select the euclidean distance measure and $5$ as number of neighbors.
 \begin{table}
   \centering
   \begin{tabular}{p{2cm}p{4.5cm}}

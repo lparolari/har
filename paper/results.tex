@@ -45,7 +45,7 @@ In this training and test set settings, we evaluate the best
 hyperparameters for the proposed architecture model excluding OIT
 preprocessing block, since this dataset was collected with a fixed
 orientation. The rest of pre-processing techinque are enabled, if not
-specified.\footnote{FIXME: dovremmo scrivere i risultati per modello piu che per dataset}\\
+specified.
 
 \textbf{Autoencoder.}  As the Tab.~\ref{tab:ae-loss} confirms, the
 Orientation Indipendent Transformation (OIT) is a necessary operation
@@ -143,7 +143,7 @@ To better appreciate how our pre-processing block affects model overall performa
 \subsection{Oriented Dataset (OD)}
 
 With these new collected dataset we want to test our model peformances in a real use case scenario, where smartphone could be placed in different positions and orientations. In this case we trained the model with the entire HD as training set, and then use the OD as validation set. The Tab. \ref{tab:model-oit-performance} shows the results obtained in that configuration. We obtained great performances, in activities done holding the smarthphone in a pouch, like the ones observed in training set, even if smartphone were hold in new orientations. This mean that OIT is extremely useful pre-processing technique.
-Holding smartphone in new unseen position, like in hand or in pocket trousers, reveal some drop in model performances of nearly 15\% less. However we are pretty satisfied considering the new problem setting.   
+Holding smartphone in new unseen position, like in hand or in pocket trousers, reveal some drop in model performances of nearly 15\% less. However we are pretty satisfied considering the new problem setting.
 We also try to see the amount of contribution of OIT pre-processing technique, by testing the model in pouch position without applying OIT. In this case, we obtain a drop of nearly 45\% in all the metrics considered, with respect to the results obtain in pouch position with OIT reported in Tab. \ref{tab:model-oit-performance}.
 
 \begin{table}[ht]
