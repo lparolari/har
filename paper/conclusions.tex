@@ -3,20 +3,10 @@
 \section{Concluding Remarks}
 \label{sec:conclusions}
 
-\red{This section should take max half a page, I personally find it difficult to come up with really useful observations, I mean ones that bring a new contribution with respect to what you have already expounded in the ``Results'' section. In case you have some serious stuff to write, you may also extend the section to 3/4 of a page :-).}\\
+In this paper we proposed our solution to perform HAR 'in the wild', that could be implemented in real case scenario. Dealing with major type of heterogeneity and real use case scenario were smartphone could be positioned and oriented in any way, can be a difficult task. Using a good pre-processing pipeline, implementing linear interpolation, orientation independent transformation and Data Centering we were able to mitigate HAR impairments due to latter problems. To perform HAR, various techniques were proposed in literature: one of them very promising is the use of CNN to exploit automatic feature extraction and then compute the final classification. Augmenting CNN with more robust features like the one coming from the encoder part of an autoencoder, we were able to outperform previous results in the original work, which uses the Heterogeneity Dataset. Moreover we demonstrate that orientation independent transform is essential, allowing us to use models trained with dataset made in controlled environments, in real use case scenario with promising results. 
 
-In many papers, here you find a summary of what done. It is basically an abstract where instead of using the present tense you use the past participle, as you refer to something that you have already developed in the previous sections. While I did it myself in the past, I now find it rather useless.\\ 
+In future works it could be usefull to test the performance of this model with a more challenging dataset that includes: various types of persons, ie with different weights, heights, ethnicity, etc. and various type of routes where activities are performed. Moreover it could be useful to test it with subjects wearing different types of shoes and clothes. We would like also to extend the recognizable activities and also includes places were a user could be, ie be on a car, on a bus, on a train, on a plane etc. Another useful contribution, that due to lack of time we weren't able to test, is the use of open set classification techniques in which the system should reject unknown/unseen activities. Using a smartphone app, where our model was implemented, we saw that the model is constantly trying to predict the learned activities even if the user is completely doing other things with his smartphone.
 
-\MR{\textbf{What I would like to see here is:} 
-\begin{enumerate}
-\item a very short summary of what done, 
-\item some (possibly) intelligent observations on the relevance and {\it applicability} of your algorithms / findings, 
-\item what is still missing, and can be added in the future to extend your work.\\
-\end{enumerate}
-The idea is that this section should be {\it useful} and not just a repetition of the abstract (just \mbox{re-phrased} and written using a different tense...).}\\
+With this work we learn that datasets are very important when dealing with machine learning / deep learning applications: a huge and good representative dataset of the final use case scenario onto which the model will be used, is extremely important. Moreover, pre-processing technique are very powerful and finding the right one for the project could lead to completely different results, without changing anything of the final model architecture. Furthermore, Autoencoder feature extraction could be very powerfull to augment other popular deep learning techniques.
 
-\red{\textbf{Moreover:} being a project report, I would also like to see a specific paragraph stating 
-\begin{enumerate}
-\item[4)] what you have learned, and 
-\item[5)] any difficulties you may have encountered.
-\end{enumerate}}
+During our project work we encounter also many problems, one of them was the bad optimization NVIDIA drivers for Ubuntu OS. The machine onto which we were performing our tests, very often crashes due to bad GPU's memory management. Also we encounter a very annoying bug using the prefetching Tensorflow dataset feature, which provide to us very different model metrics results when training multiple times the model with the same hyper parameters. After disabling that option the system provide to us comparable results when dealing with same hyper-parameters. Also we have to report that some of the paper that we red for our project were poorly written, in particular autors were not clear to present their proposed architectures. Sometimes they didn't make explicit model hyper-parameters and training settings, making it difficult to replicate their work.
