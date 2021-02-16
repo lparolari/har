@@ -240,21 +240,22 @@ noise. Given $X = [ \boldsymbol{a}_v, \boldsymbol{a}_h,
 column vector $750\text{x}1$ obtained by reshaping $\boldsymbol{X}$ we
 can define the autoencoder in two blocks. The first block is the
 encoder which is a function of the input:
-\begin{equation}
-  f_\theta(\x) = s(\boldsymbol{W}\x + \boldsymbol{b})
-\end{equation}
-where $\theta = \{ \boldsymbol{W}, \boldsymbol{b} \}$ with
-$\boldsymbol{W}$ the weight matrix and $\boldsymbol{b}$ the bias
-vector, while $s$ is the sigmoid activation function. We
+\begin{align}
+  f_{\theta}(\x) &= \sigma(\boldsymbol{W_2} f'_\theta(\x) + \boldsymbol{b_2}) \\
+  f'_{\theta}(\x) &= \text{ReLU}(\boldsymbol{W_1}\x + \boldsymbol{b_1})
+\end{align}
+where $\theta_i$ is a vector of $\boldsymbol{W_i}$ and $\boldsymbol{b_i}$ with
+which are, respectively, the weight matrix and the bias
+vector for layer $i$. We
 can derive $\y = f_\theta(\x)$ as the output of this
-layer. The second block is the decoder where the input is
+block. The second block is the decoder where the input is
 reconstructed back starting from the code obtained by the encoder
-\begin{equation}
-  g_{\theta'}(\y) = s(\boldsymbol{W'}\y + \boldsymbol{b'})
-\end{equation}
-where $\theta' = \{ \boldsymbol{W'}, \boldsymbol{b'} \}$ are the
-parameters obtained from previous step. Thus, the reconstructed input
-is $\z = g_{\theta'}(\y)$. What we want to minimize is the distance
+\begin{align}
+  g_{\theta}(\y) &= \boldsymbol{W_4} g'_\theta(\y) + \boldsymbol{b_4} \\
+  g'_{\theta}(\y) &= \text{ReLU}(\boldsymbol{W_3}\y + \boldsymbol{b_3})
+\end{align}
+Thus, the reconstructed input
+is $\z = g_{\theta}(\y)$. What we want to minimize is the distance
 between $\x$ and $\z$ w.r.t. a distance measure with a loss function
 like MSE.
 
