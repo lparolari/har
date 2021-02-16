@@ -16,7 +16,7 @@
 	\label{fig:processing-pipeline}
 \end{figure*}
 
-HAR could become a really difficult task, especially when dealing with smartphone sensors and real use case scenarios. As reported in \cite{blunck2013heterogeneity}, three major types of heterogeneties yield impairments in HAR:
+As reported in \cite{stisen2015smart}, three major types of heterogeneties yield impairments in HAR:
 \begin{itemize}
 	\item \textbf{Sensor Biases (SB)}: To keep the overall cost of a smartphone low, cheap accelerometer and gyroscope sensors are used, yielding a poor-calibrated, inaccurate and range/granularity limited acquired signals. In these situation we could observe low precision, resolution, range and also biases.
 	\item \textbf{Sampling Rate Heterogeneity (SRH)}: Often popular smartphones vary in terms of default and supported sampling frequencies for accelerometer and gyroscope sensor. In the dataset proposed in \cite{stisen2015smart} for example, the sampling frequency varies from 50Hz to 200Hz.
@@ -49,15 +49,14 @@ After the preprocessing pipeline we adopt a novel Learning framework. It is comp
 \label{subsec:dataset-measurement-setup}
 
 Many datasets are available for this type of applications in
-literature \cite{blunck2013heterogeneity}, \cite{stisen2015smart},
-\cite{anguita2013public}, \cite{vaizman2018extrasensory}.  However,
+literature: \cite{HETEROGENEITY, UCI, WISDM, EXTRASENSORY}.  However,
 there are non-trivial problems in real-word applications: one above
 all, the environment in not controlled. So we should be capable to
 deal with technical details such as smartphone orientation or sensor
 accuracy as reported in Sec. \ref{sec:processing-pipeline}.
 
-For our application we decided to use the \textit{Heterogenity Dataset (HD)} described in
-\cite{blunck2013heterogeneity}, where data are collected directly from
+For our application we decided to use the \textit{Heterogenity Dataset (HD)} \cite{HETEROGENEITY} described in
+\cite{stisen2015smart}, where data are collected directly from
 smartphone sensors. The dataset is composed by nine users (from 25 to
 30 years). All users followed a scripted set of activities while
 carrying eight smartphones and four smart watches. All eight
@@ -68,7 +67,7 @@ The dataset is splitted in two sets: train and test set. We splitted
 the two such that user \textit{a} and \textit{b}, respectively the
 best and the worst user, are in the test set, and all the remaining ones as in the training set.
 
-We also collected a novel dataset called \textit{Oriented dataset (OD)}. The goal of this new dataset is to see whether the model can generalize well on new unseen users and also to test how OIT pre-processing could increase the performance. This dataset is collected with a sampling rate of 100 Hz with seven smartphone positions: top, bottom, left, right are collected in the same way as in work \cite{blunck2013heterogeneity}, but instead of a fixed orientation we rotated the smartphone inside the pouch to each possible orientation to each side. Then we also perform the same activities with the smartphone in hand, pocket-up, pocket-down positions to see to what extent the model is capable of generalize activity recognition in new unseen positions.
+We also collected a novel dataset called \textit{Oriented dataset (OD)}. The goal of this new dataset is to see whether the model can generalize well on new unseen users and also to test how OIT pre-processing could increase the performance. This dataset is collected with a sampling rate of 100 Hz with seven smartphone positions: top, bottom, left, right are collected in the same way as in work \cite{stisen2015smart}, but instead of a fixed orientation we rotated the smartphone inside the pouch to each possible orientation to each side. Then we also perform the same activities with the smartphone in hand, pocket-up, pocket-down positions to see to what extent the model is capable of generalize activity recognition in new unseen positions.
 
 \subsection{Signal preprocessing}
 
@@ -241,18 +240,18 @@ column vector $750\text{x}1$ obtained by reshaping $\boldsymbol{X}$ we
 can define the autoencoder in two blocks. The first block is the
 encoder which is a function of the input:
 \begin{align}
-  f_{\theta}(\x) &= \sigma(\boldsymbol{W_2} f'_\theta(\x) + \boldsymbol{b_2}) \\
-  f'_{\theta}(\x) &= \text{ReLU}(\boldsymbol{W_1}\x + \boldsymbol{b_1})
+  f_{\theta}(\x) &= \sigma(\boldsymbol{W_{2}} f'_\theta(\x) + \boldsymbol{b_{2}}) \\
+  f'_{\theta}(\x) &= \text{ReLU}(\boldsymbol{W_{1}}\x + \boldsymbol{b_{1}})
 \end{align}
-where $\theta_i$ is a vector of $\boldsymbol{W_i}$ and $\boldsymbol{b_i}$ with
+where $\theta_{i}$ is a vector of $\boldsymbol{W_{i}}$ and $\boldsymbol{b_{i}}$
 which are, respectively, the weight matrix and the bias
 vector for layer $i$. We
 can derive $\y = f_\theta(\x)$ as the output of this
 block. The second block is the decoder where the input is
 reconstructed back starting from the code obtained by the encoder
 \begin{align}
-  g_{\theta}(\y) &= \boldsymbol{W_4} g'_\theta(\y) + \boldsymbol{b_4} \\
-  g'_{\theta}(\y) &= \text{ReLU}(\boldsymbol{W_3}\y + \boldsymbol{b_3})
+  g_{\theta}(\y) &= \boldsymbol{W_{4}} g'_\theta(\y) + \boldsymbol{b_{4}} \\
+  g'_{\theta}(\y) &= \text{ReLU}(\boldsymbol{W_{3}}\y + \boldsymbol{b_{3}})
 \end{align}
 Thus, the reconstructed input
 is $\z = g_{\theta}(\y)$. What we want to minimize is the distance
