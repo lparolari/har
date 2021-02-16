@@ -27,6 +27,7 @@ performance onto the HD. We will also show results
 for the proposed architecture with OIT applied on OD.
 
 \subsection{Heterogenity Dataset (HD)}
+\label{subsec:heterogeneity-dataset}
 
 In this section we evaluate performance between previous work and
 different model architectures and the influences of some of the
@@ -47,14 +48,15 @@ preprocessing block, since this dataset was collected with a fixed
 orientation. The rest of preprocessing techniques are enabled, if not
 specified.
 
-\textbf{Autoencoder.}  In order to search for best autoencoder model
+\textbf{Autoencoder.} In order to search for best autoencoder model
 we tune hyper-parameters with grid search technique. Results are
 reported in Tab. \ref{tab:ae-hyperparams} where values that performs
-well on the validation dataset are reported in bold.  The best model
+well on the validation dataset are reported in bold. The best model
 used to be the one with a relatively small code size: from 24 to 36
 features which is also a good thing as we do not want the autoencoder
-to learn the identity, but only to keep useful information.
-\begin{table}[H]
+to learn the identity, but only to keep useful information. In this
+settings we get an MSE of $0.871255$.
+\begin{table}[h]
   \centering
   \begin{tabular}{lp{4cm}}
     \hline
@@ -69,36 +71,14 @@ to learn the identity, but only to keep useful information.
   \label{tab:ae-hyperparams}
 \end{table}
 
-Another interesting result is, as the Tab.~\ref{tab:ae-loss} confirms,
-that OIT is a necessary
-operation when dealing with HAR signals. For example, without OIT we
-can see that the autoencoder trained and tested on same data goes from
-$0.747241$ to $10.421337$ MSE: more than $10$x worse TODO siamo in etherogenity non va bene sta comparativa qui. Furthermore,
-data from hand or pocket-up/down do not inflate the loss too
-much. This is good because it indicates that autoencoder is producing
-robust features.
-\begin{table}[H]
-  \centering
-  \begin{tabular}{lr}
-    \hline
-    Scenario & Loss (MSE) \\
-    \hline
-    HD + OIT + OD validation & 0.747241 \\
-    HD + OIT + OD validation (allpos) & 0.821241 \\
-    HD & 0.871255 \\
-    HD + OD validation & 10.421337 \\
-    \hline
-  \end{tabular}
-  \caption{Autoencoder loss on different scenarios}
-  \label{tab:ae-loss}
-\end{table}
-
 Also, for checking autoencoder results we fine-tuned KNN parameters
 with a grid search, looking for best values of distance measure and
 number of neighbors. The Tab. \ref{tab:knn-grid-search} show the values.
 We select the euclidean distance measure and $5$ as number of neighbors.
 Due to time reasons we do not investigate further the FFNN model instead.
-\begin{table}[H]
+The obtained performaces are quite satisfying: we get $76.2$\% accuracy
+for KNN and $81.8$\% for FFNN.
+\begin{table}[h]
   \centering
   \begin{tabular}{p{2cm}p{4.5cm}}
     \hline
@@ -120,32 +100,6 @@ performances we have to add complexity to the model. In particular, we
 noticed that KNN usually misclassifies \textit{bike} activity with
 \textit{no activity}, in fact \textit{bike} has only
 $68$\% precision.
-
-The Tab. \ref{tab:ae-classifiers-accuracy} shows KNN and FFNN accuracy
-for the selected autoencoder with $36$ features and the two classifier
-described in Sec. \ref{subsec:autoencoder} with hyperparameters
-discussed above. Again, we can see how the OIT is really helpful in
-our task: without it we couldn't event reach coin-flip
-accuracy. Moreover we can say that the two models are higly correlated
-in performaces with a difference of $\approx 10$\% accuracy from KNN
-to FFNN. The FFNN performs better than KNN only on \textit{HD} without
-OIT, but this could be due to overfitting.
-
-\begin{table}[H]
-  \centering
-  \begin{tabular}{p{4cm}rr}
-    \hline
-    Scenario & KNN acc. & FFNN acc. \\
-    \hline
-    HD + OIT + OD validation & 82.2  & 72.3 \\
-    HD + OIT + OD validation (allpos) &  78.9 & 68.0 \\
-    HD & 76.2 & 81.8 \\
-    HD + OD validation & 27.8 & 10.3 \\
-    \hline
-  \end{tabular}
-  \caption{KNN and FFNN accuracy comparison}
-  \label{tab:ae-classifiers-accuracy}
-\end{table}
 
 \textbf{CNN Network.} We fist test how number of convolutional filters and number of dense neurons in the FC2 layer will influence classification performances. The results obtained are presented in Tab. \ref{tab:model-selection}. Wee decided to choose 196 convolutional filters and 64 dense neurons thanks to its balance between accuracy and F1-Score performances, obtaining 88.9\% and 81.6\% respectively. To compare our result with that obtained in the original work \cite{stisen2015smart}, we decided to perform their \textit{Leave-one-user-out cross validation} evaluation, consisting of test the model with data from one user, and train with data from all the others in a cross validation fashion and then averaging the metrics obtained. In this evaluation setting we obtained an average F1-score of 85.8\%, beating their best model result of nearly 10\% more in F1-Score metric. This prove also that using users a and b to do our evaluation is a good compromise of the real \textit{Leave-one-user-out cross validation} evaluation performances, since we obtain nearly the same results (90.2\% instead of 88.9\% in accuracy and 85.8\% instead of 81.6\%).
 
@@ -183,11 +137,88 @@ To better appreciate how our preprocessing blocks affects model overall performa
 
 \subsection{Oriented Dataset (OD)}
 
-With these new collected dataset we want to test our model performances in a real use case scenario, where smartphone could be placed in different positions and orientations. In this case we trained the model with the entire HD as training set, and then use the OD as validation set. The Tab. \ref{tab:model-oit-performance} shows the results obtained in that configuration. We obtained great performance, in activities done holding the smarthphone in a pouch, like the ones observed in training set, even if smartphone were hold in new orientations. This mean that OIT is extremely useful preprocessing technique.
-Holding smartphone in new unseen positions, like in hand or in pocket trousers, reveal some drop in model performances of nearly 15\% less. However we are pretty satisfied considering the new problem setting.
-We also try to evaluate the amount of contribution of OIT preprocessing technique, by testing the model in pouch position without applying OIT. In this case, we obtain a drop of nearly 45\% in all the metrics considered, with respect to the results obtain in pouch position with OIT reported in Tab. \ref{tab:model-oit-performance}.
+With these new collected dataset we want to test our model
+performances in a real use case scenario, where smartphone could be
+placed in different positions and orientations. In this case we
+trained the model with the entire HD as training set, and then use the
+OD as validation set.
 
-\begin{table}[ht]
+\textbf{Autoencoder.}  An interesting result, as the
+Tab.~\ref{tab:ae-loss} confirms, is that OIT is a necessary operation
+when dealing with HAR signals. For example, without OIT we can see
+that the autoencoder trained and tested on same data goes from
+$0.747241$ to $10.421337$ MSE: more than $10$x worse. Furthermore,
+data from hand or pocket-up/down do not inflate the loss too
+much. This is good because it indicates that autoencoder is producing
+robust features.
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{lr}
+    \hline
+    Scenario & Loss (MSE) \\
+    \hline
+    HD + OIT + OD validation & 0.747241 \\
+    HD + OIT + OD validation (allpos) & 0.821241 \\
+    HD + OD validation & 10.421337 \\
+    \hline
+  \end{tabular}
+  \caption{Autoencoder loss on different scenarios}
+  \label{tab:ae-loss}
+\end{table}
+
+The Tab. \ref{tab:knn-metrics} and \ref{tab:ffnn-metrics} show
+respectively KNN and FFNN evaluation for the best autoencoder with
+$36$ features and the two classifier described in
+Sec. \ref{subsec:autoencoder} with hyperparameters selected in
+Sec. \ref{subsec:heterogeneity-dataset}. From this results, we can
+observe that KNN is more stable and not influenced by sensor's
+position/orientation w.r.t. FFNN. Also, the two models preserve order:
+evaluation on \textit{pouch} position gets best results on both
+models, while the worse position is \textit{hand+pocket}, as we
+expected.
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{lrrrr}
+    \hline
+    Positions & Accuracy & Precision & Recall & F1-score \\
+    \hline
+    Pouch & 80.1 & 86.4 & 80.7 & 79.0 \\
+    Hand+Pocket & 79.5 & 83.7 & 79.5 & 79.6 \\
+    All & 80.0 & 83.8 & 79.1 & 78.2 \\
+    \hline
+  \end{tabular}
+  \caption{KNN evaluation onto OD between smartphone positions (pouch
+    left/right/top/back, hand and pocket-up/down, all positions)}
+  \label{tab:knn-metrics}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{lrrrr}
+    \hline
+    Positions & Accuracy & Precision & Recall & F1-score \\
+    \hline
+    Pouch & 74.4 & 84.7 & 74.4 & 74.8 \\
+    Hand+Pocket & 67.8 & 78.0 & 67.8 & 70.0 \\
+    All & 69.9 & 81.3 & 69.9 & 72.4 \\
+    \hline
+  \end{tabular}
+  \caption{FFNN evaluation onto OD between smartphone positions (pouch
+    left/right/top/back, hand and pocket-up/down, all positions)}
+  \label{tab:ffnn-metrics}
+\end{table}
+
+\textbf{CNN Network.}  As reported in
+Tab. \ref{tab:model-oit-performance}, we managed to get great results
+also on data gathered with new sensor's position and orientation. We
+noticed a performance drop of nearly 15\% for \textit{hand+pocket}
+data, but this could be due to the CNN architecture which focus more
+on the local shape and less on the real information. However, we
+expected this behaviour. 
+
+\begin{table}[h]
   \begin{center}
     \begin{tabular}{p{1.8cm}rrrr}
       \hline
@@ -205,4 +236,25 @@ We also try to evaluate the amount of contribution of OIT preprocessing techniqu
   \end{center}
 \end{table}
 
+In conclusion, OIT revealed to be an extremely useful preprocessing
+technique both for autoencoder and CNN. Without OIT, the drop for the
+CNN was of nearly $45$\% for all metrics!  As Tab. confirms, combining
+the power of the CNN with automatically extracted features and smart
+data preprocessing could leat to good results even with new problem
+settings.
 
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{lr}
+      \hline
+      Classifier & Accuracy \\
+      \hline
+      CNN + AE features & 85.3 \\
+      KNN & 80.1 \\
+      FFNN & 74.4 \\
+      \hline
+    \end{tabular}
+    \caption{Comparison between KNN, FFNN and CNN classifiers onto \textit{pouch} data from OD.}
+    \label{tab:classifiers-comparison}
+  \end{center}
+\end{table}
