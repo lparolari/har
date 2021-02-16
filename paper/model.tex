@@ -16,11 +16,11 @@
 	\label{fig:processing-pipeline}
 \end{figure*}
 
-As reported in \cite{stisen2015smart}, three major types of heterogeneties yield impairments in HAR:
+As reported in \cite{stisen2015smart}, three major types of heterogeneities yield impairment in HAR:
 \begin{itemize}
 	\item \textbf{Sensor Biases (SB)}: To keep the overall cost of a smartphone low, cheap accelerometer and gyroscope sensors are used, yielding a poor-calibrated, inaccurate and range/granularity limited acquired signals. In these situation we could observe low precision, resolution, range and also biases.
-	\item \textbf{Sampling Rate Heterogeneity (SRH)}: Often popular smartphones vary in terms of default and supported sampling frequencies for accelerometer and gyroscope sensor. In the dataset proposed in \cite{stisen2015smart} for example, the sampling frequency varies from 50Hz to 200Hz.
-	\item \textbf{Sampling Rate Instability (SRI)}: This phenomenon is specific to a single device and regards the regularity of time span between successive measurements. Different factors could accentuate this problem, including heavy multitasking or high I/O load in the mobile device. In particular, Multitasking operations extremely affects the sensor sampling rate because smartphone usually prioritizes among various running tasks. For example, in our collected dataset with a 100 Hz sampling rate (which means a time-span between consecutive samples of $10ms$), we observe time-span ranging mainly between $3ms$ and $15ms$ with an average of $7ms$, even if the smartphone tested was in \textit{airplane mode} to reduce at minimum this effect. The Fig. \ref{time-span} shows the amount of different time-span present in our dataset.
+	\item \textbf{Sampling Rate Heterogeneity (SRH)}: Often popular smartphones vary in terms of default and supported sampling frequencies for accelerometer and gyroscope sensors. In the dataset proposed in \cite{stisen2015smart} for example, the sampling frequency varies from 50Hz to 200Hz.
+	\item \textbf{Sampling Rate Instability (SRI)}: This phenomenon is specific to a single device and regards the regularity of time span between successive measurements. Different factors could accentuate this problem, including heavy multitasking or high I/O load in the mobile device. In particular, multitasking operations extremely affects the sensor sampling rate because smartphone usually prioritizes among various running tasks. For example, in our collected dataset with a 100 Hz sampling rate (which means a time-span between consecutive samples of $10ms$), we observe a time-span ranging mainly between $3ms$ and $15ms$ with an average of $7ms$, even if the smartphone was in \textit{airplane mode} to reduce at minimum this effect. The Fig. \ref{time-span} shows the amount of different time-span between consecutive measurements contained in our dataset.
 \end{itemize}
 
 \begin{figure}[h]
@@ -30,17 +30,17 @@ As reported in \cite{stisen2015smart}, three major types of heterogeneties yield
 	\label{time-span}
 \end{figure}
 
-Furthermore, if we are in a real use case scenarios, we must also consider that smartphones can be positioned and oriented in different ways in human body. For example a smartphone could lay in trouser pockets (back and front) or maybe inside a pouch or a bag with different orientations. These different initial problem settings have huge effects in prediction accuracy of an HAR predictor, especially if the model has been trained on a dataset consisting of activity measurement coming from one fixed position and orientation, as is usually the case in the publicity available datasets.
+Furthermore, if we are in a real use case scenario, we must also consider that smartphones can be positioned and oriented in different ways in human body. For example a smartphone could lay in trouser pockets (back and front) or maybe inside a pouch or a bag with different orientations. These different problem settings have huge effects in prediction accuracy of an HAR predictor, especially if the model has been trained on a dataset consisting of activity measurement coming from one fixed position and orientation, as is usually the case in the publicity available datasets.
 
-To tackle all these problems we decided to adopt in our pipeline 3 main pre-processing blocks, as shown in Fig. \ref{fig:processing-pipeline}.
+To tackle all these problems we decided to adopt in our pipeline three main preprocessing blocks, as shown in Fig. \ref{fig:processing-pipeline}.
 
-The first block called Linear Interpolator is in charge of mitigate the problems regarding the SRH and SRI discussed previously. It main purpose is to down-sample the input data to a fixed sampling rate, in our case 50 samples/second.
+The first block called Linear Interpolator is in charge of mitigate the problems regarding the SRH and SRI heterogeneity discussed previously. It main purpose is to down-sample the input data to a fixed sampling rate, in our case 50 samples/second equally spaced in time.
 
 The second block called Orientation Independent Transformation (OIT) is used to represent data coming from different smartphone orientations in a new space whose orientation is independent of that of the smartphone, and aligned with gravity and the direction of motion. In this way an user can place his smartphone in whatever position he or she wants, mitigating the problem of different position and rotations of smartphone, as we will see in Sec \ref{sec:results}.
 
-Our last block consists of a data centering operation which center the signal among y-axis that are used as input only for the Covolutional Layer. The reason of this choice would be clear in the Sec. \ref{sec:results}. As reported in \cite{ignatov2018real}, time series centering standardize the input data, making the task for the CNN easier. Data normalization instead must be avoided because does not help in this situation since it significantly distorts time series shape, removing magnitude information which is critical for activities differentiation.
+Our last block consists of a data centering operation which center the signal among y-axis that are used as input only for the Convolutional Layer. The reason of this choice would be clear in the Sec. \ref{sec:results}. As reported in \cite{ignatov2018real}, time series centering standardize the input data, making the task for the CNN easier. Data normalization instead must be avoided because it does not help in this situation since it significantly distorts time series shape, removing magnitude information which is critical for activities differentiation.
 
-After the preprocessing pipeline we adopt a novel Learning framework. It is composed of CNN augmented with features coming from the encoder part of an autoencoder. As discussed in \cite{ignatov2018real} CNNs learns filters that are applied to small sub-regions of the data, and therefore they are able to capture local data pattern and their variations. Additionally, due to a small number of connections and high parallelism the amount of computations and running time of CNNs is significantly lower compared to other deep learning algorithm. This yield these model perfect for real-time HAR applications even on restricted environment as one like smartphones where computation resources are limited. The only drawback of CCNs is that they fall behind in capturing global properties of the signal and, as proposed in \cite{ignatov2018real}, they resolve this problem by augmenting CNNs with some basic statistical features. But as opposed to what done in this latter work, where they used manual extracted features, we decided to opt for a autoencoder automatic features extractors which can provide more robust feature. For this reason we train an auto-encoder separately on the training data and then use the encoder part to augment the CNN features used for the last classification Feed Forward Neural Network present inside CNNs.
+After the preprocessing pipeline we adopt a novel Learning framework. It is composed of CNN augmented with features coming from the encoder part of an autoencoder. As discussed in \cite{ignatov2018real} CNNs learns filters that are applied to small sub-regions of the data, and therefore they are able to capture local data pattern and their variations. Additionally, due to a small number of connections and high parallelism the amount of computations and running time of CNNs is significantly lower compared to other deep learning algorithm. This yield these model perfect for real-time HAR applications even on restricted environment as one like smartphones where computation resources are limited. The only drawback of CCNs is that they fall behind in capturing global properties of the signal and, as proposed in \cite{ignatov2018real}, they resolve this problem by augmenting CNNs with some basic statistical features. But as opposed to what done in this latter work, where they used few hand-made features, we decided to opt for an autoencoder automatic features extractors which can provide more robust feature. For this reason we train an autoencoder separately on the training data and then use the encoder part to augment the CNN features used for the last classification Feed Forward Neural Network present inside CNNs.
 
 \section{Signals and Features}
 \label{sec:signals-and-features}
@@ -55,19 +55,19 @@ all, the environment in not controlled. So we should be capable to
 deal with technical details such as smartphone orientation or sensor
 accuracy as reported in Sec. \ref{sec:processing-pipeline}.
 
-For our application we decided to use the \textit{Heterogenity Dataset (HD)} \cite{HETEROGENEITY} described in
+For our application we decided to use the \textit{Heterogeneity Dataset (HD)} \cite{HETEROGENEITY} described in
 \cite{stisen2015smart}, where data are collected directly from
 smartphone sensors. The dataset is composed by nine users (from 25 to
 30 years). All users followed a scripted set of activities while
 carrying eight smartphones and four smart watches. All eight
 smartphones were kept in a tight pouch and carried by the users around
 their waist, whereas two smart watches were worn on each arm. Each
-participant conducted five minutes of each activity for each device.
-The dataset is splitted in two sets: train and test set. We splitted
+participant conducted five minutes of each activity for each device. In our case we were interested only in smartphones acquired signals, leaving out from our experiments the smartwatch evaluations.
+We decided to split this dataset into two sets: train and test set. We splitted
 the two such that user \textit{a} and \textit{b}, respectively the
 best and the worst user, are in the test set, and all the remaining ones as in the training set.
 
-We also collected a novel dataset called \textit{Oriented dataset (OD)}. The goal of this new dataset is to see whether the model can generalize well on new unseen users and also to test how OIT pre-processing could increase the performance. This dataset is collected with a sampling rate of 100 Hz with seven smartphone positions: top, bottom, left, right are collected in the same way as in work \cite{stisen2015smart}, but instead of a fixed orientation we rotated the smartphone inside the pouch to each possible orientation to each side. Then we also perform the same activities with the smartphone in hand, pocket-up, pocket-down positions to see to what extent the model is capable of generalize activity recognition in new unseen positions.
+We also collected a novel dataset called \textit{Oriented dataset (OD)}. The goal of this new dataset is to see whether the model can generalize well on new unseen users and also to test how OIT preprocessing could increase the performance in this new context. This dataset is collected with a single smartphone, at a sampling rate of 100 Hz in seven different positions: top, bottom, left, right are collected in the same way as in work \cite{stisen2015smart}, but instead of a fixed orientation we rotated the smartphone inside the pouch to each possible orientation. Then we also perform the same activities with the smartphone hold in hand and in trousers pocket, to see to what extent the model is capable of generalize activity recognition in new unseen positions.
 
 \subsection{Signal preprocessing}
 
@@ -77,11 +77,11 @@ We also collected a novel dataset called \textit{Oriented dataset (OD)}. The goa
 Sec. \ref{subsec:dataset-measurement-setup}, our dataset is composed
 by signals collected with different sampling rates from many mobile
 phones and they are usually out of sync due to the SRI. For this
-reason we apply to all signals a simple preprocessing pipeline
-composed by two steps: linear interpolation and downsampling. With
+reason we apply to all signals a simple preprocessing pipeline block
+composed by two steps: linear interpolation and down-sampling. With
 linear interpolation we project signals with different sampling
 frequencies, i.e 50, 100, 200 Hz, to a 50 Hz signal which mean that
-we are also applying the downsampling. Linear/nearest interpolation
+we are also applying at the same time down-sampling. Linear/nearest interpolation
 are usually preferred w.r.t. cubic spline or smooth cubic spline as
 investigated in \cite{stisen2015smart}, because they usually mitigate
 the introduction of noise or artifacts. In linear interpolation the
@@ -98,15 +98,15 @@ value $y$ along the straight line is given from the equation of slopes
 It's straightforward now to see that if we need to apply linear
 interpolation to a dataset of points we can calculate the \mbox{$x$-s}
 given by sampling frequency we want to obtain and then apply the
-formula above.
+formula above. TODO non ho capito benissimo questa parte finale
 
 % In our case the downsampling is applied in combination with linear interpolation, but it is not always the case (see Sec. EXPERIMENTS). It allows to standardize data at fixed sampling frequency in order to extract time windows and feature vectors for learning models and, above all, it reduces noise and artifacts introduced by upsampling. Downsampling simply disregards points by resampling the signal at a certain frequency (50 Hz in our case). Please note that the downsample frequency should be a sub-multiple of linear interpolation frequency.
 
 \vspace{1em}
 \textbf{Orientation Indipendent Transformation.}
-To project the signals acquired during an activity in a new space independent of the rotation of the smartphone, 3 orthogonal versors need to be found. We decided to adopt the technique proposed in \cite{gadaleta2018idnet}, although many other works proposed a similar solution as in \cite{kunze2009way, henpraserttae2011accurate}. In summary we have to find these 3 orthogonal versor namely vertical versor $\boldsymbol{\hat{v}}$, horizontal versor $\boldsymbol{\hat{h}}$ and lateral versor $\boldsymbol{\hat{l}}$. As the name suggest the vertical versor is aligned with user torso pointing up, the horizontal versor is aligned with the direction of motion, pointing forward, and the later versor tracks lateral movements and it is orthogonal to the other two.
+To project the signals acquired during an activity in a new space independent of the rotation of the smartphone, three orthogonal versors need to be found. We decided to adopt the technique proposed in \cite{gadaleta2018idnet}, although many other works proposed a similar solution as in \cite{kunze2009way, henpraserttae2011accurate}. In summary we have to find these 3 orthogonal versor namely vertical versor $\boldsymbol{\hat{v}}$, horizontal versor $\boldsymbol{\hat{h}}$ and lateral versor $\boldsymbol{\hat{l}}$. As the names suggest the vertical versor is aligned with user torso, pointing up, the horizontal versor is aligned with the direction of motion, pointing forward, and the later versor tracks lateral movements and it is orthogonal to the other two.
 
-Starting with the vertical versor we need to find where the gravity vector $\boldsymbol{\vec{p}}$ lie in the original space. Although the gravity vector is a constant vector in stationary conditions, during a user activity it continuously changes in the original coordinate system of the smartphone, therefore we are only able to consider the mean direction of the gravity within the current user activity. So, to estimate it we must considered only the acceleremoter signal: \mbox{$ \boldsymbol{\vec{p}} = (\bar{a_{x}}, \bar{a_{y}}, \bar{a_{z}})^{T}$}  and we now could find the vertical versor with \mbox{$ \boldsymbol{\hat{v}} = \boldsymbol{\vec{p}} / ||\boldsymbol{\vec{p}}|| $}
+Starting with the vertical versor we need to find where the gravity vector $\boldsymbol{\vec{p}}$ lie in the original space. Although the gravity vector is a constant vector in stationary conditions, during a user activity it continuously changes in the original coordinate system of the smartphone, therefore we are only able to consider the mean direction of the gravity within the current user activity. So, to estimate it we must considered only the acceleremoter signal: \mbox{$ \boldsymbol{\vec{p}} = (\bar{a_{x}}, \bar{a_{y}}, \bar{a_{z}})^{T}$}  and we now could find the vertical versor with \mbox{$ \boldsymbol{\hat{v}} = \boldsymbol{\vec{p}} / ||\boldsymbol{\vec{p}}|| $}.
 
 This is the first axis of our new space, and we can project datas onto this new versor to obtain our first component axis. To do that we define the acceleration matrix \mbox{$\boldsymbol{A} = [ \boldsymbol{a_{x}}, \boldsymbol{a_{y}}, \boldsymbol{a_{z}} ]^{T}$} and the gyroscope matrix \mbox{$\boldsymbol{G} = [ \boldsymbol{g_{x}}, \boldsymbol{g_{y}}, \boldsymbol{g_{z}} ]^{T} $}. Now we could project the data onto $\boldsymbol{\hat{v}}$ by:
 
@@ -115,16 +115,14 @@ This is the first axis of our new space, and we can project datas onto this new 
 	 \boldsymbol{a_{v}} = \boldsymbol{A} \cdot \boldsymbol{\hat{v}} ,\;\; \boldsymbol{g_{v}} = \boldsymbol{G} \cdot \boldsymbol{\hat{v}} \,.
 \end{equation}
 
-Now we have to find an horizontal plane, parallel to the floor, where the activity motion mostly occurs. To do so we have to remove the  $\boldsymbol{a_{v}}$ component from the original data. We represent the accelerometer data that lie on this new plane as $\boldsymbol{M}$ representing the so called motion plane. To find $\boldsymbol{M}$ we have to: \mbox{$\boldsymbol{M} = \boldsymbol{A} - \boldsymbol{\hat{v}} \boldsymbol{a_{v}}^{T} $}
-
-In this new plane, we could see that the direction with the largest variance of projected data, represents the main direction of motion, i.e in which direction the user is currently performing the activity with respect to the current smartphone orientation. By applying PCA \cite{rao1964use}, we are able to find the direction along which the variance of measurements is maximized. This is the horizantal vector $\boldsymbol{\vec{h}}$. We now could compute the horizontal versor: \mbox{$ \boldsymbol{\hat{h}} = \boldsymbol{\vec{h}} / ||\boldsymbol{\vec{h}}|| $} and we are now able to project our data onto this second new axis by:
+Now we have to find an horizontal plane, parallel to the floor, where the activity motion mostly occurs. To do so we have to remove the  $\boldsymbol{a_{v}}$ component from the original data. We represent the accelerometer data that lie on this new plane as $\boldsymbol{M}$ representing the so called motion plane. To find $\boldsymbol{M}$ we have to: \mbox{$\boldsymbol{M} = \boldsymbol{A} - \boldsymbol{\hat{v}} \boldsymbol{a_{v}}^{T} $}. In this new plane, we could see that the direction with the largest variance of projected data, represents the main direction of motion, i.e in which direction the user is currently performing the activity with respect to the current smartphone orientation. By applying PCA \cite{rao1964use}, we are able to find the direction along which the variance of measurements is maximized. This is the horizantal vector $\boldsymbol{\vec{h}}$. We now could compute the horizontal versor \mbox{$ \boldsymbol{\hat{h}} = \boldsymbol{\vec{h}} / ||\boldsymbol{\vec{h}}|| $} and we are now able to project our data onto this second new axis:
 
 \begin{equation}
 	\label{h-axis eq}
 	\boldsymbol{a_{h}} = \boldsymbol{A} \cdot \boldsymbol{\hat{h}} , \;\; \boldsymbol{g_{h}} = \boldsymbol{G} \cdot \boldsymbol{\hat{h}} \,.
 \end{equation}
 
-To find the last axis its sufficient to apply a cross product between the two last obtained versors, so $ \boldsymbol{\hat{l}} = \boldsymbol{\hat{v}} \times \boldsymbol{\hat{h}} $. We now are been able to project datas among this new axis, by:
+To find the last axis its sufficient to apply a cross product between the two last obtained versors, so $ \boldsymbol{\hat{l}} = \boldsymbol{\hat{v}} \times \boldsymbol{\hat{h}} $. We are now been able to project the data among this new axis:
 
 \begin{equation}
 	\label{l-axis eq}
@@ -135,9 +133,9 @@ Combining Eq. (\ref{v-axis eq}), Eq. (\ref{h-axis eq}) and Eq. (\ref{l-axis eq})
 
 \vspace{1em}
 \textbf{Centering.}
-Our last signal preprocessing technique involves data centering. As proved in \cite{ignatov2018real} this could slightly
+Our last signal preprocessing block involves data centering. As proved in \cite{ignatov2018real} this could slightly
 improve performance within a CNN based learning model because
-centering the time series make the task easier for the CNN. We denote with $\x^{c}$ the centered vector of $\x$, ie
+centering the time series make the task easier for the CNN. We denote with $\x^{c}$ the centered vector of $\x$, i.e
 \begin{equation}
   \label{eq:centering-func}
   \x^{c} = \x - \bar{x} = (x_1-\bar{x}, x_2-\bar{x},..., x_n-\bar{x})^T.
@@ -182,7 +180,7 @@ of information.
   sum of the absolute values and the histogram of each input data
   channel computed on local time-windows applied only for
   accelerometer signal $\boldsymbol{a}$. As defined in
-  \cite{ignatov2018real}, we produce a new basic feature vector
+  \cite{ignatov2018real}, we produce a basic feature vector
   $\boldsymbol{f_{b}} = (\bar{a_x}, \bar{a_y}, \bar{a_z},
   \sigma_{\boldsymbol{a_{x}}}, \sigma_{\boldsymbol{a_{y}}},
   \sigma_{\boldsymbol{a_{z}}}, \tilde{a_x}, \tilde{a_y}, \tilde{a_z},
@@ -220,8 +218,7 @@ of information.
 	\label{fig:proposed-architecture}
 \end{figure*}
 
-In this section we will present our proposed architecture for HAR ``in
-the wild'' problem. We will see how the autoencoder and the CNN are
+In this section we will present our proposed architecture for HAR \textit{``in-the-wild''} problem. We will see how the autoencoder and the CNN are
 trained, their parameters, and the optimization strategies adopted.
 
 \subsection{Autoencoder}
@@ -241,7 +238,7 @@ can define the autoencoder in two blocks. The first block is the
 encoder which is a function of the input:
 \begin{align}
   f_{\theta}(\x) &= \sigma(\boldsymbol{W_{2}} f'_\theta(\x) + \boldsymbol{b_{2}}) \\
-  f'_{\theta}(\x) &= \text{ReLU}(\boldsymbol{W_{1}}\x + \boldsymbol{b_{1}})
+  f'_{\theta}(\x) &= \textit{ReLU}(\boldsymbol{W_{1}}\x + \boldsymbol{b_{1}})
 \end{align}
 where $\theta_{i}$ is a vector of $\boldsymbol{W_{i}}$ and $\boldsymbol{b_{i}}$
 which are, respectively, the weight matrix and the bias
@@ -251,7 +248,7 @@ block. The second block is the decoder where the input is
 reconstructed back starting from the code obtained by the encoder
 \begin{align}
   g_{\theta}(\y) &= \boldsymbol{W_{4}} g'_\theta(\y) + \boldsymbol{b_{4}} \\
-  g'_{\theta}(\y) &= \text{ReLU}(\boldsymbol{W_{3}}\y + \boldsymbol{b_{3}})
+  g'_{\theta}(\y) &= \textit{ReLU}(\boldsymbol{W_{3}}\y + \boldsymbol{b_{3}})
 \end{align}
 Thus, the reconstructed input
 is $\z = g_{\theta}(\y)$. What we want to minimize is the distance
@@ -270,7 +267,7 @@ The autoencoder follows the strucutre reported in
 Fig. \ref{fig:encoder-structure} and is based on a Neural Network
 architecture. The encoder is built with an input layer of
 $6\text{x}125$ neurons reshaped as a vector $750\text{x}1$, one hidden
-layer with 150 neurons and ReLU activation function, and an output
+layer with 150 neurons and \textit{ReLU} activation function, and an output
 layer, i.e, the code, of $36$ neurons with sigmoid activation
 function. The decoder replicates the same strucutre of the encoder but
 reversed, where the activaction function on the output layers is the
@@ -289,14 +286,14 @@ and check their effectiveness.  The first is a K-Nearest Neighbors
 code. The idea here is that autoencoder should extract relevant
 features which may be similar class by class.  The second classifier
 instead is based on a Feed Forward Neural Network (FFNN) with two
-dense layers of $100$ neurons with $0.1$ dropout on each and ReLU
-activaction function, while the last is a dense layer of $5$ neurons
-with softmax activaction function. The network is trained with Adam
-optimizer and categorical crossentropy loss function.
+dense layers of $100$ neurons with $0.1$ dropout on each and \textit{ReLU}
+activation function, while the last is a dense layer of $5$ neurons
+with soft-max activation function. The network is trained with Adam
+optimizer to minimize the categorical cross-entropy loss function.
 
 \subsection{Convolutional neural network}
 \label{subsec:cnn}
-The final CNN architecture proposed in this work is shown in Fig. \ref{fig:proposed-architecture}. We decided to start with the architecture proposed in work \cite{chen2020deep} and we tried to improve it, augmenting the CNN with the encoder extracted features. CNN architecture are very powerfull when dealing with images, but they were proven to be a good features extractors also for motion data. A CNN is composed of essentially two parts: the first-one is in charge of extract features performing a dimensionality reduction over the input data, though a series of convolution and max pooling layers, and the second part of the CNN is responsible to give the final classification with usually a single fully-connected layer. Original data, collected from smartphone sensors are pre-processed according to what previously described in Sec. \ref{sec:processing-pipeline}. Our input matrix presented to our CNN is the matrix \mbox{$ \boldsymbol{X} = [ \boldsymbol{a_{v}}^{c}, \boldsymbol{a_{h}}^{c}, \boldsymbol{a_{l}}^{c}, \boldsymbol{g_{v}}^{c}, \boldsymbol{g_{h}}^{c}, \boldsymbol{g_{l}}^{c}]$} wich is formed by acclerometer and gyroscopes signals, linearly interpolated at 50 samples/second  per channel with a fixed time-window of $2.5s$ with orientation independent transformation and data centering. Note that this matrix has a dimension $n \times 6$, due to the fact that TensorFlow Convolutional Layers work with input dimension of $(batch\_size, samples, channel)$.
+The final CNN architecture proposed in this work is shown in Fig. \ref{fig:proposed-architecture}. We decided to start with the architecture proposed in work \cite{ignatov2018real} and we tried to improve it, augmenting the CNN with the encoder extracted features. CNN architecture are very powerful when dealing with images, but they were proven to be a good features extractors also for motion data. A CNN is composed of essentially two parts: the first-one is in charge of extract features performing a dimensionality reduction over the input data, though a series of convolution and max pooling layers, and the second part of the CNN is responsible to give the final classification with usually a single fully-connected layer. Original data, collected from smartphone sensors, are pre-processed according to what previously described in Sec. \ref{sec:processing-pipeline}. Our input matrix presented to our CNN is the matrix \mbox{$ \boldsymbol{X} = [ \boldsymbol{a_{v}}^{c}, \boldsymbol{a_{h}}^{c}, \boldsymbol{a_{l}}^{c}, \boldsymbol{g_{v}}^{c}, \boldsymbol{g_{h}}^{c}, \boldsymbol{g_{l}}^{c}]$} wich is formed by accelerometer and gyroscopes signals, linearly interpolated at 50 samples/second per channel, with a fixed time-window of $2.5s$, with orientation independent transformation and data centering. Note that this matrix has a dimension $n \times 6$, due to the fact that TensorFlow Convolutional Layers work with input dimension of $(batch\_size, samples, channel)$.
 
 In detail we have the following stacked layers (CL=Convolutional Layer, ML=Max-pooling Layer, FL= Fully-connected Layer):
 \begin{itemize}
@@ -306,4 +303,4 @@ In detail we have the following stacked layers (CL=Convolutional Layer, ML=Max-p
 	\item \textbf{FL2-3}: These two finals layers are composed of 64 dense neuron and 6 dense neurons, respectively. These two final layers are used to perform the classification of the activity. For the FC2 we use the $ReLU$ activation function and for the final classification we apply the \textit{soft-max} activation function, which computes probability distribution over the predicted classes.
 \end{itemize}
 
-As for optimization techniques we decided to use dropout and $l_2$-regularization. These later techniques are commonly used in these types of architectures, yielding a much more performance in the test set and so in generalization capabilities, preventing overfitting. We apply a dropout rate of 0.05 to the last fully-connected layer and we also apply a the $l_2$-regularization to all the fully connected layers. We have try with different hyper-parameters values for these two applied techniques, without any substantial changes in classification performance on the test set. Finally the parameters of the network are optimized using Adam CITE, a modification of stochastic gradient descent that also incorporates Momentum., which is trying to minimize the Categorical cross-entropy loss function.
+As for optimization techniques we decided to use dropout and $l_2$-regularization. These later techniques are commonly used in these types of architectures, yielding better performances in the test set and commonly in generalization capabilities, preventing overfitting. We apply a dropout rate of 0.05 to the last fully-connected layer and we also apply the $l_2$-regularization to all the fully connected layers. We have try with different hyper-parameters values for these two techniques, without any substantial changes in classification performance on the test set. Finally the parameters of the network are optimized using Adam: a modification of stochastic gradient descent that also incorporates Momentum. Finally, the network is trained to minimize the Categorical cross-entropy loss function.

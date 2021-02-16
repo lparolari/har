@@ -8,49 +8,46 @@ important not only for health care monitoring or security concerns,
 but also for developing mobile apps that are able to use this
 information to improve our day life.
 
-Developing mobile apps that are capable to track user activities ``in
-the wild'' contexts leads relevant challenges that need to be tackle
+Developing mobile apps that are capable to track user activities \textit{``in-the-wild''} contexts leads relevant challenges that need to be tackle
 down. As stated in \cite{blunck2013heterogeneity} many variables are
 involved both coming from users and smartphones. Users are
 demographically different (age, stature, weight, ...) and perform
-activities in different ways, using their device with their
-style. Devices, instead, share among them different operating-systems,
+activities in different ways, using their device in their own
+style. Devices instead, share among them different operating-systems,
 hardware and sensing capabilities.
 
-I a recent work by K. Chen et al. in \cite{chen2020deep}, analyze state-of-the-art
-deep learning methods for sensor-based HAR, highlighting the
-challenges in HAR based on their reasons and analyze how existing deep
+In a recent work by K. Chen et al. \cite{chen2020deep}, the authors analyze state-of-the-art
+deep learning methods for sensor-based HAR, highlighting challenges for HAR tasks, based on their reasons and analyze how existing deep
 methods are adopted to address novel challenges. Some of these
 includes for example, recognizing concurrent and composite activities
 and dealing with scarse annotated, class imbalanced and scarse user
-distributed datasets, meaning that this task could be very challenging
-and it requires more studies to improve HAR systems.
+distributed datasets.
 
 In this paper we try to perform HAR with smartphone sensors in real
 use case scenarios, where mobile phones can be hold inside trousers
 pockets or in a pouch with different orientations, or more simply in a
 hand. This is particularly relevant when developing mobile apps
 capable of performing HAR, to improve users quality of life. We
-proposed a CNN architecture augmented with features extracted from an
-auto-encoder, and then compared the results with other
-works. Furthermore we investigate the main benefits of a novel
+propose a CNN architecture augmented with features extracted from an
+autoencoder, and then compare the results with other
+works. Furthermore we investigate the main benefits of a well thought-out
 pre-processing pipeline, like orientation independent transformation
 block that remove the HAR impairments when smartphone are used in
 different orientation and positions. With this work we aim to study
-heterogeinity impairments in real use case scenarion in previous
-state-of-the-art-works, and then proposed a novel learning framework
+heterogeneity impairments in real use case scenarios using previous
+state-of-the-art models, and then proposed a novel learning framework
 that can be used in developing mobile apps for HAR tasks.
 
 Our main contributions can be summarized as follows.
 
 \begin{itemize}
   \item We propose an architecture that combines CNN and automatic
-    feature extraction to perform HAR. In particular, augmenting the
+    feature extraction to perform HAR. In particular, augmenting a
     traditional CNN model with autoencoder's features rather than
     manual features can lead to better results.
   \item We study the importance of a good preprocessing pipeline, to
-    mitigate heterogenity when dealing with multiple types of
-    smartphones. Also, orientation independent trasformation can give
+    mitigate heterogeneity when dealing with multiple types of
+    smartphones. Also, orientation independent transformation can give
     promising results in real use case scenarios where smartphones can
     be in any position and orientation.
   \item We show that good results can be obtained
@@ -59,7 +56,7 @@ Our main contributions can be summarized as follows.
 \end{itemize}
 
 This paper is structured as follows. In Section \ref{sec:related-work}
-we describe the state of the art, the system and data models are
+we describe the state-of-the-art, the system and data models are
 respectively presented in Sections \ref{sec:processing-pipeline} and
 \ref{sec:signals-and-features}. The proposed signal processing
 technique is detailed in Section \ref{sec:learning-framework} and its
