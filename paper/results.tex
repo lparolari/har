@@ -12,7 +12,7 @@
 			\textbf{CNN + Centering + Encoder F.} & \textbf{89.2} & \textbf{88.9} &  \textbf{86.1} & \textbf{86.1} \\
 			\hline
 		\end{tabular}
-		\caption{\label{tab:model-performance} UCI classification results with different featueres CNN augumentation and data preprocessing. The test are made with our CNN with OIT, Data centering, 196 (1x16) filters, max-pool (1x4), 64 fully conected, l2-regularization of 5e-5 and Adam learning rate of 2e-5.}
+		\caption{\label{tab:model-performance} HD classification results with different featueres CNN augumentation and data preprocessing. The tests are made with our CNN with OIT, Data centering, 196 (1x16) filters, max-pool (1x4), 64 fully connected neurons, l2-regularization of $5e^{-5}$ and Adam learning rate of $2e^{-5}$.}
 	\end{center}
 \end{table*}
 
@@ -21,17 +21,17 @@
 
 In this section we will present how we selected the appropriate hyper
 parameters for the final proposed architecture presented in
-Sec. \ref{sec:learning_framework}. Then we will see how some of the
+Sec. \ref{sec:learning-framework}. Then we will see how some of the
 preprocessing blocks and encoder or manual extracted features affect
-performance onto the Heterogenity Dataset. We will also shwo results
-for the proposed archittecture with OIT applied on Oriented Dataset.
+performance onto the HD. We will also show results
+for the proposed architecture with OIT applied on OD.
 
 \subsection{Heterogenity Dataset (HD)}
 
 In this section we evaluate performance between previous work and
 different model architectures and the influences of some of the
-pre-processing techniques applied. Similar to what was done in
-\cite{ignatov2018real} we carried out from the HD dataset some
+preprocessing techniques applied. Similar to what was done in
+\cite{ignatov2018real}, we carried out from the HD dataset some
 representative users to test the model and then use the remaining ones
 to train the model. In this case we selected users \textit{a} and
 \textit{b} since we found that they are very representative among all
@@ -44,11 +44,11 @@ performances on unseen user.
 In this training and test set settings, we evaluate the best
 hyperparameters for the proposed architecture model excluding OIT
 preprocessing block, since this dataset was collected with a fixed
-orientation. The rest of pre-processing techinque are enabled, if not
+orientation. The rest of preprocessing techniques are enabled, if not
 specified.
 
 \textbf{Autoencoder.}  In order to search for best autoencoder model
-we tune hyperarameters with grid search technique. Results are
+we tune hyper-parameters with grid search technique. Results are
 reported in Tab. \ref{tab:ae-hyperparams} where values that performs
 well on the validation dataset are reported in bold.  The best model
 used to be the one with a relatively small code size: from 24 to 36
@@ -70,10 +70,10 @@ to learn the identity, but only to keep useful information.
 \end{table}
 
 Another interesting result is, as the Tab.~\ref{tab:ae-loss} confirms,
-that the Orientation Indipendent Transformation (OIT) is a necessary
+that OIT is a necessary
 operation when dealing with HAR signals. For example, without OIT we
 can see that the autoencoder trained and tested on same data goes from
-$0.747241$ to $10.421337$ MSE: more than $10$x worse. Furthermore,
+$0.747241$ to $10.421337$ MSE: more than $10$x worse TODO siamo in etherogenity non va bene sta comparativa qui. Furthermore,
 data from hand or pocket-up/down do not inflate the loss too
 much. This is good because it indicates that autoencoder is producing
 robust features.
@@ -118,7 +118,7 @@ $76.7$\% to $80.9$\% accuracy. This may be an indication of the
 maximum capability of this autoencoder model, so to obtain better
 performances we have to add complexity to the model. In particular, we
 noticed that KNN usually misclassifies \textit{bike} activity with
-\textit{no\textunderscore activity}, in fact \textit{bike} has only
+\textit{no activity}, in fact \textit{bike} has only
 $68$\% precision.
 
 The Tab. \ref{tab:ae-classifiers-accuracy} shows KNN and FFNN accuracy
@@ -147,7 +147,7 @@ OIT, but this could be due to overfitting.
   \label{tab:ae-classifiers-accuracy}
 \end{table}
 
-\textbf{CNN Network.} We fist test how number of convolutional filters and number of dense neurons in the FC2 layer will influence classification performances. The results obtained are presented in Tab. \ref{tab:model-selection}. Wee decided to choose 196 convolutional filters and 64 dense neurons thanks to its balance between accuracy and F1-Score performance, obtaining 88.9\% accuracy score and  81.6\%. To compare our result with that obtained in the original work \cite{blunck2013heterogeneity}, we decided to perform their \textit{Leave-one-user-out cross validation} evaluation, consisting of test the model with data from one user, and train with data from all the others in a cross validation fashion and then averaging the metrics obtained. In this evaluation setting we obtained an average F1-score of 85.8\%, beating their best model result of nearly 10\% more of F1-Score metrics. This prove also that using users a and b to do our evaluation is a good compromise of the real \textit{Leave-one-user-out cross validation} evaluation performances, since we obtain nearly the same results (90.2\% instead of 88.9\% in accuracy and 85.8\% instead of 81.6\%). TODO scrivere nelle conslusione che in questo settings abbiamo notato un bel po di varianza tra utenti.
+\textbf{CNN Network.} We fist test how number of convolutional filters and number of dense neurons in the FC2 layer will influence classification performances. The results obtained are presented in Tab. \ref{tab:model-selection}. Wee decided to choose 196 convolutional filters and 64 dense neurons thanks to its balance between accuracy and F1-Score performances, obtaining 88.9\% and 81.6\% respectively. To compare our result with that obtained in the original work \cite{stisen2015smart}, we decided to perform their \textit{Leave-one-user-out cross validation} evaluation, consisting of test the model with data from one user, and train with data from all the others in a cross validation fashion and then averaging the metrics obtained. In this evaluation setting we obtained an average F1-score of 85.8\%, beating their best model result of nearly 10\% more in F1-Score metric. This prove also that using users a and b to do our evaluation is a good compromise of the real \textit{Leave-one-user-out cross validation} evaluation performances, since we obtain nearly the same results (90.2\% instead of 88.9\% in accuracy and 85.8\% instead of 81.6\%).
 
 \begin{table}[h]
 	\begin{center}
@@ -166,12 +166,12 @@ OIT, but this could be due to overfitting.
 			48 & 64 & 84.0 & 72.3 \\
 			\hline
 		\end{tabular}
-		\caption{\label{tab:model-selection} UCI classification results with data centering and manual features augmented CNN}
+		\caption{\label{tab:model-selection} HD classification results with data centering and manual features augmented CNN}
 	\end{center}
 \end{table}
 
 
-To better appreciate how our pre-processing block affects model overall performance, we also try to disable or enable some of these blocks. In Tab. \ref{tab:model-performance} we report our obtained results experiments. We see that augmenting the CNN with manual extracted feature when data are not centered, lead to no significant change in performances, instead when also enable data centering pre-processing with manual features augmented CNN the model obtain nearly 10\% more in accuracy and precision metrics. This prove the benefits of data centering stated previously. However we were not able to get the same performances obtained in \cite{ignatov2018real}, where the authors obtained in the same exact setting an accuracy of 97.6\%. These empirically confirm that performances of state-of-the-art models trained with one type of sensors are worse when dealing with smartphone sensor heterogeneity. Moving on, augmenting the CNN with encoder feature lead the model to better performances, meaning that encoder feature are more robust that manual feature, as explained previously. A confusion matrix in this latter setting is reported in Fig. \ref{fig:cnn-confusion-matrix} where we could see that the model perform nicely overall in all the considered activities, with some difficulties in distinguishing between stationary activities, stand and sit, and walk activity with stairs since that activities are very similar in sensor signals foot-prints.
+To better appreciate how our preprocessing blocks affects model overall performances, we also try to disable or enable some of them. In Tab. \ref{tab:model-performance} we report our obtained results experiments. We see that augmenting the CNN with manual extracted feature when data are not centered, lead to no significant change in performances, instead when also enabling data centering preprocessing with manual features augmented CNN the model obtain nearly 10\% more in accuracy and precision metrics. This prove the benefits of data centering stated previously. However we were not able to get the same performances obtained in \cite{ignatov2018real}, where the authors obtained in the same exact setting an accuracy of 97.6\%. These empirically confirm that performances of state-of-the-art models trained with one type of sensors are worse when dealing with smartphone sensors heterogeneity. Moving on, augmenting the CNN with encoder feature lead the model to better performances, meaning that encoder feature are more robust that manual feature, as explained previously. A confusion matrix in this latter setting is reported in Fig. \ref{fig:cnn-confusion-matrix} where we could see that the model perform nicely overall in all the considered activities, with some difficulties in distinguishing between stationary activities, stand and sit, and walk with stairs activities since that are very similar in sensor signals foot-prints.
 
 \begin{figure}[h]
 	\centering
@@ -183,9 +183,9 @@ To better appreciate how our pre-processing block affects model overall performa
 
 \subsection{Oriented Dataset (OD)}
 
-With these new collected dataset we want to test our model peformances in a real use case scenario, where smartphone could be placed in different positions and orientations. In this case we trained the model with the entire HD as training set, and then use the OD as validation set. The Tab. \ref{tab:model-oit-performance} shows the results obtained in that configuration. We obtained great performances, in activities done holding the smarthphone in a pouch, like the ones observed in training set, even if smartphone were hold in new orientations. This mean that OIT is extremely useful pre-processing technique.
-Holding smartphone in new unseen position, like in hand or in pocket trousers, reveal some drop in model performances of nearly 15\% less. However we are pretty satisfied considering the new problem setting.
-We also try to see the amount of contribution of OIT pre-processing technique, by testing the model in pouch position without applying OIT. In this case, we obtain a drop of nearly 45\% in all the metrics considered, with respect to the results obtain in pouch position with OIT reported in Tab. \ref{tab:model-oit-performance}.
+With these new collected dataset we want to test our model performances in a real use case scenario, where smartphone could be placed in different positions and orientations. In this case we trained the model with the entire HD as training set, and then use the OD as validation set. The Tab. \ref{tab:model-oit-performance} shows the results obtained in that configuration. We obtained great performance, in activities done holding the smarthphone in a pouch, like the ones observed in training set, even if smartphone were hold in new orientations. This mean that OIT is extremely useful preprocessing technique.
+Holding smartphone in new unseen positions, like in hand or in pocket trousers, reveal some drop in model performances of nearly 15\% less. However we are pretty satisfied considering the new problem setting.
+We also try to evaluate the amount of contribution of OIT preprocessing technique, by testing the model in pouch position without applying OIT. In this case, we obtain a drop of nearly 45\% in all the metrics considered, with respect to the results obtain in pouch position with OIT reported in Tab. \ref{tab:model-oit-performance}.
 
 \begin{table}[ht]
   \begin{center}
