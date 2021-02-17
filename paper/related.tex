@@ -3,19 +3,53 @@
 \section{Related Work}
 \label{sec:related-work}
 
-HAR using smartphone accelerometer and gyroscope data has been well studied in literature. There are plenty of paper that try to tackle this problem using various machine learning or deep learning techniques. For example in \cite{frank2010reliable} authors proposed a set of handcrafted features combined with machine learning technique as Support Vector Machines, Artificial Neural Networks, Decision Trees or Bayesian Techniques to perform the final classification. In \cite{anguita2013public} the authors that made the popular UCI dataset \cite{UCI}, achieved the best results using 561 hand-designed features and various classifier on top of them.  
+HAR using smartphone accelerometer and gyroscope data has been well
+studied in literature. There are plenty of paper that try to tackle
+this problem using various machine learning or deep learning
+techniques. For example in \cite{frank2010reliable} K. Frank et
+al. proposed a set of handcrafted features combined with machine
+learning techniques as Support Vector Machines, Artificial Neural
+Networks, Decision Trees or Bayesian Techniques to perform the final
+classification. D. Anguita et al. in \cite{anguita2013public} made the
+popular UCI dataset \cite{UCI}, achieved the best results using 561
+hand-designed features and various classifier on top of them.
 
-Other state-of-the-art models use automatic feature extraction methods to avoid manual-designed features. In \cite{ignatov2018real}, A. Ignativ uses a Convolutional Neural
-Network (CNN) for local feature extraction together with simple
-statistical features for preserving information about the global form
-of time series. They also investigate the impact of time series length
-on the recognition accuracy. The accuracy of the proposed approach is
-evaluated on two commonly used datasets UCI \cite{UCI} and WISDM \cite{WISDM} datasets. The results show that the proposed model
+Other state-of-the-art models, instead, use automatic feature
+extraction methods to avoid manual-designed features. In
+\cite{ignatov2018real} A. Ignativ uses a Convolutional Neural Network
+(CNN) for local feature extraction together with simple statistical
+features for preserving information about the global form of time
+series. They also investigate the impact of time series length on the
+recognition accuracy. The accuracy of the proposed approach is
+evaluated on two commonly used datasets UCI \cite{UCI} and WISDM
+\cite{WISDM} datasets. The results show that the proposed model
 demonstrates state-of-the-art performance while requiring low
 computational cost and no manual feature engineering.
 
-However the works presented up to there, as well as the majority of works available in literature, test model performances in controlled environment acquired datasets, as UCI and WISDM, without considering the HAR model impairments when they are used in real use case scenarios, like mobile apps. A. Stisen et al. in \cite{stisen2015smart} studied the technical details and
-problems due to heterogeneity among users, sensors and
-environment. They acquired a specific dataset that shows these heterogeneities, and studied the impact onto models. Also they proposed various clustering and classification algorithms to perform HAR in these conditions.
-
-In \cite{vaizman2018extrasensory}, authors acquired a huge in-the-wild dataset to promote practical applications that work in real-life settings. They collected the so called Extrasensory dataset \cite{EXTRASENSORY}, composed of over 300k minutes of sensor data with context labels from 60 subjects that uses their smartphones in any way that was convenient to them. They show how fusion multi-modal sensors is important for resolving the in-the-wild HAR problem.  However, they used more sensor signals like Magnetometer, Compass, GPS, Audio and Phone State in which we were not interested in. Furthermore, we see that most of the collected data contains wrong context labels, because users most of the time aren't so precise in labeling data, that could lower performance metrics of the proposed model.   
+However works presented up to there, as well as the majority of works
+available in literature, evaluate model performances in controlled
+environment acquired datasets, as UCI and WISDM, without considering
+the HAR model impairments when they are used in real use case
+scenarios, like mobile apps.  As stated in a recent work by K. Chen et
+al. \cite{chen2020deep}, the problem is serius. The authors analyze
+main HAR challenges such us recognizing concurrent and composite
+activities, dealing with scarse annotated data, class imbalanced,
+scarse user distributed datasets, privacy, computational cost and many
+more.  A. Stisen et al. in \cite{stisen2015smart} studied the
+technical details and problems due to heterogeneity among users,
+sensors and environment. They acquired a specific dataset that shows
+these heterogeneities, and studied the impact onto models. Also they
+proposed various clustering and classification algorithms to perform
+HAR in these conditions.  In \cite{vaizman2018extrasensory},
+Y. Vaizman et al.  acquired a huge in-the-wild dataset to promote
+practical applications that work in real-life settings. They collected
+the so called Extrasensory dataset \cite{EXTRASENSORY}, composed of
+over 300k minutes of sensor data with context labels from 60 subjects
+that uses their smartphones in any way that was convenient to
+them. They show how fusion multi-modal sensors is important for
+resolving the in-the-wild HAR problem.  However, they used more sensor
+signals like Magnetometer, Compass, GPS, Audio and Phone State in
+which we were not interested in. Furthermore, we see that most of the
+collected data contains wrong context labels, because users most of
+the time aren't so precise in labeling data, that could lower
+performance metrics of the proposed model.
