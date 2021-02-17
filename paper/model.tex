@@ -218,9 +218,6 @@ of information.
 	\label{fig:proposed-architecture}
 \end{figure*}
 
-In this section we will present our proposed architecture for HAR \textit{``in-the-wild''} problem. We will see how the autoencoder and the CNN are
-trained, their parameters, and the optimization strategies adopted.
-
 \subsection{Autoencoder}
 \label{subsec:autoencoder}
 
@@ -297,7 +294,7 @@ The final CNN architecture proposed in this work is shown in Fig. \ref{fig:propo
 
 In detail we have the following stacked layers (CL=Convolutional Layer, ML=Max-pooling Layer, FL= Fully-connected Layer):
 \begin{itemize}
-	\item \textbf{CL1}: The first convolutional layer is performing a Convolution 1D over the input signal. It is composed of 196 filters of size ($1\times16$). Since, a convolution is defined over all the input channels, in this layer we are capturing relation among accellerometer and gyroscope data. The stride is set to 1, and the padding is configured as 'same' to have the same output dimension as the original one. After the convolution operation, we apply a $ReLU(x)=\max(0,x)$ activation function to learn non-linear correlation between signals and extract richer features. Furthermore, even if we are dealing with a small architecture, $ReLU$ activation function could prevent vanishing gradient problems, is less prone to overfitting since it induces the sparsity in the hidden units and it is extremely fast to compute, making it perfect when dealing with low computational resources.
+	\item \textbf{CL1}: The first convolutional layer is performing a Convolution 1D over the input signal. It is composed of 196 filters of size ($1\times16$). Since, a convolution is defined over all the input channels, in this layer we are also capturing relation among accelerometer and gyroscope signals. The stride is set to 1, and the padding is configured as 'same' to have the same output dimension as the original one. After the convolution operation, we apply a $ReLU(x)=\max(0,x)$ activation function to learn non-linear correlation between signals and extract richer features. Furthermore, even if we are dealing with a small architecture, $ReLU$ activation function could prevent vanishing gradient problems, is less prone to overfitting since it induces the sparsity in the hidden units and it is extremely fast to compute, making it perfect when dealing with low computational resources.
 	\item \textbf{ML1}: After the convolutional layer, usually it is apply a max-pooling or average-pooling layer to reduce and summarize the obtained representation. We decided to use max-pooling layer of size ($1\times4$), reducing by 4 times the original input shape. We call this new features representation with $ \boldsymbol{\Phi_{\text{c}} }$
 	\item \textbf{FL1}: After the convolutional layer and the max-pooling layer, the output of these layer is flattened into 6272 neurons. At this stage we decided to concatenate the encoder extracted features $ \boldsymbol{\Phi_{\text{e}}} $ with the Convolutional ones named $\boldsymbol{\Phi_{\text{c}}}$, creating our complete features vector $\boldsymbol{\Phi} = (\boldsymbol{\Phi_{\text{c}}}, \boldsymbol{\Phi_{\text{e}}})^T$ that is presented to the final fully-connected layer to perform the classification.
 	\item \textbf{FL2-3}: These two finals layers are composed of 64 dense neuron and 6 dense neurons, respectively. These two final layers are used to perform the classification of the activity. For the FC2 we use the $ReLU$ activation function and for the final classification we apply the \textit{soft-max} activation function, which computes probability distribution over the predicted classes.

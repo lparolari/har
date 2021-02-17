@@ -23,12 +23,16 @@ includes for example, recognizing concurrent and composite activities
 and dealing with scarse annotated, class imbalanced and scarse user
 distributed datasets.
 
-In this paper we try to perform HAR with smartphone sensors in real
-use case scenarios, where mobile phones can be hold inside trousers
-pockets or in a pouch with different orientations, or more simply in a
-hand. This is particularly relevant when developing mobile apps
-capable of performing HAR, to improve users quality of life. We
-propose a CNN architecture augmented with features extracted from an
+In this paper we start from the model proposed in \cite{ignatov2018real} 
+and we show how the controlled environment influences the classification.
+In particular, no heterogeneity among devices (and sensors) leads to biased data and
+not-natural settings. This is not suitable when developing mobile apps
+capable of performing HAR, to improve users quality of life. For this reason we adopt the dataset provided
+in \cite{stisen2015smart} which emphasizes devices heterogeneity.
+We further investigate the
+effectiveness of statistical/manual features which are usually not
+enough in real settings, due to the heterogeneous scenario. 
+We propose a CNN architecture augmented with features extracted from an
 autoencoder, and then compare the results with other
 works. Furthermore we investigate the main benefits of a well thought-out
 pre-processing pipeline, like orientation independent transformation

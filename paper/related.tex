@@ -14,17 +14,8 @@ evaluated on two commonly used datasets UCI \cite{UCI} and WISDM \cite{WISDM} da
 demonstrates state-of-the-art performance while requiring low
 computational cost and no manual feature engineering.
 
-However the work presented up to there as well as the majority of work available in literature, test model performances in controlled environment acquired datasets, as UCI and WISDM, without considering the HAR model impairments when they are used in real use case scenarios, like mobile apps. A. Stisen et al. in \cite{stisen2015smart} studied the technical details and
+However the works presented up to there, as well as the majority of works available in literature, test model performances in controlled environment acquired datasets, as UCI and WISDM, without considering the HAR model impairments when they are used in real use case scenarios, like mobile apps. A. Stisen et al. in \cite{stisen2015smart} studied the technical details and
 problems due to heterogeneity among users, sensors and
-environment. They acquired a specific dataset that shows these etherogenities, and studied the impact onto models. Also they proposed various clustering and classification algorithms to perform HAR in these conditions.
+environment. They acquired a specific dataset that shows these heterogeneities, and studied the impact onto models. Also they proposed various clustering and classification algorithms to perform HAR in these conditions.
 
-In \cite{vaizman2018extrasensory}, authors acquired a huge in-the-wild dataset to promote practical applications that work in real-life settings. They collected the so called Extrasensory dataset \cite{EXTRASENSORY}, composed of over 300k minutes of sensor data with context labels from 60 subjects that uses their smartphones in any way that was convenient to them. They show how fusion multi-modal sensors is important for resolving the in-the-wild HAR problem.  However, they used more sensor signals like Magnetometer, Compass, GPS, Audio and Phone State in which we were not interested in. Furthermore, we see that most of the collected data contains wrong context labels, because users most of the time aren't so precise in labeling datas, that could lower performance metrics of the proposed model.   
-
-In this paper we start from the model proposed in \cite{ignatov2018real} and we show how the controlled
-environemnt influences the classification. In particular, no
-heterogeneity among devices (and sensors) leads to biased data and
-not-natural settings.  For this reason we adopt the dataset provided
-in \cite{stisen2015smart} which emphasizes devices heterogeneity.
-We further investigate the
-effectiveness of statistical/manual features which are usually not
-enough in real settings, due to the heterogeneous scenario. 
+In \cite{vaizman2018extrasensory}, authors acquired a huge in-the-wild dataset to promote practical applications that work in real-life settings. They collected the so called Extrasensory dataset \cite{EXTRASENSORY}, composed of over 300k minutes of sensor data with context labels from 60 subjects that uses their smartphones in any way that was convenient to them. They show how fusion multi-modal sensors is important for resolving the in-the-wild HAR problem.  However, they used more sensor signals like Magnetometer, Compass, GPS, Audio and Phone State in which we were not interested in. Furthermore, we see that most of the collected data contains wrong context labels, because users most of the time aren't so precise in labeling data, that could lower performance metrics of the proposed model.   
