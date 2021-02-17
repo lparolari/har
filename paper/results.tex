@@ -41,13 +41,14 @@ preprocessing block, since this dataset was collected with a fixed
 orientation. The rest of preprocessing techniques are enabled, if not
 specified.
 
-\textbf{Autoencoder.} In order to search for best autoencoder model hyper-parameters we performed a grid search. Results are
-reported in Tab. \ref{tab:ae-hyperparams} where values that performs
-well on the validation dataset are reported in bold. The best hyper-parameters model
-used to be the one with a relatively small code size: from 24 to 36
-features which is also a good thing as we do not want the autoencoder
-to learn the identity, but only to keep useful information. In this
-settings we get an MSE of $0.871255$.
+\textbf{Autoencoder.} In order to search for best autoencoder model
+hyper-parameters we performed a grid search. Results are reported in
+Tab. \ref{tab:ae-hyperparams} where values that performs well on the
+validation dataset are reported in bold. The best hyper-parameters
+model used to be the one with a relatively small code size: from 24 to
+36 features which is also a good thing as we do not want the
+autoencoder to learn the identity, but only to keep useful
+information. In this settings we get an MSE of $0.871255$.
 \begin{table}[h]
   \centering
   \begin{tabular}{lp{4cm}}
@@ -84,14 +85,11 @@ for KNN and $81.8$\% for FFNN.
   \label{tab:knn-grid-search}
 \end{table}
 
-TODO LUCA: From the grid-search on KNN we surprisingly noticed that performances
+From the grid-search on KNN we surprisingly noticed that performances
 do not vary significantly among different hyper-parameters: we get from
 $76.7$\% to $80.9$\% accuracy. This may be an indication of the
 maximum capability of this autoencoder model, so to obtain better
-performances we have to add complexity to the model. In particular, we
-noticed that KNN usually misclassify \textit{bike} activity with
-\textit{no activity}, in fact \textit{bike} has only
-$68$\% precision.
+performances we have to add complexity to the model.
 
 \textbf{CNN Network.} We fist test how number of convolutional filters in CL1 and number of dense neurons in FL2 will influence classification performances. The results obtained are presented in Tab. \ref{tab:model-selection}. We decided to choose 196 convolutional filters and 64 dense neurons thanks to its balance between accuracy and F1-Score performances, obtaining $88.9\%$ and $81.6\%$ respectively. To compare our result with that obtained in the original work \cite{stisen2015smart}, we decided to perform their \textit{Leave-one-user-out cross validation} evaluation, consisting of test the model with data from one user, and train with data from all the others in a cross validation fashion and then averaging the metrics obtained. In this evaluation setting we obtained an average F1-score of $85.8\%$, beating their best model result of nearly $10\%$ more in F1-Score metric. This prove also that using users a and b to do our evaluation is a good compromise of the real \textit{Leave-one-user-out cross validation} evaluation performances, since we obtain nearly the same results ($90.2\%$ instead of $88.9\%$ in accuracy and $85.8\%$ instead of $81.6\%$).
 
@@ -221,7 +219,7 @@ expected this behavior.
       All & 78.0 & 84.0 & 69.0 & 75.7 \\
       \hline
     \end{tabular}
-    \caption{Classification comparisons onto \textit{OD} between
+    \caption{CNN classification comparisons onto \textit{OD} between
       smartphone positions (pouch left/right/top/back, hand and
       pocket-up/down and all positions).}
     \label{tab:model-oit-performance}
