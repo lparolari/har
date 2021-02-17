@@ -22,9 +22,9 @@
 \subsection{Heterogenity Dataset (HD)}
 \label{subsec:heterogeneity-dataset}
 
-In this section we evaluate performance between previous work and
-different model architectures and the influences of some of the
-preprocessing techniques applied. Similar to what was done in
+In this section we evaluate performances between previous works and
+different model architectures and the influences of the
+preprocessing techniques applied here. Similar to what was done in
 \cite{ignatov2018real}, we carried out from the HD dataset some
 representative users to test the model and then use the remaining ones
 to train the model. In this case we selected users \textit{a} and
@@ -41,10 +41,9 @@ preprocessing block, since this dataset was collected with a fixed
 orientation. The rest of preprocessing techniques are enabled, if not
 specified.
 
-\textbf{Autoencoder.} In order to search for best autoencoder model
-we tune hyper-parameters with grid search technique. Results are
+\textbf{Autoencoder.} In order to search for best autoencoder model hyper-parameters we performed a grid search. Results are
 reported in Tab. \ref{tab:ae-hyperparams} where values that performs
-well on the validation dataset are reported in bold. The best model
+well on the validation dataset are reported in bold. The best hyper-parameters model
 used to be the one with a relatively small code size: from 24 to 36
 features which is also a good thing as we do not want the autoencoder
 to learn the identity, but only to keep useful information. In this
@@ -60,7 +59,7 @@ settings we get an MSE of $0.871255$.
     epochs & \{\textbf{150}, 200\} \\
     \hline
   \end{tabular}
-  \caption{Grid-search for best hyperparameters on autoencoder}
+  \caption{Grid-search for best hyper-parameters on autoencoder}
   \label{tab:ae-hyperparams}
 \end{table}
 
@@ -69,13 +68,13 @@ with a grid search, looking for best values of distance measure and
 number of neighbors. The Tab. \ref{tab:knn-grid-search} show the values.
 We select the euclidean distance measure and $5$ as number of neighbors.
 Due to time reasons we do not investigate further the FFNN model instead.
-The obtained performaces are quite satisfying: we get $76.2$\% accuracy
+The obtained performances are quite satisfying: we get $76.2$\% accuracy
 for KNN and $81.8$\% for FFNN.
 \begin{table}[h]
   \centering
   \begin{tabular}{p{2cm}p{4.5cm}}
     \hline
-    Hyperparameters & Values \\
+    Hyper-parameters & Values \\
     \hline
     Distance measure & \{\textbf{euclidean}, manhattan, chebyshev, minkowski, standardized euclidean, mahalanobis\} \\
     Number of neighbors & \{3, 4, \textbf{5}, 6, 7, 8\} \\
@@ -85,16 +84,16 @@ for KNN and $81.8$\% for FFNN.
   \label{tab:knn-grid-search}
 \end{table}
 
-From the grid-search on KNN we suprisingly noticed that performances
-do not vary so much on different hyper-parameters: we get from
+TODO LUCA: From the grid-search on KNN we surprisingly noticed that performances
+do not vary significantly among different hyper-parameters: we get from
 $76.7$\% to $80.9$\% accuracy. This may be an indication of the
 maximum capability of this autoencoder model, so to obtain better
 performances we have to add complexity to the model. In particular, we
-noticed that KNN usually misclassifies \textit{bike} activity with
+noticed that KNN usually misclassify \textit{bike} activity with
 \textit{no activity}, in fact \textit{bike} has only
 $68$\% precision.
 
-\textbf{CNN Network.} We fist test how number of convolutional filters and number of dense neurons in the FC2 layer will influence classification performances. The results obtained are presented in Tab. \ref{tab:model-selection}. Wee decided to choose 196 convolutional filters and 64 dense neurons thanks to its balance between accuracy and F1-Score performances, obtaining 88.9\% and 81.6\% respectively. To compare our result with that obtained in the original work \cite{stisen2015smart}, we decided to perform their \textit{Leave-one-user-out cross validation} evaluation, consisting of test the model with data from one user, and train with data from all the others in a cross validation fashion and then averaging the metrics obtained. In this evaluation setting we obtained an average F1-score of 85.8\%, beating their best model result of nearly 10\% more in F1-Score metric. This prove also that using users a and b to do our evaluation is a good compromise of the real \textit{Leave-one-user-out cross validation} evaluation performances, since we obtain nearly the same results (90.2\% instead of 88.9\% in accuracy and 85.8\% instead of 81.6\%).
+\textbf{CNN Network.} We fist test how number of convolutional filters in CL1 and number of dense neurons in FL2 will influence classification performances. The results obtained are presented in Tab. \ref{tab:model-selection}. We decided to choose 196 convolutional filters and 64 dense neurons thanks to its balance between accuracy and F1-Score performances, obtaining $88.9\%$ and $81.6\%$ respectively. To compare our result with that obtained in the original work \cite{stisen2015smart}, we decided to perform their \textit{Leave-one-user-out cross validation} evaluation, consisting of test the model with data from one user, and train with data from all the others in a cross validation fashion and then averaging the metrics obtained. In this evaluation setting we obtained an average F1-score of $85.8\%$, beating their best model result of nearly $10\%$ more in F1-Score metric. This prove also that using users a and b to do our evaluation is a good compromise of the real \textit{Leave-one-user-out cross validation} evaluation performances, since we obtain nearly the same results ($90.2\%$ instead of $88.9\%$ in accuracy and $85.8\%$ instead of $81.6\%$).
 
 \begin{table}[h]
 	\begin{center}
@@ -118,7 +117,7 @@ $68$\% precision.
 \end{table}
 
 
-To better appreciate how our preprocessing blocks affects model overall performances, we also try to disable or enable some of them. In Tab. \ref{tab:model-performance} we report our obtained results experiments. We see that augmenting the CNN with manual extracted feature when data are not centered, lead to no significant change in performances, instead when also enabling data centering preprocessing with manual features augmented CNN the model obtain nearly 10\% more in accuracy and precision metrics. This prove the benefits of data centering stated previously. However we were not able to get the same performances obtained in \cite{ignatov2018real}, where the authors obtained in the same exact setting an accuracy of 97.6\%. These empirically confirm that performances of state-of-the-art models trained with one type of sensors are worse when dealing with smartphone sensors heterogeneity. Moving on, augmenting the CNN with encoder feature lead the model to better performances, meaning that encoder feature are more robust that manual feature, as explained previously. A confusion matrix in this latter setting is reported in Fig. \ref{fig:cnn-confusion-matrix} where we could see that the model perform nicely overall in all the considered activities, with some difficulties in distinguishing between stationary activities, stand and sit, and walk with stairs activities since that are very similar in sensor signals foot-prints.
+To better appreciate how our preprocessing blocks affects model overall performances, we also try to disable or enable some of them. In Tab. \ref{tab:model-performance} we report our obtained results experiments. We see that augmenting the CNN with manual extracted feature when data are not centered, lead to no significant change in performances, instead when also enabling data centering preprocessing with manual features augmented CNN the model obtain nearly $10\%$ more in accuracy and precision metrics. This prove the benefits of data centering stated previously. However we were not able to reach the same performances presented in \cite{ignatov2018real}, where the authors obtained in the same exact settings an accuracy of $97.6\%$. These empirically confirm that performances of state-of-the-art models trained with one type of sensors are worse when dealing with smartphone sensors heterogeneity. Moving on, augmenting the CNN with encoder feature lead the model to better performances, meaning that encoder features are more robust that manual features, as explained previously. A confusion matrix in this latter setting is reported in Fig. \ref{fig:cnn-confusion-matrix} where we could see that the model performs nicely overall in all the considered activities, with some difficulties in distinguishing between stationary activities, stand and sit, and walk with stairs activities since probably they are very similar in sensor signals foot-prints.
 
 \begin{figure}[h]
 	\centering
@@ -134,7 +133,7 @@ With these new collected dataset we want to test our model
 performances in a real use case scenario, where smartphone could be
 placed in different positions and orientations. In this case we
 trained the model with the entire HD as training set, and then use the
-OD as validation set.
+OD as validation set. It is important to remember that in this case we condensed the sit and stand activities of HD into a one class no activity category, since OIT makes these two stationary activities indistinguishable from each other.
 
 \textbf{Autoencoder.}  An interesting result, as the
 Tab.~\ref{tab:ae-loss} confirms, is that OIT is a necessary operation
@@ -163,7 +162,7 @@ robust features.
 The Tab. \ref{tab:knn-metrics} and \ref{tab:ffnn-metrics} show
 respectively KNN and FFNN evaluation for the best autoencoder with
 $36$ features and the two classifier described in
-Sec. \ref{subsec:autoencoder} with hyperparameters selected in
+Sec. \ref{subsec:autoencoder} with hyper-parameters selected in
 Sec. \ref{subsec:heterogeneity-dataset}. From this results, we can
 observe that KNN is more stable and not influenced by sensor's
 position/orientation w.r.t. FFNN. Also, the two models preserve order:
@@ -206,10 +205,10 @@ expected.
 \textbf{CNN Network.}  As reported in
 Tab. \ref{tab:model-oit-performance}, we managed to get great results
 also on data gathered with new sensor's position and orientation. We
-noticed a performance drop of nearly 15\% for \textit{hand+pocket}
+noticed a performance drop of nearly $15\%$ for \textit{hand+pocket}
 data, but this could be due to the CNN architecture which focus more
 on the local shape and less on the real information. However, we
-expected this behaviour. 
+expected this behavior. 
 
 \begin{table}[h]
   \begin{center}
@@ -233,7 +232,7 @@ In conclusion, OIT revealed to be an extremely useful preprocessing
 technique both for autoencoder and CNN. Without OIT, the drop for the
 CNN was of nearly $45$\% for all metrics!  As Tab. confirms, combining
 the power of the CNN with automatically extracted features and smart
-data preprocessing could leat to good results even with new problem
+data preprocessing could lead to good results even with new problem
 settings.
 
 \begin{table}[h]
