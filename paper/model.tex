@@ -112,10 +112,7 @@ value $y$ along the straight line is given from the equation of slopes
   \label{eq:linear-interpolation}
   \frac{y - y_0}{x - x_0} = \frac{y_1 - y_0}{x_1 - x_0}.
 \end{equation}
-It's straightforward now to see that if we need to apply linear
-interpolation to a dataset of points we can calculate the \mbox{$x$-s}
-given by sampling frequency we want to obtain and then apply the
-formula above. TODO non ho capito benissimo questa parte finale
+The linear interpolation on a set of data points $(x_0, y_0), (x_1, y_1), \ldots, (x_n, y_n)$ is defined as the concatenation of linear interpolants between each pair of data points.
 
 % In our case the downsampling is applied in combination with linear interpolation, but it is not always the case (see Sec. EXPERIMENTS). It allows to standardize data at fixed sampling frequency in order to extract time windows and feature vectors for learning models and, above all, it reduces noise and artifacts introduced by upsampling. Downsampling simply disregards points by resampling the signal at a certain frequency (50 Hz in our case). Please note that the downsample frequency should be a sub-multiple of linear interpolation frequency.
 
