@@ -55,19 +55,36 @@ all, the environment in not controlled. So we should be capable to
 deal with technical details such as smartphone orientation or sensor
 accuracy as reported in Sec. \ref{sec:processing-pipeline}.
 
-For our application we decided to use the \textit{Heterogeneity Dataset (HD)} \cite{HETEROGENEITY} described in
+For our application we decided to use the \textit{Heterogeneity
+  Dataset (HD)} \cite{HETEROGENEITY} described in
 \cite{stisen2015smart}, where data are collected directly from
 smartphone sensors. The dataset is composed by nine users (from 25 to
-30 years). All users followed a scripted set of activities while
-carrying eight smartphones and four smart watches. All eight
-smartphones were kept in a tight pouch and carried by the users around
-their waist, whereas two smart watches were worn on each arm. Each
-participant conducted five minutes of each activity for each device. In our case we were interested only in smartphones acquired signals, leaving out from our experiments the smartwatch evaluations.
-We decided to split this dataset into two sets: train and test set. We splitted
-the two such that user \textit{a} and \textit{b}, respectively the
-best and the worst user, are in the test set, and all the remaining ones as in the training set.
+30 years). All users followed a scripted set of activities in
+\textit{sit}, \textit{stand}, \textit{walk}, \textit{bike},
+\textit{stairs up}, \textit{stairs down} while carrying eight
+smartphones and four smart watches. All eight smartphones were kept in
+a tight pouch and carried by the users around their waist, whereas two
+smart watches were worn on each arm. Each participant conducted five
+minutes of each activity for each device. In our case we were
+interested only in smartphones acquired signals, leaving out from our
+experiments the smartwatch evaluations.
 
-We also collected a novel dataset called \textit{Oriented dataset (OD)}. The goal of this new dataset is to see whether the model can generalize well on new unseen users and also to test how OIT preprocessing could increase the performance in this new context. This dataset is collected with a single smartphone, at a sampling rate of 100 Hz in seven different positions: top, bottom, left, right are collected in the same way as in work \cite{stisen2015smart}, but instead of a fixed orientation we rotated the smartphone inside the pouch to each possible orientation. Then we also perform the same activities with the smartphone hold in hand and in trousers pocket, to see to what extent the model is capable of generalize activity recognition in new unseen positions.
+
+We also collected a novel dataset called \textit{Oriented dataset
+  (OD)}. The goal of this new dataset is to see whether the model can
+generalize well on new unseen users and also to test how OIT
+preprocessing could increase the performance in this new context. This
+dataset is collected with a single smartphone, at a sampling rate of
+100 Hz in seven different positions: top, bottom, left, right are
+collected in the same way as in work \cite{stisen2015smart}, but
+instead of a fixed orientation we rotated the smartphone inside the
+pouch to each possible orientation. Then we also perform the same
+activities with the smartphone hold in hand and in trousers pocket, to
+see to what extent the model is capable of generalize activity
+recognition in new unseen positions. In this case we condensed
+\textit{sit} and \textit{stand} antivities into \textit{no activity}
+for two main reasons: first, we are not interested in distinguishing
+between the two, and second, they are made indistinguishable by OIT.
 
 \subsection{Signal preprocessing}
 
