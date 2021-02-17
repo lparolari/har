@@ -2,15 +2,64 @@
 
 \section{Introduction}
 \label{sec:introduction}
-Recognition of the activity that a user is currently doing is important not only for health care monitoring or security concerns, but also for developing mobile apps that are able to use this information to improve our day life. \\
 
-Developing mobile apps that are capable of tracking user activities that are used "in the wild" contexts, leads important challenges that need to be tackle down. As stated in \cite{blunck2013heterogeneity} many variables are involved both coming from users and smartphones. Users are demographically different (age, stature, weight, ...) and perform activities in different ways, using their devices in their own ways. Devices instead share among them different operating-systems, hardware and sensing capabilities.
+Recognition of human daily activity is important for many
+applications: from health care monitoring to security concerns, from
+fitness tracking to user-adaptive systems.
 
-Different solution were proposed in literature to perform HAR (Human Activity Recognition)[citare tutti i paper] capable of reaching high performance, but when they are used in real scenarios the performance usually decrease a lot.
+With the wide spread of low-cost sensors on smartphones and
+weareables, the development of mobile apps capable to track user
+activities \textit{``in-the-wild''} leads to relevant challenges that
+need to be tackle down. As stated in \cite{blunck2013heterogeneity}
+many variables are involved both coming from users and
+smartphones. Users are demographically different (age, stature,
+weight, ...) and perform activities in different ways with their
+style. Devices instead, share among them different operating-systems,
+hardware and sensing capabilities.
 
-TODO: Citare inoltre il paper \cite{chen2020deep} recente che dice parecchie cose sugli algoritmi di learning attuali e tutti i problemi che ci sono in questo caso 
+In this paper we start from the model proposed in
+\cite{ignatov2018real} and we show how the controlled environment
+influences the classification.  In particular, no heterogeneity among
+devices (and sensors) leads to biased data and not-natural settings.
+For this reason we adopt the dataset provided in
+\cite{stisen2015smart} which emphasizes devices heterogeneity.  We
+further investigate the effectiveness of statistical and
+manual-engineered features which are usually not enough in real
+settings, due to the heterogeneous scenario. Moreover, we study the
+effects of the orientation indipendent transformation as a
+preprocessing data block, which should make data agnostic in terms of
+sensor position and orientation.  With this work we aim to study
+heterogeneity impairments in real use case scenarios using previous
+state-of-the-art models, and then propose a novel learning framework
+to tacke HAR impairments. Our framework will be made by a CNN
+architecture augmented with features extracted from an autoencoder,
+with an eye on mobile portability.  At the end we compare our results
+with state-of-the-art works.
 
+Our main contributions can be summarized as follows.
 
+\begin{itemize}
+  \item We propose an architecture that combines CNN and automatic
+    feature extraction to perform HAR. In particular, augmenting a
+    traditional CNN model with autoencoder's features rather than
+    manual features can lead to better results.
+  \item We study the importance of a good preprocessing pipeline, to
+    mitigate heterogeneity when dealing with multiple types of
+    smartphones. Also, orientation independent transformation can give
+    promising results in real use case scenarios where smartphones can
+    be in any position and orientation.
+  \item We show that good results can be obtained
+    w.r.t. state-of-the-art works also when few computational
+    resources are available, i.e, smartphones.
+\end{itemize}
+
+This paper is structured as follows. In Section \ref{sec:related-work}
+we describe the state-of-the-art, the system and data models are
+respectively presented in Sections \ref{sec:processing-pipeline} and
+\ref{sec:signals-and-features}. The proposed signal processing
+technique is detailed in Section \ref{sec:learning-framework} and its
+performance evaluation is carried out in Section
+\ref{sec:results}. Concluding remarks are provided in Section
+\ref{sec:concluding-remarks}.
 
 %Conclusions:  So to mitigate all these problem when developing Human Activity Recognition (HAR) Systems a representative dataset of all the possibly end-users of out mobile app is required and other pre-processing technique are required for mitigating the heterogenity among devices.
-
