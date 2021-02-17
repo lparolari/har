@@ -3,44 +3,38 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Recognition of the activity that a user is currently doing is
-important not only for health care monitoring or security concerns,
-but also for developing mobile apps that are able to use this
-information to improve our day life.
+Recognition of human daily activity is important for many
+applications: from health care monitoring to security concerns, from
+fitness tracking to user-adaptive systems.
 
-Developing mobile apps that are capable to track user activities \textit{``in-the-wild''} contexts leads relevant challenges that need to be tackle
-down. As stated in \cite{blunck2013heterogeneity} many variables are
-involved both coming from users and smartphones. Users are
-demographically different (age, stature, weight, ...) and perform
-activities in different ways, using their device in their own
+With the wide spread of low-cost sensors on smartphones and
+weareables, the development of mobile apps capable to track user
+activities \textit{``in-the-wild''} leads to relevant challenges that
+need to be tackle down. As stated in \cite{blunck2013heterogeneity}
+many variables are involved both coming from users and
+smartphones. Users are demographically different (age, stature,
+weight, ...) and perform activities in different ways with their
 style. Devices instead, share among them different operating-systems,
 hardware and sensing capabilities.
 
-In a recent work by K. Chen et al. \cite{chen2020deep}, the authors analyze state-of-the-art
-deep learning methods for sensor-based HAR, highlighting challenges for HAR tasks, based on their reasons and analyze how existing deep
-methods are adopted to address novel challenges. Some of these
-includes for example, recognizing concurrent and composite activities
-and dealing with scarse annotated, class imbalanced and scarse user
-distributed datasets.
-
-In this paper we start from the model proposed in \cite{ignatov2018real} 
-and we show how the controlled environment influences the classification.
-In particular, no heterogeneity among devices (and sensors) leads to biased data and
-not-natural settings. This is not suitable when developing mobile apps
-capable of performing HAR, to improve users quality of life. For this reason we adopt the dataset provided
-in \cite{stisen2015smart} which emphasizes devices heterogeneity.
-We further investigate the
-effectiveness of statistical/manual features which are usually not
-enough in real settings, due to the heterogeneous scenario. 
-We propose a CNN architecture augmented with features extracted from an
-autoencoder, and then compare the results with other
-works. Furthermore we investigate the main benefits of a well thought-out
-pre-processing pipeline, like orientation independent transformation
-block that remove the HAR impairments when smartphone are used in
-different orientation and positions. With this work we aim to study
+In this paper we start from the model proposed in
+\cite{ignatov2018real} and we show how the controlled environment
+influences the classification.  In particular, no heterogeneity among
+devices (and sensors) leads to biased data and not-natural settings.
+For this reason we adopt the dataset provided in
+\cite{stisen2015smart} which emphasizes devices heterogeneity.  We
+further investigate the effectiveness of statistical and
+manual-engineered features which are usually not enough in real
+settings, due to the heterogeneous scenario. Moreover, we study the
+effects of the orientation indipendent transformation as a
+preprocessing data block, which should make data agnostic in terms of
+sensor position and orientation.  With this work we aim to study
 heterogeneity impairments in real use case scenarios using previous
-state-of-the-art models, and then proposed a novel learning framework
-that can be used in developing mobile apps for HAR tasks.
+state-of-the-art models, and then propose a novel learning framework
+to tacke HAR impairments. Our framework will be made by a CNN
+architecture augmented with features extracted from an autoencoder,
+with an eye on mobile portability.  At the end we compare our results
+with state-of-the-art works.
 
 Our main contributions can be summarized as follows.
 
