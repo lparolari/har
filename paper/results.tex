@@ -12,7 +12,7 @@
 			\textbf{CNN + Centering + Encoder F.} & \textbf{89.2} & \textbf{88.9} &  \textbf{86.1} & \textbf{86.1} \\
 			\hline
 		\end{tabular}
-		\caption{\label{tab:model-performance} HD classification results with different featueres CNN augumentation and data preprocessing. The tests are made with our proposed architecture with OIT, Data centering, 196 (1x16) filters, max-pool (1x4), 64 fully connected neurons, a dropout rate of $0.05$, l2-regularization of $5e^{-5}$ and Adam learning rate of $2e^{-5}$.}
+		\caption{\label{tab:model-performance} HD classification results with different features CNN augmentation and data preprocessing. The tests are made with our proposed architecture, linear interpolation and data centering, 196 (1x16) filters, max-pool (1x4), 64 fully connected neurons, a dropout rate of $0.05$, l2-regularization of $5e^{-5}$ and Adam learning rate of $2e^{-5}$. Here we don't use OIT since we are testing our result onto HD dataset, including \textit{sit} and \textit{stand} labels. The test set is composed by users \textit{a-b} and the reaming users form the training set.}
 	\end{center}
 \end{table*}
 
@@ -23,22 +23,22 @@
 \label{subsec:heterogeneity-dataset}
 
 In this section we evaluate performances between previous works and
-different model architectures and the influences of the
+different model architectures, and the influences of the
 preprocessing techniques applied here. Similar to what was done in
 \cite{ignatov2018real}, we carried out from the HD dataset some
 representative users to test the model and then use the remaining ones
 to train the model. In this case we selected users \textit{a} and
 \textit{b} since we found that they are very representative among all
-others. In fact models tend to be less precise with user \textit{a}
+others. In fact the proposed models tend to be less precise with user \textit{a}
 and more accurate with user \textit{b}. This mainly depends on the
 user's style in walking, doing stairs and so on. In this way we are
 able to compare results with other works that usually tend to evaluate
 performances on unseen user.
 
 In this training and test set settings, we evaluate the best
-hyper-parameters for the proposed architecture model excluding OIT
+hyper-parameters for the proposed architecture, excluding OIT
 preprocessing block, since this dataset was collected with a fixed
-orientation. The rest of preprocessing techniques are enabled, if not
+orientation and \textit{sit} and \textit{stand} activities. The rest of preprocessing techniques are enabled, if not
 specified.
 
 \textbf{Autoencoder.} In order to search for best autoencoder model
@@ -68,7 +68,7 @@ Also, for checking autoencoder results we fine-tuned KNN parameters
 with a grid search, looking for best values of distance measure and
 number of neighbors. The Tab. \ref{tab:knn-grid-search} show the values.
 We select the euclidean distance measure and $5$ as number of neighbors.
-Due to time reasons we do not investigate further the FFNN model instead.
+Due to time reasons we do not further investigate the FFNN model.
 The obtained performances are quite satisfying: we get $76.2$\% accuracy
 for KNN and $81.8$\% for FFNN.
 \begin{table}[h]
@@ -115,7 +115,7 @@ performances we have to add complexity to the model.
 \end{table}
 
 
-To better appreciate how our preprocessing blocks affects model overall performances, we also try to disable or enable some of them. In Tab. \ref{tab:model-performance} we report our obtained results experiments. We see that augmenting the CNN with manual extracted feature when data are not centered, lead to no significant change in performances, instead when also enabling data centering preprocessing with manual features augmented CNN the model obtain nearly $10\%$ more in accuracy and precision metrics. This prove the benefits of data centering stated previously. However we were not able to reach the same performances presented in \cite{ignatov2018real}, where the authors obtained in the same exact settings an accuracy of $97.6\%$. These empirically confirm that performances of state-of-the-art models trained with one type of sensors are worse when dealing with smartphone sensors heterogeneity. Moving on, augmenting the CNN with encoder feature lead the model to better performances, meaning that encoder features are more robust that manual features, as explained previously. A confusion matrix in this latter setting is reported in Fig. \ref{fig:cnn-confusion-matrix} where we could see that the model performs nicely overall in all the considered activities, with some difficulties in distinguishing between stationary activities, stand and sit, and walk with stairs activities since probably they are very similar in sensor signals foot-prints.
+To better appreciate how our preprocessing blocks affects model overall performances, we also try to disable or enable some of them. In Tab. \ref{tab:model-performance} we report our obtained results experiments. We see that augmenting the CNN with manual extracted feature when data are not centered, lead to no significant change in performances, instead when also enabling data centering preprocessing with manual features augmented CNN the model obtain nearly $10\%$ more in accuracy and precision metrics. This prove the benefits of data centering stated previously. However we were not able to reach the same performances presented in \cite{ignatov2018real}, where the authors obtained in the same exact settings an accuracy of $97.6\%$. These empirically confirm that performances of state-of-the-art models trained with one type of sensors are worse when dealing with smartphone sensors heterogeneity. Moving on, augmenting the CNN with encoder feature lead the model to better performances, meaning that encoder features are more robust that manual features, as explained previously. A confusion matrix in this latter setting is reported in Fig. \ref{fig:cnn-confusion-matrix} where we could see that the model performs nicely overall in all the considered activities, with some difficulties in distinguishing between stationary activities, \textit{stand} and \textbf{sit}, and \textit{walk} with \textit{stairs} activities since probably they are very similar in sensor signals foot-prints.
 
 \begin{figure}[h]
 	\centering
@@ -131,7 +131,7 @@ With these new collected dataset we want to test our model
 performances in a real use case scenario, where smartphone could be
 placed in different positions and orientations. In this case we
 trained the model with the entire HD as training set, and then use the
-OD as validation set. It is important to remember that in this case we condensed the sit and stand activities of HD into a one class no activity category, since OIT makes these two stationary activities indistinguishable from each other.
+OD as a test set. It is important to remember that in this case we condensed the \textit{sit} and \textit{stand} activities of HD into a one class \textit{no activity} category, since OIT makes these two stationary activities indistinguishable from each other.
 
 \textbf{Autoencoder.}  An interesting result, as the
 Tab.~\ref{tab:ae-loss} confirms, is that OIT is a necessary operation
@@ -165,8 +165,8 @@ Sec. \ref{subsec:heterogeneity-dataset}. From this results, we can
 observe that KNN is more stable and not influenced by sensor's
 position/orientation w.r.t. FFNN. Also, the two models preserve order:
 evaluation on \textit{pouch} position gets best results on both
-models, while the worse position is \textit{hand+pocket}, as we
-expected.
+models, while the worse positions is \textit{hand+pocket}, as we
+expect.
 
 \begin{table}[h]
   \centering
@@ -228,7 +228,7 @@ expected this behavior.
 
 In conclusion, OIT revealed to be an extremely useful preprocessing
 technique both for autoencoder and CNN. Without OIT, the drop for the
-CNN was of nearly $45$\% for all metrics!  As Tab. confirms, combining
+CNN was of nearly $45$\% for all metrics!  As Tab. \ref{tab:model-oit-performance} confirms, combining
 the power of the CNN with automatically extracted features and smart
 data preprocessing could lead to good results even with new problem
 settings.
