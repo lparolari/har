@@ -12,7 +12,7 @@
 \begin{figure*}[h]
 	\centering
 	\includegraphics[width=1\textwidth]{images/processing_pipeline.jpg}
-	\caption{Processing pipeline}
+	\caption{Our proposed signal processing pipeline \& learning strategy}
 	\label{fig:processing-pipeline}
 \end{figure*}
 
@@ -26,7 +26,7 @@ As reported in \cite{stisen2015smart}, three major types of heterogeneities yiel
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.4\textwidth]{images/interval_samples.png}
-	\caption{Histogram of different time span between samples included in our collected dataset}
+	\caption{Histogram of different time span between consecutive samples included in our collected dataset}
 	\label{time-span}
 \end{figure}
 
@@ -216,7 +216,7 @@ of information.
   minimum and maximum values of $\x$.\footnote{For reference, see
     \texttt{np.histogram} documentation.}  This lead to a manual
   features vector composed of $40$ manual extracted features.
-\item \textbf{Autoencoder features}. Autoencoder features are
+\item \textit{Autoencoder features}. Autoencoder features are
   automatically extracted from the signal. The autoencoder, as
   described in Sec. \ref{subsec:autoencoder}, is capable to compress
   data and learn a good representation of features keeping only
@@ -229,7 +229,7 @@ of information.
 \begin{figure*}[h]
 	\centering
 	\includegraphics[width=1\textwidth]{images/full_architecture.jpg}
-	\caption{Learning Framework}
+	\caption{Our proposed learning framework, CL1 is a convolutional 1D layer, ML1 is a max-pooling layer, FL1 are the fully connected layer which represents previous extracted features that are concatenated with the autoencoder features, FL2 and FL3 are fully connected layers}
 	\label{fig:proposed-architecture}
 \end{figure*}
 
@@ -304,7 +304,7 @@ activation function, while the last is a dense layer of $5$ neurons
 with soft-max activation function. The network is trained with Adam
 optimizer to minimize the categorical cross-entropy loss function.
 
-\subsection{Convolutional neural network}
+\subsection{Convolutional Neural Network}
 \label{subsec:cnn}
 The final CNN architecture proposed in this work is shown in Fig. \ref{fig:proposed-architecture}. We decided to start with the architecture proposed in work \cite{ignatov2018real} and we tried to improve it, augmenting the CNN with the encoder extracted features. CNN architecture are very powerful when dealing with images, but they were proven to be a good features extractors also for motion data. A CNN is composed of essentially two parts: the first-one is in charge of extract features performing a dimensionality reduction over the input data, though a series of convolution and max pooling layers, and the second part of the CNN is responsible to give the final classification with usually a single fully-connected layer. Original data, collected from smartphone sensors, are pre-processed according to what previously described in Sec. \ref{sec:processing-pipeline}. Our input matrix presented to our CNN is the matrix \mbox{$ \boldsymbol{X} = [ \boldsymbol{a_{v}}^{c}, \boldsymbol{a_{h}}^{c}, \boldsymbol{a_{l}}^{c}, \boldsymbol{g_{v}}^{c}, \boldsymbol{g_{h}}^{c}, \boldsymbol{g_{l}}^{c}]$} wich is formed by accelerometer and gyroscopes signals, linearly interpolated at 50 samples/second per channel, with a fixed time-window of $2.5s$, with orientation independent transformation and data centering. Note that this matrix has a dimension $n \times 6$, due to the fact that TensorFlow Convolutional Layers work with input dimension of $(batch\_size, samples, channel)$.
 
