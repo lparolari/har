@@ -12,7 +12,19 @@
 			\textbf{CNN + Centering + Encoder F.} & \textbf{89.2} & \textbf{88.9} &  \textbf{86.1} & \textbf{86.1} \\
 			\hline
 		\end{tabular}
-		\caption{\label{tab:model-performance} HD classification results with different features CNN augmentation and data preprocessing. The tests are made with our proposed architecture, linear interpolation and data centering, 196 (1x16) filters, max-pool (1x4), 64 fully connected neurons, a dropout rate of $0.05$, l2-regularization of $5e^{-5}$ and Adam learning rate of $2e^{-5}$. Here we don't use OIT since we are testing our result onto HD dataset, including \textit{sit} and \textit{stand} labels. The test set is composed by users \textit{a-b} and the reaming users form the training set.}
+		\caption{\label{tab:model-performance} HD
+                  classification results with different features CNN
+                  augmentation and data preprocessing. The tests are
+                  made with our proposed architecture, linear
+                  interpolation and data centering, 196 (1x16)
+                  filters, max-pool (1x4), 64 fully connected neurons,
+                  a dropout rate of $0.05$, l2-regularization of
+                  $5e^{-5}$ and Adam learning rate of $2e^{-5}$. Here
+                  we don't use OIT since we are testing our result
+                  onto HD dataset, including \textit{sit} and
+                  \textit{stand} labels. The test set is composed by
+                  users \textit{a-b} and the reaming users form the
+                  training set.}
 	\end{center}
 \end{table*}
 
@@ -23,23 +35,23 @@
 \label{subsec:heterogeneity-dataset}
 
 In this section we evaluate performances between previous works and
-different model architectures, and the influences of the
-preprocessing techniques applied here. Similar to what was done in
+different model architectures, and the influences of the preprocessing
+techniques applied here. Similar to what was done in
 \cite{ignatov2018real}, we carried out from the HD dataset some
 representative users to test the model and then use the remaining ones
 to train the model. In this case we selected users \textit{a} and
 \textit{b} since we found that they are very representative among all
-others. In fact the proposed models tend to be less precise with user \textit{a}
-and more accurate with user \textit{b}. This mainly depends on the
-user's style in walking, doing stairs and so on. In this way we are
-able to compare results with other works that usually tend to evaluate
-performances on unseen user.
+others. In fact the proposed models tend to be less precise with user
+\textit{a} and more accurate with user \textit{b}. This mainly depends
+on the user's style in walking, doing stairs and so on. In this way we
+are able to compare results with other works that usually tend to
+evaluate performances on unseen user.
 
 In this training and test set settings, we evaluate the best
 hyper-parameters for the proposed architecture, excluding OIT
 preprocessing block, since this dataset was collected with a fixed
-orientation and \textit{sit} and \textit{stand} activities. The rest of preprocessing techniques are enabled, if not
-specified.
+orientation and \textit{sit} and \textit{stand} activities. The rest
+of preprocessing techniques are enabled, if not specified.
 
 \textbf{Autoencoder.} In order to search for best autoencoder model
 hyper-parameters we performed a grid search. Results are reported in
@@ -48,7 +60,8 @@ validation dataset are reported in bold. The best hyper-parameters
 model used to be the one with a relatively small code size: from 24 to
 36 features which is also a good thing as we do not want the
 autoencoder to learn the identity, but only to keep useful
-information. In this settings we get an MSE of $0.871255$.
+information. In this settings we get an MSE of $0.87$.
+
 \begin{table}[h]
   \centering
   \begin{tabular}{lp{4cm}}
@@ -69,17 +82,17 @@ extract features from signal for the main CNN model, we implement also
 two simple classifiers in order to directly use autoencoder's feature
 and check their effectiveness.
 
-The first is a K-Nearest Neighbors
-(KNN) clustering algorithm, and we perform clustering on encoder's
-code. The idea here is that autoencoder should extract relevant
-features which may be similar class by class. We performed  fine-tuning of KNN parameters
-with a grid search, looking for best values of distance measure and
-number of neighbors. The Tab. \ref{tab:knn-grid-search} show the values.
-We select the euclidean distance measure and $5$ as number of neighbors.
-In this case we obtained an accuracy of $76.2$\%.
-From the grid-search on KNN we surprisingly noticed that performances
-do not vary significantly among different hyper-parameters: we get from
-$76.7$\% to $80.9$\% accuracy. This may be an indication of the
+The first is a K-Nearest Neighbors (KNN) clustering algorithm, and we
+perform clustering on encoder's code. The idea here is that
+autoencoder should extract relevant features which may be similar
+class by class. We performed fine-tuning of KNN parameters with a grid
+search, looking for best values of distance measure and number of
+neighbors. The Tab. \ref{tab:knn-grid-search} show the values.  We
+select the euclidean distance measure and $5$ as number of neighbors.
+In this case we obtained an accuracy of $76.2$\%.  From the
+grid-search on KNN we surprisingly noticed that performances do not
+vary significantly among different hyper-parameters: most results are
+less than $5$\% far from the best. This may be an indication of the
 maximum capability of this autoencoder model, so to obtain better
 performances we have to add complexity to the model.
 
@@ -97,12 +110,14 @@ performances we have to add complexity to the model.
 	\label{tab:knn-grid-search}
 \end{table}
 
-The second classifier
-instead is based on a Feed Forward Neural Network (FFNN) with two
-dense layers of $100$ neurons with $0.1$ dropout on each and \textit{ReLU}
-activation function, while the last is a dense layer of $5$ neurons
-with soft-max activation function. The network is trained with Adam
-optimizer to minimize the categorical cross-entropy loss function. In this case we obtained an accuracy of $81.8\%$.
+The second classifier instead is based on a Feed Forward Neural
+Network (FFNN). The architecture is very simple and consists on two
+dense layers of $100$ neurons each with $0.1$ dropout and
+\textit{ReLU} activation function, while the last is a dense layer
+with a number of neurons equal to the number of classes and soft-max
+activation function. The network is trained with Adam optimizer to
+minimize the categorical cross-entropy loss function. In this case we
+obtained an accuracy of $81.8\%$.
 
 \textbf{CNN Network.} We fist test how number of convolutional filters in CL1 and number of dense neurons in FL2 will influence classification performances. The results obtained are presented in Tab. \ref{tab:model-selection}. We decided to choose 196 convolutional filters and 64 dense neurons thanks to its balance between accuracy and F1-Score performances, obtaining $88.9\%$ and $81.6\%$ respectively. To compare our result with that obtained in the original work \cite{stisen2015smart}, we decided to perform their \textit{Leave-one-user-out cross validation} evaluation, consisting of test the model with data from one user, and train with data from all the others in a cross validation fashion and then averaging the metrics obtained. In this evaluation setting we obtained an average F1-score of $85.8\%$, beating their best model result of nearly $10\%$ more in F1-Score metric. This prove also that using users a and b to do our evaluation is a good compromise of the real \textit{Leave-one-user-out cross validation} evaluation performances, since we obtain nearly the same results ($90.2\%$ instead of $88.9\%$ in accuracy and $85.8\%$ instead of $81.6\%$).
 
@@ -140,20 +155,21 @@ To better appreciate how our preprocessing blocks affects model overall performa
 
 \subsection{Oriented Dataset (OD)}
 
-With this new collected dataset we want to test our model
-performances in a real use case scenario, where smartphone could be
-placed in different positions and orientations. In this case we
-trained the model with the entire HD as training set, and then use the
-OD as a test set. It is important to remember that in this case we apply OIT and so we condensed the \textit{sit} and \textit{stand} activities of HD into a one class \textit{no activity} category.
+With this new collected dataset we want to test our model performances
+in a real use case scenario, where smartphone could be placed in
+different positions and orientations. In this case we trained the
+model with the entire HD as training set, and then use the OD as a
+test set. It is important to remember that in this case we apply OIT
+and so we condensed the \textit{sit} and \textit{stand} activities of
+HD into a one class \textit{no activity} category.
 
 \textbf{Autoencoder.}  An interesting result, as the
 Tab.~\ref{tab:ae-loss} confirms, is that OIT is a necessary operation
 when dealing with HAR signals. For example, without OIT we can see
-that the autoencoder trained and tested on same data goes from
-$0.747241$ to $10.421337$ MSE: more than $10$ times worse. Furthermore,
-data from hand or pocket-up/down do not inflate the loss too
-much. This is good because it indicates that autoencoder is producing
-robust features.
+that the autoencoder trained and tested on same data goes from $0.75$
+to $10.42$ MSE: more than ten times worse. Furthermore, data from
+hand or pocket-up/down do not inflate the loss too much. This is good
+because it indicates that autoencoder is producing robust features.
 
 \begin{table}[h]
   \centering
@@ -161,9 +177,9 @@ robust features.
     \hline
     Scenario & Loss (MSE) \\
     \hline
-    HD + OIT + OD validation & 0.747241 \\
-    HD + OIT + OD validation (allpos) & 0.821241 \\
-    HD + OD validation & 10.421337 \\
+    HD + OIT + OD validation & 0.75 \\
+    HD + OIT + OD validation (allpos) & 0.82 \\
+    HD + OD validation & 10.42 \\
     \hline
   \end{tabular}
   \caption{Autoencoder loss on different scenarios}
@@ -175,7 +191,8 @@ respectively KNN and FFNN evaluation for the best autoencoder with
 $36$ features and the two classifier with hyper-parameters selected in
 Sec. \ref{subsec:heterogeneity-dataset}. From this results, we can
 observe that KNN is more stable and not influenced by sensor's
-position/orientation w.r.t. FFNN. Also, the two models preserve evaluation order: on \textit{pouch} position gets best results on both
+position/orientation w.r.t. FFNN. Also, the two models preserve
+evaluation order: on \textit{pouch} position gets best results on both
 models, while the worse positions is \textit{hand+pocket}, as we
 expect.
 
@@ -216,7 +233,7 @@ Tab. \ref{tab:model-oit-performance}, we managed to get great results
 also on data gathered with new sensor's position and orientation. We
 noticed a performance drop of nearly $15\%$ for \textit{hand+pocket}
 data, but this could be due to the CNN architecture which focus more
-on the local shape and less on the real information. 
+on the local shape and less on the real information.
 
 \begin{table}[h]
   \begin{center}
@@ -236,9 +253,11 @@ on the local shape and less on the real information.
   \end{center}
 \end{table}
 \vspace{-0.4cm}
+
 In conclusion, OIT turned out to be an extremely useful preprocessing
 technique both for autoencoder and CNN. Without OIT, the drop for the
-CNN was of nearly $45$\% for all metrics!  As Tab. \ref{tab:model-oit-performance} confirms, combining
-the power of the CNN with automatically extracted features and smart
-data preprocessing could lead to good results even with new problem
+CNN was of nearly $45$\% for all metrics!  As
+Tab. \ref{tab:model-oit-performance} confirms, combining the power of
+the CNN with automatically extracted features and smart data
+preprocessing could lead to good results even with new problem
 settings.
