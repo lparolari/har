@@ -30,7 +30,7 @@ As reported in \cite{stisen2015smart}, three major types of heterogeneities yiel
 	\label{time-span}
 \end{figure}
 
-Furthermore, if we are in a real use case scenario we must also consider that smartphones, for example, could lay in trouser pockets (back and front) or maybe inside a pouch or a bag with different orientations. These different problem settings have huge effects in prediction accuracy of an HAR predictor, especially if the model has been trained on a dataset consisting of activity measurement coming from one fixed position and orientation, as is usually the case in the publicity available datasets.
+Furthermore, if we are in a real use case scenario, we must also consider that smartphones can be positioned and oriented in different ways in human body. For example a smartphone could lay in trouser pockets (back and front) or maybe inside a pouch or a bag with different orientations. These different problem settings have huge effects in prediction accuracy of an HAR predictor, especially if the model has been trained on a dataset consisting of activity measurement coming from one fixed position and orientation, as is usually the case in the publicity available datasets.
 
 To tackle all these problems we decided to adopt in our pipeline three main preprocessing blocks, as shown in Fig. \ref{fig:processing-pipeline}.
 
@@ -267,6 +267,13 @@ is $\z = g_{\theta}(\y)$. What we want to minimize is the distance
 between $\x$ and $\z$ w.r.t. a distance measure with a loss function
 like MSE.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/encoder.png}
+	\caption{(Auto)-encoder structure}
+	\label{fig:encoder-structure}
+\end{figure}
+
 The main goal of the autoencoder for this application is to extract
 useful representations of input signal in few features and this is
 done by looking at the autoencoder's code, i.e., the output of the
@@ -274,6 +281,8 @@ encoder block:
 \begin{equation}
   \boldsymbol{\Phi_{\text{e}}} = \y.
 \end{equation}
+
+
 
 The autoencoder follows the structure reported in
 Fig. \ref{fig:encoder-structure} and is based on a Neural Network
@@ -284,12 +293,6 @@ layer, i.e, the code, of $36$ neurons with sigmoid activation
 function. The decoder replicates the same structure of the encoder but
 reversed, where the activation function on the output layers is the
 linear activation, i.e., the identity.
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.48\textwidth]{images/encoder.png}
-  \caption{(Auto)-encoder structure}
-  \label{fig:encoder-structure}
-\end{figure}
 
 \subsection{Convolutional Neural Network}
 \label{subsec:cnn}

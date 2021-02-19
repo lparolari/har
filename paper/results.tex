@@ -1,7 +1,7 @@
 % !TEX root = template.tex
 
 \begin{table*}[t]
-	\begin{center}
+	\centering
 		\begin{tabular}{ p{7cm}p{2cm}p{2cm}p{2cm}p{2cm} }
 			\hline
 			Method & Accuracy & Precision & Recall & F1-Score \\
@@ -25,7 +25,6 @@
                   \textit{stand} labels. The test set is composed by
                   users \textit{a-b} and the reaming users form the
                   training set.}
-	\end{center}
 \end{table*}
 
 \section{Results}
@@ -62,7 +61,7 @@ model used to be the one with a relatively small code size: from 24 to
 autoencoder to learn the identity, but only to keep useful
 information. In this settings we get an MSE of $0.87$.
 
-\begin{table}[h]
+\begin{table}[t]
   \centering
   \begin{tabular}{lp{4cm}}
     \hline
@@ -96,7 +95,7 @@ less than $5$\% far from the best. This may be an indication of the
 maximum capability of this autoencoder model, so to obtain better
 performances we have to add complexity to the model.
 
-\begin{table}[h]
+\begin{table}[b]
 	\centering
 	\begin{tabular}{p{2.4cm}p{4.5cm}}
 		\hline
@@ -121,8 +120,8 @@ obtained an accuracy of $81.8\%$.
 
 \textbf{CNN Network.} We fist test how number of convolutional filters in CL1 and number of dense neurons in FL2 will influence classification performances. The results obtained are presented in Tab. \ref{tab:model-selection}. We decided to choose 196 convolutional filters and 64 dense neurons thanks to its balance between accuracy and F1-Score performances, obtaining $88.9\%$ and $81.6\%$ respectively. To compare our result with that obtained in the original work \cite{stisen2015smart}, we decided to perform their \textit{Leave-one-user-out cross validation} evaluation, consisting of test the model with data from one user, and train with data from all the others in a cross validation fashion and then averaging the metrics obtained. In this evaluation setting we obtained an average F1-score of $85.8\%$, beating their best model result of nearly $10\%$ more in F1-Score metric. This prove also that using users a and b to do our evaluation is a good compromise of the real \textit{Leave-one-user-out cross validation} evaluation performances, since we obtain nearly the same results ($90.2\%$ instead of $88.9\%$ in accuracy and $85.8\%$ instead of $81.6\%$).
 
-\begin{table}[h]
-	\begin{center}
+\begin{table}[b]
+	\centering
 		\begin{tabular}{ p{1.8cm}p{1.9cm}p{1.7cm}p{1.7cm} }
 			\hline
 			CNN Filters & FC2 Neurons & Accuracy & F1-Score \\
@@ -138,13 +137,12 @@ obtained an accuracy of $81.8\%$.
 			48 & 64 & 84.0 & 72.3 \\
 			\hline
 		\end{tabular}
-		\caption{\label{tab:model-selection} HD classification results with data centering and manual features augmented CNN}
-	\end{center}
+		\caption{HD classification results with data centering and manual features augmented CNN}
+		\label{tab:model-selection}
 \end{table}
+To better appreciate how our preprocessing blocks affects model overall performances, we also try to disable or enable some of them. In Tab. \ref{tab:model-performance} we report our obtained results experiments. We see that augmenting the CNN with manual extracted feature when data are not centered, lead to no significant change in performances, instead when also enabling data centering preprocessing with manual features augmented CNN the model obtain nearly $10\%$ more in accuracy and precision metrics. This prove the benefits of data centering stated previously. However we were not able to reach the same performances presented in \cite{ignatov2018real}, where the authors obtained in the same exact settings an accuracy of $97.6\%$. These empirically confirm that performances of state-of-the-art models trained with one type of sensors are worse when dealing with smartphone sensors heterogeneity. Moving on, augmenting the CNN with encoder feature lead the model to better performances, meaning that encoder features are more robust that manual features, as explained previously. A confusion matrix in this latter setting is reported in Fig. \ref{fig:cnn-confusion-matrix} where we could see that the model performs nicely overall in all the considered activities, with some difficulties in distinguishing between \textit{stand} and \textit{sit} and \textit{walk} with \textit{stairs} activities.
 
-
-To better appreciate how our preprocessing blocks affects model overall performances, we also try to disable or enable some of them. In Tab. \ref{tab:model-performance} we report our obtained results experiments. We see that augmenting the CNN with manual extracted feature when data are not centered, lead to no significant change in performances, instead when also enabling data centering preprocessing with manual features augmented CNN the model obtain nearly $10\%$ more in accuracy and precision metrics. This prove the benefits of data centering stated previously. However we were not able to reach the same performances presented in \cite{ignatov2018real}, where the authors obtained in the same exact settings an accuracy of $97.6\%$. These empirically confirm that performances of state-of-the-art models trained with one type of sensors are worse when dealing with smartphone sensors heterogeneity. Moving on, augmenting the CNN with encoder feature lead the model to better performances, meaning that encoder features are more robust that manual features, as explained previously. A confusion matrix in this latter setting is reported in Fig. \ref{fig:cnn-confusion-matrix} where we could see that the model performs nicely overall in all the considered activities, with some difficulties in distinguishing between stationary activities, \textit{stand} and \textit{sit}, and \textit{walk} with \textit{stairs} activities since probably they are very similar in sensor signals foot-prints.
-
+\vspace{-0.2cm}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{images/confusion_matrix.png}
@@ -152,6 +150,7 @@ To better appreciate how our preprocessing blocks affects model overall performa
 	\label{fig:cnn-confusion-matrix}
 \end{figure}
 
+\vspace{-0.3cm}
 
 \subsection{Oriented Dataset (OD)}
 
@@ -171,7 +170,7 @@ to $10.42$ MSE: more than ten times worse. Furthermore, data from
 hand or pocket-up/down do not inflate the loss too much. This is good
 because it indicates that autoencoder is producing robust features.
 
-\begin{table}[h]
+\begin{table}[t]
   \centering
   \begin{tabular}{lr}
     \hline
@@ -235,24 +234,22 @@ noticed a performance drop of nearly $15\%$ for \textit{hand+pocket}
 data, but this could be due to the CNN architecture which focus more
 on the local shape and less on the real information.
 
-\begin{table}[h]
-  \begin{center}
-    \begin{tabular}{p{1.8cm}rrrr}
-      \hline
-      Positions & Accuracy & Precision & Recall & F1-score \\
-      \hline
-      Pouch & 85.3 & 92.0 & 73.8 & 81.9 \\
-      Hand+Pocket & 70.5 & 79.5 & 63.0 & 70.2 \\
-      All & 78.0 & 84.0 & 69.0 & 75.7 \\
-      \hline
-    \end{tabular}
-    \caption{CNN classification comparisons onto \textit{OD} between
-      smartphone positions (pouch left/right/top/back, hand and
-      pocket-up/down and all positions).}
-    \label{tab:model-oit-performance}
-  \end{center}
-\end{table}
-\vspace{-0.4cm}
+\begin{table}[b]
+  	\centering
+	\begin{tabular}{p{1.8cm}rrrr}
+	  \hline
+	  Positions & Accuracy & Precision & Recall & F1-score \\
+	  \hline
+	  Pouch & 85.3 & 92.0 & 73.8 & 81.9 \\
+	  Hand+Pocket & 70.5 & 79.5 & 63.0 & 70.2 \\
+	  All & 78.0 & 84.0 & 69.0 & 75.7 \\
+	  \hline
+	\end{tabular}
+	\caption{CNN classification comparisons onto \textit{OD} between
+	  smartphone positions (pouch left/right/top/back, hand and
+	  pocket-up/down and all positions).}
+	\label{tab:model-oit-performance}
+	\end{table}
 
 In conclusion, OIT turned out to be an extremely useful preprocessing
 technique both for autoencoder and CNN. Without OIT, the drop for the
