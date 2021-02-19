@@ -19,7 +19,7 @@
 \section{Results}
 \label{sec:results}
 
-\subsection{Heterogenity Dataset (HD)}
+\subsection{Heterogeneity Dataset (HD)}
 \label{subsec:heterogeneity-dataset}
 
 In this section we evaluate performances between previous works and
@@ -53,7 +53,7 @@ information. In this settings we get an MSE of $0.871255$.
   \centering
   \begin{tabular}{lp{4cm}}
     \hline
-    Hyperparameter & Values \\
+    Hyper-parameter & Values \\
     \hline
     code size & \{2, 3, 4, 5, 6, 12, 18, 24, 30, \textbf{36}, 42, 48, 54, 60, 72\} \\
     batch size & \{32, \textbf{128}\} \\
@@ -85,9 +85,9 @@ performances we have to add complexity to the model.
 
 \begin{table}[h]
 	\centering
-	\begin{tabular}{p{2cm}p{4.5cm}}
+	\begin{tabular}{p{2.4cm}p{4.5cm}}
 		\hline
-		Hyper-parameters & Values \\
+		Hyper-parameter & Values \\
 		\hline
 		Distance measure & \{\textbf{euclidean}, manhattan, chebyshev, minkowski, standardized euclidean, mahalanobis\} \\
 		Number of neighbors & \{3, 4, \textbf{5}, 6, 7, 8\} \\
@@ -108,9 +108,9 @@ optimizer to minimize the categorical cross-entropy loss function. In this case 
 
 \begin{table}[h]
 	\begin{center}
-		\begin{tabular}{ p{1.8cm}p{1.7cm}p{1.7cm}p{1.7cm} }
+		\begin{tabular}{ p{1.8cm}p{1.9cm}p{1.7cm}p{1.7cm} }
 			\hline
-			CNN Filters & Dense N. & Accuracy & F1-Score \\
+			CNN Filters & FC2 Neurons & Accuracy & F1-Score \\
 			\hline
 			196 & 1024 & 84.6 & 75.3 \\
 			196 & 512 & 86.1 & 75.7 \\

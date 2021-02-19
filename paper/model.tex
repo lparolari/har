@@ -88,7 +88,7 @@ between the two, and second, they are made indistinguishable by OIT.
 
 \subsection{Signal preprocessing}
 
-\textbf{Notation}: With $\boldsymbol{x} \in {\rm I\!R}^{n}$ we define a column vector as $\boldsymbol{x}=(x_{1}, x_{2}, ..., x_{n})^{T}$ where with superscript $^T$ we mean the transpose operator. With $\boldsymbol{||x||}$ we mean the L2-norm operator $||\x|| = (\sum_{i=1}^{n} x_{i}^{2})^{1/2}$ and with $\bar{x} = (\sum_{i=1}^{n} x_{i}) / n$ the mean of a vector. With $\boldsymbol{x} \cdot \boldsymbol{y} =\boldsymbol{x}^{T}\boldsymbol{y} $ we mean the inner product of two vectors. With $\boldsymbol{\vec{x}}$ we mean a 3D vector $\boldsymbol{\vec{x}} = (x_{1}, x_{2}, x_{3})^{T}$ and with $\boldsymbol{\hat{x}}$ the corresponding 3D versor $\boldsymbol{\hat{x}}=\boldsymbol{\vec{x}}/ ||\boldsymbol{\vec{x}}||$. For any two 3D vector $\boldsymbol{\vec{x}}$ and $\boldsymbol{\vec{y}}$ we indicate their cross-product as $\boldsymbol{\vec{x}} \times \boldsymbol{\vec{y}}$. We represent with $\boldsymbol{a_{x}}, \boldsymbol{a_{y}}, \boldsymbol{a_{z}}$ the x, y and z components of the accellerometer signal, as well as the gyroscope signal is represented with $\boldsymbol{g_{x}}, \boldsymbol{g_{y}}, \boldsymbol{g_{z}}$. We define also matrices with uppercase and bold letters. For example to define a $3 \times n$ matrix composed of 3 vectors \mbox{$\boldsymbol{x}, \boldsymbol{y}, \boldsymbol{z} \in {\rm I\!R}^{n}$} we use the notation \mbox{$\boldsymbol{M} = [\boldsymbol{x}, \boldsymbol{y}, \boldsymbol{z}]^{T}$}\\
+\textbf{Notation}: With $\boldsymbol{x} \in {\rm I\!R}^{n}$ we define a column vector as $\boldsymbol{x}=(x_{1}, x_{2}, ..., x_{n})^{T}$ where with superscript $^T$ we mean the transpose operator. With $\boldsymbol{||x||}$ we mean the L2-norm operator $||\x|| = (\sum_{i=1}^{n} x_{i}^{2})^{1/2}$ and with $\bar{x} = (\sum_{i=1}^{n} x_{i}) / n$ the mean of a vector. With $\boldsymbol{x} \cdot \boldsymbol{y} =\boldsymbol{x}^{T}\boldsymbol{y} $ we mean the inner product of two vectors. With $\boldsymbol{\vec{x}}$ we mean a 3D vector $\boldsymbol{\vec{x}} = (x_{1}, x_{2}, x_{3})^{T}$ and with $\boldsymbol{\hat{x}}$ the corresponding 3D versor $\boldsymbol{\hat{x}}=\boldsymbol{\vec{x}}/ ||\boldsymbol{\vec{x}}||$. For any two 3D vector $\boldsymbol{\vec{x}}$ and $\boldsymbol{\vec{y}}$ we indicate their cross-product as $\boldsymbol{\vec{x}} \times \boldsymbol{\vec{y}}$. We represent with $\boldsymbol{a_{x}}, \boldsymbol{a_{y}}, \boldsymbol{a_{z}}$ the x, y and z components of the accelerometer signal, as well as the gyroscope signal is represented with $\boldsymbol{g_{x}}, \boldsymbol{g_{y}}, \boldsymbol{g_{z}}$. We define also matrices with uppercase and bold letters. For example to define a $3 \times n$ matrix composed of 3 vectors \mbox{$\boldsymbol{x}, \boldsymbol{y}, \boldsymbol{z} \in {\rm I\!R}^{n}$} we use the notation \mbox{$\boldsymbol{M} = [\boldsymbol{x}, \boldsymbol{y}, \boldsymbol{z}]^{T}$}\\
 
 \textbf{Linear Interpolation \& Down-sampling.} As described in
 Sec. \ref{subsec:dataset-measurement-setup}, our dataset is composed
@@ -229,7 +229,7 @@ of information.
 \begin{figure*}[h]
 	\centering
 	\includegraphics[width=1\textwidth]{images/full_architecture.jpg}
-	\caption{Our proposed learning framework, CL1 is a convolutional 1D layer, ML1 is a max-pooling layer, FL1 are the fully connected layer which represents previous extracted features that are concatenated with the autoencoder features, FL2 and FL3 are fully connected layers}
+	\caption{Our proposed learning framework, CL1 is a convolutional-1D layer, ML1 is a max-pooling layer, FL1 are the fully connected layer which represents previous extracted features that are concatenated with the autoencoder features, FL2 and FL3 are fully connected layers}
 	\label{fig:proposed-architecture}
 \end{figure*}
 
@@ -275,7 +275,7 @@ encoder block:
   \boldsymbol{\Phi_{\text{e}}} = \y.
 \end{equation}
 
-The autoencoder follows the strucutre reported in
+The autoencoder follows the structure reported in
 Fig. \ref{fig:encoder-structure} and is based on a Neural Network
 architecture. The encoder is built with an input layer of
 $6\text{x}125$ neurons flattened into a vector $750\text{x}1$, one hidden
@@ -283,7 +283,7 @@ layer with 150 neurons and \textit{ReLU} activation function, and an output
 layer, i.e, the code, of $36$ neurons with sigmoid activation
 function. The decoder replicates the same structure of the encoder but
 reversed, where the activation function on the output layers is the
-linear activaction, i.e., the identity.
+linear activation, i.e., the identity.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.48\textwidth]{images/encoder.png}
@@ -303,4 +303,4 @@ In detail we have the following stacked layers (CL=Convolutional Layer, ML=Max-p
 	\item \textbf{FL2-3}: These two final layers are composed of 64 dense neuron and 6 dense neurons, respectively. These two last layers are used to perform the classification of the activity. For the FC2 we use the $ReLU$ activation function and for the final classification we apply the \textit{soft-max} activation function, which computes probability distribution over the predicted classes.
 \end{itemize}
 
-As for optimization techniques we decided to use dropout and $l_2$-regularization. These latter techniques are commonly used in these types of architectures, yielding better performances in the test set and commonly in generalization capabilities, preventing overfitting. We apply a dropout rate of 0.05 to the last fully-connected layer and we also apply the $l_2$-regularization to all the fully connected layers. We have try with different hyper-parameters values for these two techniques, without any substantial changes in classification performance on the test set. Finally the parameters of the network are optimized using Adam: a modification of stochastic gradient descent that also incorporates Momentum. Finally, the network is trained to minimize the Categorical cross-entropy loss function.
+As for optimization techniques we decided to use dropout and $l_2$-regularization. These latter techniques are commonly used in these types of architectures, yielding better performances in the test set and commonly in generalization capabilities, preventing overfitting. We apply a dropout rate of 0.05 and an $l_2$-regularization of $5e^{-5}$ to the FL2 layer. We have try with different hyper-parameters values for these two techniques, without any substantial changes in classification performance on the test set. Finally the parameters of the network are optimized using Adam: a modification of stochastic gradient descent that also incorporates Momentum. Finally, the network is trained to minimize the Categorical cross-entropy loss function.
