@@ -291,19 +291,6 @@ linear activaction, i.e., the identity.
   \label{fig:encoder-structure}
 \end{figure}
 
-Even if the primary goal for this autoencoder is to automatically
-extract features from signal for the main CNN model, we implement also
-two simple classifiers in order to directly use autoencoder's feature
-and check their effectiveness.  The first is a K-Nearest Neighbors
-(KNN) clustering algorithm, and we perform clustering on encoder's
-code. The idea here is that autoencoder should extract relevant
-features which may be similar class by class.  The second classifier
-instead is based on a Feed Forward Neural Network (FFNN) with two
-dense layers of $100$ neurons with $0.1$ dropout on each and \textit{ReLU}
-activation function, while the last is a dense layer of $5$ neurons
-with soft-max activation function. The network is trained with Adam
-optimizer to minimize the categorical cross-entropy loss function.
-
 \subsection{Convolutional Neural Network}
 \label{subsec:cnn}
 The final CNN architecture proposed in this work is shown in Fig. \ref{fig:proposed-architecture}. We decided to start with the architecture proposed in work \cite{ignatov2018real} and we tried to improve it, by augmenting the CNN with the encoder extracted features. CNN architecture are very powerful when dealing with images, but they were proven to be a good features extractors also for motion data. A CNN is composed of essentially two parts: the first-one is in charge of extract features performing a dimensionality reduction over the input data, though a series of convolution and max pooling layers, and the second part of the CNN is responsible to give the final classification with usually a single fully-connected layer. Original data, collected from smartphone sensors, are pre-processed accordingly to what previously described in Sec. \ref{sec:processing-pipeline}. Our input matrix presented to our CNN is the matrix \mbox{$ \boldsymbol{X} = [ \boldsymbol{a_{v}}^{c}, \boldsymbol{a_{h}}^{c}, \boldsymbol{a_{l}}^{c}, \boldsymbol{g_{v}}^{c}, \boldsymbol{g_{h}}^{c}, \boldsymbol{g_{l}}^{c}]$} wich is formed by accelerometer and gyroscopes signals, linearly interpolated at 50 samples/second per channel, with a fixed time-window of $2.5s$, with OIT and data centering. Note that this matrix has a dimension $n \times 6$, due to the fact that TensorFlow Convolutional 1D Layers work with input dimension of $(batch\_size, samples, channel)$.
