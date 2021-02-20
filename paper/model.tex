@@ -70,7 +70,7 @@ interested only in smartphones acquired signals, leaving out from our
 experiments the smartwatch evaluations.
 
 
-We also collected a novel dataset called \textit{Oriented dataset
+We also collected a novel dataset called \textit{Oriented Dataset
   (OD)}. The goal of this new dataset is to see whether the model can
 generalize well on new unseen users and also to test how OIT
 preprocessing could increase the performance in this new context. This
@@ -119,7 +119,7 @@ The linear interpolation on a set of data points $(x_0, y_0), (x_1, y_1), \ldots
 
 \vspace{1em}
 \textbf{Orientation Independent Transformation.}
-To project the signals acquired during an activity in a new space independent of the rotation of the smartphone, three orthogonal versors need to be found. We decided to adopt the technique proposed in \cite{gadaleta2018idnet}, although many other works proposed a similar solution as in \cite{kunze2009way, henpraserttae2011accurate}. In summary we have to find these 3 orthogonal versor namely vertical versor $\boldsymbol{\hat{v}}$, horizontal versor $\boldsymbol{\hat{h}}$ and lateral versor $\boldsymbol{\hat{l}}$. As the names suggest the vertical versor is aligned with user torso, pointing up, the horizontal versor is aligned with the direction of motion, pointing forward, and the latter versor tracks lateral movements and it is orthogonal to the other two.
+To project the signals acquired during an activity in a new space independent of the rotation of the smartphone, three orthogonal versors need to be found. We decided to adopt the technique proposed in \cite{gadaleta2018idnet}, although many other works proposed a similar solution as in \cite{kunze2009way, henpraserttae2011accurate}. In summary we have to find these 3 orthogonal versor namely vertical versor $\boldsymbol{\hat{v}}$, horizontal versor $\boldsymbol{\hat{h}}$ and lateral versor $\boldsymbol{\hat{l}}$. As the names suggest the vertical versor is aligned with user torso, pointing up, the horizontal versor is aligned with the direction of motion, pointing forward, and the last versor tracks lateral movements and it is orthogonal to the other two.
 
 Starting with the vertical versor we need to find where the gravity vector $\boldsymbol{\vec{p}}$ lie in the original space. Although the gravity vector is a constant vector in stationary conditions, during a user activity it continuously changes in the original coordinate system of the smartphone, therefore we are only able to consider the mean direction of the gravity within the current user activity. So, to estimate it we must considered only the accelerometer signal: \mbox{$ \boldsymbol{\vec{p}} = (\bar{a_{x}}, \bar{a_{y}}, \bar{a_{z}})^{T}$}  and we now could find the vertical versor with \mbox{$ \boldsymbol{\hat{v}} = \boldsymbol{\vec{p}} / ||\boldsymbol{\vec{p}}|| $}.
 
@@ -190,7 +190,7 @@ of information.
   $z$ dimensions while columns are samples over time.
 \item \textit{Manual features}. Manual features take into account the
   statistical mode of the signal and are used in
-  \cite{anguita2013public} and \cite{ignatov2018real} with great
+  \cite{ignatov2018real} and \cite{anguita2013public} with great
   results. We exploit manual features like mean, standard deviation,
   sum of the absolute values and the histogram of each input data
   channel computed on local time-windows applied only for
@@ -296,7 +296,7 @@ linear activation, i.e., the identity.
 
 \subsection{Convolutional Neural Network}
 \label{subsec:cnn}
-The final CNN architecture proposed in this work is shown in Fig. \ref{fig:proposed-architecture}. We decided to start with the architecture proposed in work \cite{ignatov2018real} and we tried to improve it, by augmenting the CNN with the encoder extracted features. CNN architecture are very powerful when dealing with images, but they were proven to be a good features extractors also for motion data. A CNN is composed of essentially two parts: the first-one is in charge of extract features performing a dimensionality reduction over the input data, though a series of convolution and max pooling layers, and the second part of the CNN is responsible to give the final classification with usually a single fully-connected layer. Original data, collected from smartphone sensors, are pre-processed accordingly to what previously described in Sec. \ref{sec:processing-pipeline}. Our input matrix presented to our CNN is the matrix \mbox{$ \boldsymbol{X} = [ \boldsymbol{a_{v}}^{c}, \boldsymbol{a_{h}}^{c}, \boldsymbol{a_{l}}^{c}, \boldsymbol{g_{v}}^{c}, \boldsymbol{g_{h}}^{c}, \boldsymbol{g_{l}}^{c}]$} wich is formed by accelerometer and gyroscopes signals, linearly interpolated at 50 samples/second per channel, with a fixed time-window of $2.5s$, with OIT and data centering. Note that this matrix has a dimension $n \times 6$, due to the fact that TensorFlow Convolutional 1D Layers work with input dimension of $(batch\_size, samples, channel)$.
+The final CNN architecture proposed in this work is shown in Fig. \ref{fig:proposed-architecture}. We decided to start with the architecture proposed in work \cite{ignatov2018real} and we tried to improve it, by augmenting the CNN with the encoder extracted features. CNN architecture are very powerful when dealing with images, but they were proven to be a good features extractors also for motion data. A CNN is composed of essentially two parts: the first-one is in charge of extract features performing a dimensionality reduction over the input data, though a series of convolution and max pooling layers, and the second part of the CNN is responsible to give the final classification with usually a single fully-connected layer. Original data, collected from smartphone sensors, are pre-processed accordingly to what previously described in Sec. \ref{sec:processing-pipeline}. Our input matrix presented to our CNN is the matrix \mbox{$ \boldsymbol{X} = [ \boldsymbol{a_{v}}^{c}, \boldsymbol{a_{h}}^{c}, \boldsymbol{a_{l}}^{c}, \boldsymbol{g_{v}}^{c}, \boldsymbol{g_{h}}^{c}, \boldsymbol{g_{l}}^{c}]$} which is formed by accelerometer and gyroscopes signals, linearly interpolated at 50 samples/second per channel, with a fixed time-window of $2.5s$, with OIT and data centering. Note that this matrix has a dimension $n \times 6$, due to the fact that TensorFlow Convolutional 1D Layers work with input dimension of $(batch\_size, samples, channel)$.
 
 In detail we have the following stacked layers (CL=Convolutional Layer, ML=Max-pooling Layer, FL= Fully-connected Layer):
 \begin{itemize}
