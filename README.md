@@ -17,14 +17,21 @@
 > a new real use case collected dataset, obtaining in this case
 > promising results.
 
-> [Read the paper 🚀](#TODO)
+> [Read the paper 🚀](https://github.com/lparolari/har/releases/latest/download/paper.pdf)
 
-## Goal
+## Our Work
 
-Perform Human Activity Recognition classification among five classes:
-`no_activity`, `walk`, `bike`, `stairsup`, `stairsdown`.
+> Please refer to the [paper](https://github.com/lparolari/har/releases/latest/download/paper.pdf) for further details.
 
-## Structure
+**Goal.** Perform Human Activity Recognition on "in-the-wild" data among five classes: `no_activity`, `walk`, `bike`, `stairsup`, `stairsdown`.
+
+**Architecture.** We developed a novel framework composed by an Autoencoder for automatic extraction of statistical features and a Convolutional Neural Network for local feature extraction. The figure shows our architecture.
+
+![Processing Pipeline](./paper/images/processing_pipeline.jpg)
+
+**Results.** With the main model on test data (from a brand new dataset) we got **85.3%** accuracy. This new dataset contained also signals recorded with phone in hands or poket. In those cases we got **70.5%** accuracy.
+
+## Project Structure
 
 The project is structured in two macro blocks: paper and notenooks.
 The first contains Latex resources for the notebook related to the
@@ -49,13 +56,25 @@ In particular, our main notebook with up-to-date models are:
 
 ```
 docker pull jupyter/tensorflow-notebook
-docker run -p 8888:8888 -v "`pwd`:/home/jovyan/work" jupyter/tensorflow-notebook start-notebook.sh --NotebookApp.notebook_dir="/home/jovyan/work"
+docker run \
+  -p 8888:8888 \
+  -v "`pwd`:/home/jovyan/work" \
+  jupyter/tensorflow-notebook start-notebook.sh \
+    --NotebookApp.notebook_dir="/home/jovyan/work"
 ```
 
 **Start jupyter notebook with docker and bind GPU device**
 
 ```
-docker run --device /dev/nvidia0:/dev/nvidia0 --device /dev/nvidiactl:/dev/nvidiactl --device /dev/nvidia-uvm:/dev/nvidia-uvm -p 8888:8888 -v "`pwd`:/home/jovyan/work" jupyter/tensorflow-notebook start-notebook.sh --NotebookApp.notebook_dir="/home/jovyan/work" --NotebookApp.token=""
+docker run \
+  --device /dev/nvidia0:/dev/nvidia0 \
+  --device /dev/nvidiactl:/dev/nvidiactl \
+  --device /dev/nvidia-uvm:/dev/nvidia-uvm \
+  -p 8888:8888 \
+  -v "`pwd`:/home/jovyan/work" \
+  jupyter/tensorflow-notebook start-notebook.sh \
+    --NotebookApp.notebook_dir="/home/jovyan/work" \
+    --NotebookApp.token=""
 ```
 
 **Connect your IDE with jupyter**
@@ -69,8 +88,8 @@ Then connect the jupyter server with the notebook.
 
 **Bryan Lucchetta**
 
-- [bryan.lucchetta@gmail.com](bryanlucchetta@gmail.com)
-- [@1-coder](https://github.com/1-coder)
+- Email: [bryan.lucchetta@gmail.com](bryanlucchetta@gmail.com)
+- GitHub: [@1-coder](https://github.com/1-coder)
 
 **Luca Parolari**
 
